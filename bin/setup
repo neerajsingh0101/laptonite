@@ -80,7 +80,6 @@ brew upgrade
 
 brew install zoxide    # for jumping around
 brew install fzf
-brew install atuin     # better history
 brew install eza       # this is replacement for ls
 brew install git
 brew install git-delta # Used in pager
@@ -125,6 +124,8 @@ cask_install whatsapp
 cask_install visual-studio-code
 cask_install wezterm
 cask_install meetingbar
+cask_install 1password
+
 
 # Install Claude Code
 /bin/bash -c "$(curl -fsSL https://claude.ai/install.sh)"
