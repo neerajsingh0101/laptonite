@@ -9,6 +9,7 @@ Open terminal application and paste following lines.
 ```
 mkdir -p ~/code/devbox
 cd ~/code/devbox
+rm -rf laptop
 git clone https://github.com/neerajsingh0101/laptop.git
 cd laptop
 ./bin/setup
