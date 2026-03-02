@@ -149,6 +149,7 @@ if [[ "$answer" =~ ^[Cc](hange)?$ ]]; then
   echo "  4. Scroll to 'Import & Export'"
   echo "  5. Click 'Import'"
   echo "  6. Choose 'latest-raycast-export.rayconfig' from your Downloads folder"
+  echo "  7. Enter password welcome1234"
   echo ""
   echo "Waiting for you to finish the steps above."
   while true; do
