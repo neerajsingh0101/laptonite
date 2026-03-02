@@ -174,11 +174,7 @@ fi
 # Tell mise to trust everything under directory code
 export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 
-
 echo ""
-
-# replace here
-
 mkdir -p "$DEVBOXD/../neetozone"
 if [ -d "$DEVBOXD/../neetozone/neetob" ]; then
   cd "$DEVBOXD/../neetozone/neetob" && git pull
