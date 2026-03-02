@@ -173,10 +173,10 @@ fi
 
 echo ""
 
-mkdir -p "$DEVBOXD/code"
-mkdir -p "$DEVBOXD/code/neetozone"
-git clone git@github.com:neetozone/neetob.git "$DEVBOXD/code/neetozone/neetob"
-cd "$DEVBOXD/code/neetozone/neetob" && ./bin/make-repos-uptodate
+mkdir -p "$DEVBOXD/../code"
+mkdir -p "$DEVBOXD/../code/neetozone"
+git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../code/neetozone/neetob"
+cd "$DEVBOXD/../code/neetozone/neetob" && ./bin/make-repos-uptodate
 
 echo ""
 echo "You are all done."
