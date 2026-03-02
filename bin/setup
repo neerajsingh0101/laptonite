@@ -195,12 +195,17 @@ if [[ "$answer" =~ ^[Cc](hange)?$ ]]; then
 fi
 echo_header_done
 
+
+echo_header "Authenticating with GitHub CLI"
+gh auth login
+echo_header_done
+
+
 # Tell mise to trust everything under directory code
 export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 
 # mise needs it to compile Ruby properly
 export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(brew --prefix libyaml)"
-
 
 echo ""
 mkdir -p "$DEVBOXD/../neetozone"
@@ -209,9 +214,9 @@ if [ -d "$DEVBOXD/../neetozone/neetob" ]; then
 else
   git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../neetozone/neetob"
 fi
-gem install bundler -v 2.4.7
-bundle _2.4.7_ install
-"$DEVBOXD/../neetozone/neetob/bin/gh-make-repos-uptodate"
+#gem install bundler -v 2.4.7
+#bundle _2.4.7_ install
+#"$DEVBOXD/../neetozone/neetob/bin/gh-make-repos-uptodate"
 
 echo ""
 echo "You are all done."
