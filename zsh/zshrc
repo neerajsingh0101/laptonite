@@ -70,6 +70,7 @@ alias gco='git checkout'
 alias glg='git lg'
 alias glg2='git lg2'
 alias gwip='git add . && git commit -m "wip"'
+alias gitb='git branch'
 alias aic="aicommits --yes"
 
 # git root
@@ -84,7 +85,6 @@ gr() {
 # local reference origin/feature-x gets removed too.
 alias gpl='git pull --prune'
 
-# prefer eza
 alias ls="ls -G"
 alias ll="ls -l"
 alias la="ls -al"
@@ -116,6 +116,9 @@ alias cp='cp -v'
 alias history='history -100'
 alias h='history'
 
+alias setup='./bin/setup-mise'
+alias launch='./bin/launch'
+alias stl='setup && launch'
 alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 x.com
 
 alias laptop="cd $LAPTOPD"   # go to laptop directory
