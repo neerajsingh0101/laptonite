@@ -151,6 +151,18 @@ config.keys = {
     window:perform_action(act.ActivatePaneDirection 'Up', window:active_pane())
   end),
   },
+  -- Switch to tab on the right
+  {
+    key = '>',
+    mods = 'SHIFT|OPT',
+    action = wezterm.action.ActivateTabRelative(1),
+  },
+  -- Switch to tab on the left
+  {
+    key = '<',
+    mods = 'SHIFT|OPT',
+    action = wezterm.action.ActivateTabRelative(-1),
+  },
   -- Rename tab
   {
     key = 'r',

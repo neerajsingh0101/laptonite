@@ -67,6 +67,8 @@ set by dotfiles created by laptop.
 * Shift + Option + down arrow -> resize the pane and move down
 * Shift + Option + left arrow -> resize the pane and move left
 * Shift + Option + right arrow -> resize the pane and move right
+* Shift + Option + > -> switch to the tab on the right
+* Shift + Option + < -> switch to the tab on the left
 * By default the tab name is the name of the running process. Press Shift + Option + r to rename the tab.
 
 # z command
