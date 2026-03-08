@@ -89,7 +89,7 @@
   autocrlf = input
 
   # Git normally pipes output to a pager(like less) instead use delta as the pager.
-  pager = delta
+	pager = less --mouse
 
 [delta]
   navigate = true  # use n and N to move between diff sections

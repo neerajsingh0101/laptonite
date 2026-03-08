@@ -37,6 +37,9 @@ end)
 -- Disable quit confirmation
 config.window_close_confirmation = 'NeverPrompt'
 
+-- Enable scrollbar for mouse scrolling
+config.enable_scroll_bar = true
+
 -- Dim the inactive pane so that we can detect the active pane
 config.inactive_pane_hsb = {
   saturation = 0.5,

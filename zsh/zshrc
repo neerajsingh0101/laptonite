@@ -71,6 +71,9 @@ source "$LAPTOPD/zsh/prompt.zshrc"
 ##### ALIASES #####
 alias reload!='. ~/.zshrc'
 
+# Enable mouse scrolling in git diff, git log, etc.
+git config --global core.pager "less --mouse"
+
 # GIT aliases
 alias gps='git push origin HEAD'
 alias gs='git status'
