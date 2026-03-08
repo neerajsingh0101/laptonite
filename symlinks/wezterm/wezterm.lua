@@ -51,6 +51,8 @@ function basename(s)
 end
 
 -- Set the tab title to currently running foreground process name
+-- If the current directory contains "neeto-", strip that prefix from the tab name
+-- e.g. neeto-form-web becomes form-web
 wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	local pane = tab.active_pane
 	local tab_title = tab.tab_title
@@ -58,7 +60,14 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	if tab_title and #tab_title > 0 then
 		title = tab_title .. " " .. (tab.tab_index + 1)
 	else
-		title = basename(pane.foreground_process_name) .. " " .. (tab.tab_index + 1)
+		local cwd = pane.current_working_dir
+		if cwd then
+			local dir = basename(cwd.path or tostring(cwd))
+			dir = dir:gsub("^neeto%-", "")
+			title = dir .. " " .. (tab.tab_index + 1)
+		else
+			title = basename(pane.foreground_process_name) .. " " .. (tab.tab_index + 1)
+		end
 	end
 	local color = "#0f1419"
 	if tab.is_active then

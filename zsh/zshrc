@@ -55,6 +55,16 @@ bindkey '^[[B' history-search-forward
 ZSH_AUTOSUGGESTIONS="$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 ZSH_SYNTAX_HIGHLIGHTING="$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
+# Tell wezterm the current working directory via OSC 7 after every cd.
+# This allows wezterm to update the tab title based on the current directory.
+__wezterm_osc7() {
+  if [[ -n "$WEZTERM_PANE" ]]; then
+    printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${PWD}"
+  fi
+}
+chpwd_functions+=(__wezterm_osc7)
+__wezterm_osc7
+
 eval "$(zoxide init zsh)"
 source "$LAPTOPD/zsh/prompt.zshrc"
 
