@@ -76,22 +76,9 @@ set by dotfiles created by laptop.
 `z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
 https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d
 
-# Listing things
-
-`ls`,`ll`, `la` https://neerajsingh0909.neetorecord.com/watch/dd8d9bba322b10a3e9b4
-
 # fkill
 
 https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732
-
-# Git usage
-
-`gs`, `gap`, `gps`, `gpl`, `gcm`, `gr`
-
-# sysinfo
-
-`sysinfo` lists info about your laptop.
-
 
 # Mac applications
 
@@ -122,7 +109,6 @@ positive sign. It indicates that the software is mature and stable. [Here](https
 ## Raycast
 
 [Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the things you get out of the box with Raycast.
-
 
 ### Clipboard history
 

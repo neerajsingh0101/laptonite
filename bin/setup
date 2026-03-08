@@ -63,13 +63,9 @@ link_force "$LAPTOPD/symlinks/.gitconfig" "$HOME/.gitconfig"
 link_force "$LAPTOPD/symlinks/.gitignore" "$HOME/.gitignore"
 link_force "$LAPTOPD/symlinks/.irbrc"    "$HOME/.irbrc"
 link_force "$LAPTOPD/symlinks/.psqlrc"   "$HOME/.psqlrc"
-link_force "$LAPTOPD/symlinks/.wezterm.lua"   "$HOME/.wezterm.lua"
+mkdir -p "$HOME/.config"
+link_force "$LAPTOPD/symlinks/wezterm"   "$HOME/.config/wezterm"
 echo_header_done
-
-if [ -f "$LAPTOPD/symlinks/wezterm_local.lua" ]; then
-  mkdir -p "$HOME/.config/wezterm"
-  link_force "$LAPTOPD/symlinks/wezterm_local.lua"   "$HOME/.config/wezterm/wezterm_local.lua"
-fi
 
 echo_header "Setting up homebrew"
 # Install Homebrew if not already installed
@@ -85,6 +81,12 @@ if ! command -v brew &> /dev/null; then
   fi
 fi
 echo_header_done
+
+# If brew is in /opt/homebrew (ARM prefix), ensure it always runs under ARM
+# to avoid Rosetta issues when the terminal is launched in x86 mode
+if [ -f /opt/homebrew/bin/brew ]; then
+  brew() { arch -arm64 /opt/homebrew/bin/brew "$@"; }
+fi
 
 echo_header "Upgrade homebrew"
 brew update
@@ -192,12 +194,11 @@ echo "If you already have one configured, then you can skip."
 read -p "Hit Enter to skip. Press c to set up your SSH key. " answer
 if [[ "$answer" =~ ^[Cc](hange)?$ ]]; then
   ./bin/setup-github-ssh-key
+
+  echo_header "Authenticating with GitHub CLI"
+  gh auth login
+  echo_header_done
 fi
-echo_header_done
-
-
-echo_header "Authenticating with GitHub CLI"
-gh auth login
 echo_header_done
 
 
@@ -220,7 +221,7 @@ fi
 
 echo ""
 echo "You are all done."
-echo "The README at https://github.com/neerajsingh0101/laptop has more information about "
+echo "See README at https://github.com/neerajsingh0101/laptop to get to know keyboard shortcuts."
 
 DOTFILESD="$DEVBOXD/dotfiles"
 
