@@ -41,7 +41,7 @@ function M.setup(config)
     {
       key = 'w',
       mods = 'SHIFT|OPT',
-      action = wezterm.action.CloseCurrentPane { confirm = true },
+      action = wezterm.action.CloseCurrentPane { confirm = false },
     },
     -- Resize panes
     {
