@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# =============================================================================
+# Script: load_data_dump
+# =============================================================================
+#
+# Purpose:
+#   Drops and recreates the database, then restores from the first .dump file
+#   found in ~/Downloads using pg_restore.
+#
+# Usage:
+#   ./bin/load_data_dump
+#
+# =============================================================================
+
+# --- Find dump file ---
+
+downloads_dir = File.expand_path("~/Downloads")
+dump_file = Dir.glob(File.join(downloads_dir, "*.dump")).first
+
+if dump_file.nil?
+  puts "ERROR: No .dump files found in #{downloads_dir}. See https://neetozone.neetokb.com/articles/load-database-dump-locally and download the data dump."
+  exit 1
+end
+
+puts "Using dump file: #{dump_file}"
+
+DB_USER = "bigbinary"
+
+# --- Ensure database user exists ---
+
+system("createuser -s #{DB_USER} 2>/dev/null")
+
+# --- Drop and recreate database ---
+
+puts "Running db:drop db:create..."
+unless system("bin/rails db:drop db:create")
+  puts "ERROR: Failed to drop/create database"
+  exit 1
+end
+
+# --- Determine database name ---
+
+db_name = `bin/rails runner "puts ActiveRecord::Base.connection_db_config.configuration_hash[:database]" 2>/dev/null`.strip.lines.last&.strip
+
+if db_name.nil? || db_name.empty?
+  puts "ERROR: Could not determine database name"
+  exit 1
+end
+
+puts "Database name: #{db_name}"
+
+# --- Restore dump ---
+
+cmd = "pg_restore --verbose --clean --no-acl --no-owner -h localhost -U #{DB_USER} -d #{db_name} #{dump_file}"
+puts "Running: #{cmd}"
+system(cmd)
+
+puts "Done!"
