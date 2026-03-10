@@ -57,12 +57,25 @@ cmd = "pg_restore --verbose --clean --no-acl --no-owner -h localhost -U #{DB_USE
 puts "Running: #{cmd}"
 system(cmd)
 
+puts ""
+puts ""
+
 # --- Fix environment metadata ---
 # The production dump marks the DB as 'production' in ar_internal_metadata,
 # which would block future destructive Rails commands. Reset it to development.
 
-puts "Setting environment metadata to development..."
-system("bin/rails runner \"ActiveRecord::Base.connection.execute(\\\"UPDATE ar_internal_metadata SET value = 'development' WHERE key = 'environment'\\\")\"")
+puts "Setting environment metadata to development and resetting all passwords to 'welcome'..."
+
+require "tempfile"
+script = Tempfile.new(["load_data_dump", ".rb"])
+script.write(<<~RUBY)
+  ActiveRecord::Base.connection.execute("UPDATE ar_internal_metadata SET value = 'development' WHERE key = 'environment'")
+  User.update_all(encrypted_password: Devise::Encryptor.digest(User, "welcome"))
+RUBY
+script.close
+
+system("mise exec -- bundle exec rails runner #{script.path}")
+script.unlink
 
 puts ""
 puts "Done!!!"
