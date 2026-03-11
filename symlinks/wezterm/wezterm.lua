@@ -67,7 +67,9 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		local cwd = pane.current_working_dir
 		if cwd then
 			local dir = basename(cwd.path or tostring(cwd))
-			dir = dir:gsub("^neeto%-", "")
+			if dir ~= "neeto-website" and dir ~= "bigbinary-website" then
+				dir = dir:gsub("^neeto%-", "")
+			end
 			title = dir .. " " .. (tab.tab_index + 1)
 		else
 			title = basename(pane.foreground_process_name) .. " " .. (tab.tab_index + 1)
