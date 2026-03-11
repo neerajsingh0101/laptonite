@@ -32,6 +32,10 @@ Command `./bin/setup` backs up your existing ~/.zshrc file as .zshrc-bkp-YYYYMMD
 
 You can run `./bin/setup` any number of times and it won't have any adverse effect.
 
+# Auto-update
+
+Every 7 days, when you open a new terminal, the laptop script checks if there is a newer version available on GitHub. If an update is found, it automatically pulls the latest changes.
+
 # Overriding the dotfiles and other things create by laptop
 
 At the end of `./bin/setup` there is a provision to execute a custom script file.
