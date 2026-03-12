@@ -82,60 +82,54 @@ if ! command -v brew &> /dev/null; then
 fi
 echo_header_done
 
-# If brew is in /opt/homebrew (ARM prefix), ensure it always runs under ARM
-# to avoid Rosetta issues when the terminal is launched in x86 mode
-if [ -f /opt/homebrew/bin/brew ]; then
-  brew() { arch -arm64 /opt/homebrew/bin/brew "$@"; }
-fi
-
 echo_header "Upgrade homebrew"
-brew update
+arch -arm64 brew update
 echo_header_done
 
 echo_header "Upgrade any already-installed formulae"
-brew upgrade
+arch -arm64 brew upgrade
 echo_header_done
 
 echo_header "Installing various things"
-brew install zoxide    # for jumping around
-brew install fzf
-brew install eza       # this is replacement for ls
-brew install git
-brew install git-delta # Used in pager
-brew install httpd     # ab(apache bench) comes with this
-brew install k6        # see bin/simulate-traffic-k6
-brew install gh        # GitHub CLI
-brew install jq
-brew install yarn
-brew install zsh-autosuggestions
-brew install zsh-syntax-highlighting
-brew install mise
-brew install curl # curl that comes with Mac is highly outdated
-brew install aicommits
-brew install libyaml #mise needs it
-brew install postgresql@18
-brew install redis
-brew install font-hack-nerd-font
-brew install openjdk@17
+arch -arm64 brew install zoxide    # for jumping around
+arch -arm64 brew install fzf
+arch -arm64 brew install eza       # this is replacement for ls
+arch -arm64 brew install git
+arch -arm64 brew install git-delta # Used in pager
+arch -arm64 brew install httpd     # ab(apache bench) comes with this
+arch -arm64 brew install k6        # see bin/simulate-traffic-k6
+arch -arm64 brew install gh        # GitHub CLI
+arch -arm64 brew install jq
+arch -arm64 brew install yarn
+arch -arm64 brew install zsh-autosuggestions
+arch -arm64 brew install zsh-syntax-highlighting
+arch -arm64 brew install mise
+arch -arm64 brew install curl # curl that comes with Mac is highly outdated
+arch -arm64 brew install aicommits
+arch -arm64 brew install libyaml #mise needs it
+arch -arm64 brew install postgresql@18
+arch -arm64 brew install redis
+arch -arm64 brew install font-hack-nerd-font
+arch -arm64 brew install openjdk@17
 export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
-brew tap elastic/tap
-brew install elastic/tap/elasticsearch-full
+arch -arm64 brew tap elastic/tap
+arch -arm64 brew install elastic/tap/elasticsearch-full
 
 # try install; if it fails due to an existing app, adopt; if adopt fails, force.
 cask_install() {
   local cask="$1"
-  if brew list --cask "$cask" >/dev/null 2>&1; then
+  if arch -arm64 brew list --cask "$cask" >/dev/null 2>&1; then
     echo "Already installed: $cask"
     return 0
   fi
 
-  brew install --cask "$cask" && return 0
+  arch -arm64 brew install --cask "$cask" && return 0
 
   echo "Install failed for $cask; trying --adopt..."
-  brew install --cask "$cask" --adopt && return 0
+  arch -arm64 brew install --cask "$cask" --adopt && return 0
 
   echo "Adopt failed for $cask; trying --force..."
-  brew install --cask "$cask" --force
+  arch -arm64 brew install --cask "$cask" --force
 }
 
 cask_install raycast
@@ -206,7 +200,7 @@ echo_header_done
 export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 
 # mise needs it to compile Ruby properly
-export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(brew --prefix libyaml)"
+export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(arch -arm64 brew --prefix libyaml)"
 
 echo ""
 mkdir -p "$DEVBOXD/../neetozone"
