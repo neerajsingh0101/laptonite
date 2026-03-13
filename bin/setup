@@ -65,6 +65,7 @@ link_force "$LAPTOPD/symlinks/.irbrc"    "$HOME/.irbrc"
 link_force "$LAPTOPD/symlinks/.psqlrc"   "$HOME/.psqlrc"
 mkdir -p "$HOME/.config"
 link_force "$LAPTOPD/symlinks/wezterm"   "$HOME/.config/wezterm"
+link_force "$LAPTOPD/symlinks/mise"      "$HOME/.config/mise"
 mkdir -p "$HOME/.claude"
 link_force "$LAPTOPD/symlinks/skills"    "$HOME/.claude/skills"
 echo_header_done
