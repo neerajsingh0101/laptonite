@@ -113,7 +113,7 @@ fi
 
 alias cld="claude"
 alias cldd="claude --dangerously-skip-permissions"
-cldw() { claude --worktree "$@"; }
+cldw() { claude --dangerously-skip-permissions --worktree "$@"; }
 
 # Easier navigation
 alias cd..="cd .."
