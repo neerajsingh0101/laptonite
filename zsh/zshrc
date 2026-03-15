@@ -214,6 +214,15 @@ alias start_sidekiq="bundle exec sidekiq -C config/sidekiq.yml"
 alias start_background_worker="bundle exec sidekiq -C config/sidekiq.yml"
 alias start_backgroundworker="bundle exec sidekiq -C config/sidekiq.yml"
 alias start_bg="bundle exec sidekiq -C config/sidekiq.yml"
+start_nano() {
+  echo 'yarn build --watch --app ~/code/neetozone/neeto-cal-web'
+  echo 'If you are working with "neeto-molecule", "neeto-ui", "neeto-editor" then replace "yarn build" with "yarn bundle" in the above command.'
+  echo 'start the host application'\''s vite in watch mode'
+  echo 'WATCH_MODE=true yarn dev --force'
+  echo 'if there is ruby code change then refer to gem with relative path'
+}
+
+
 
 # Put any overriding things in personal dotfiles. Personal dotfiles
 # should be sibling to laptop repo and it should have a file calle
