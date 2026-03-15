@@ -127,10 +127,13 @@ alias c="code ."
 
 # mv, rm, cp
 alias mv='mv -v'
-alias rm='rm -i -v'
 alias cp='cp -v'
-alias history='history -100'
+alias history='history -500'
 alias h='history'
+
+# this will prompt a confirmation before deleting the file
+# If you do not want confirmation then exetcute /bin/rm file1 file2
+alias rm='rm -i -v'
 
 alias setup='./bin/setup-mise'
 alias launch='./bin/launch'
