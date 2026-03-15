@@ -103,8 +103,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		end
 	end
 
-	-- Clear "done" status when user switches to this tab
-	if tab.is_active and claude_status == "done" then
+	-- Clear status when user switches to this tab
+	if tab.is_active and (claude_status == "done" or claude_status == "permission_prompt") then
 		for _, p in ipairs(tab.panes) do
 			os.remove("/tmp/claude-wezterm-" .. tostring(p.pane_id))
 		end
