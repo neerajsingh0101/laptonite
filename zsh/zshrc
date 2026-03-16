@@ -119,6 +119,11 @@ cldw() {
   fi
   local slug=$(echo "$*" | tr -s ' ' '-')
   echo -n "$(pwd)/.claude/worktrees/$slug" | pbcopy
+
+  local worktree_path="$(pwd)/.claude/worktrees/$slug"
+  local pane_id=$(wezterm cli split-pane --right)
+  wezterm cli send-text --pane-id "$pane_id" -- "sleep 5 && cd $worktree_path
+"
   claude --dangerously-skip-permissions --worktree "$slug"
 }
 
