@@ -114,6 +114,7 @@ arch -arm64 brew install --verbose zsh-autosuggestions
 arch -arm64 brew install --verbose zsh-syntax-highlighting
 arch -arm64 brew install --verbose mise
 arch -arm64 brew install --verbose curl # curl that comes with Mac is highly outdated
+arch -arm64 brew install --verbose ripgrep
 arch -arm64 brew install --verbose aicommits
 npm install -g opencommit
 oco config set OCO_GITPUSH=false
