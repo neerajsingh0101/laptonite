@@ -230,11 +230,8 @@ export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(arch -arm64 brew --prefix libya
 
 echo ""
 mkdir -p "$DEVBOXD/../neetozone"
-if [ -d "$DEVBOXD/../neetozone/neetob" ]; then
-  cd "$DEVBOXD/../neetozone/neetob" && git pull
-else
-  git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../neetozone/neetob"
-fi
+rm -rf "$DEVBOXD/../neetozone/neetob"
+git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../neetozone/neetob"
 #gem install bundler -v 2.4.7
 #bundle _2.4.7_ install
 #"$DEVBOXD/../neetozone/neetob/bin/gh-make-repos-uptodate"
