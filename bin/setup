@@ -8,6 +8,12 @@
 set -eE
 trap 'echo "Error on line $LINENO (exit code $?)" >&2' ERR
 
+if [ "$(uname -m)" != "arm64" ]; then
+  echo "You are using Intel chips and this laptop script doesn't support Intel chips."
+  echo "This laptop script is meant only for M series Silicon chips laptops."
+  exit 1
+fi
+
 # Update DEVBOXD based on where setup is being run from
 ./bin/create-devbox-env
 
