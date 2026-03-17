@@ -121,9 +121,10 @@ arch -arm64 brew install libyaml #mise needs it
 arch -arm64 brew install postgresql@18
 arch -arm64 brew install redis
 arch -arm64 brew install font-hack-nerd-font
-arch -arm64 brew install openjdk@17
-export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
-arch -arm64 brew tap elastic/tap
+
+#arch -arm64 brew install openjdk@17
+#export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
+#arch -arm64 brew tap elastic/tap
 #arch -arm64 brew install elastic/tap/elasticsearch-full
 
 # try install; if it fails due to an existing app, adopt; if adopt fails, force.
