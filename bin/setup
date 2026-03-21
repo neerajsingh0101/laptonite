@@ -91,52 +91,61 @@ if ! command -v brew &> /dev/null; then
 fi
 echo_header_done
 
+abrew() {
+  arch -arm64 brew "$@"
+}
+
+brew_install() {
+  abrew install --verbose "$1"
+}
+
 echo_header "Upgrade homebrew"
-arch -arm64 brew update --verbose
+abrew update --verbose
 echo_header_done
 
 echo_header "Upgrade any already-installed formulae"
-arch -arm64 brew upgrade --verbose
+abrew upgrade --verbose
 echo_header_done
 
 echo_header "Installing various things"
-arch -arm64 brew install --verbose zoxide    # for jumping around
-arch -arm64 brew install --verbose fzf
-arch -arm64 brew install --verbose eza       # this is replacement for ls
-arch -arm64 brew install --verbose git
-arch -arm64 brew install --verbose git-delta # Used in pager
-arch -arm64 brew install --verbose httpd     # ab(apache bench) comes with this
-arch -arm64 brew install --verbose k6        # see bin/simulate-traffic-k6
-arch -arm64 brew install --verbose gh        # GitHub CLI
-arch -arm64 brew install --verbose jq
-#arch -arm64 brew install --verbose yarn
-arch -arm64 brew install --verbose zsh-autosuggestions
-arch -arm64 brew install --verbose zsh-syntax-highlighting
-arch -arm64 brew install --verbose mise
-arch -arm64 brew install --verbose curl # curl that comes with Mac is highly outdated
-arch -arm64 brew install --verbose ripgrep
-arch -arm64 brew install --verbose aicommits
-npm install -g opencommit
-oco config set OCO_GITPUSH=false
-arch -arm64 brew install --verbose libyaml #mise needs it
-arch -arm64 brew install --verbose postgresql@18
-arch -arm64 brew install --verbose redis
-arch -arm64 brew install --verbose font-hack-nerd-font
+brew_install zoxide    # for jumping around
+brew_install fzf
+brew_install eza       # this is replacement for ls
+brew_install git
+brew_install git-delta # Used in pager
+brew_install httpd     # ab(apache bench) comes with this
+brew_install k6        # see bin/simulate-traffic-k6
+brew_install gh        # GitHub CLI
+brew_install jq
+brew_install zsh-autosuggestions
+brew_install zsh-syntax-highlighting
+brew_install mise
+brew_install curl # curl that comes with Mac is highly outdated
+brew_install ripgrep
+brew_install aicommits
+brew_install libyaml #mise needs it
+brew_install postgresql@18
+brew_install redis
+brew_install font-hack-nerd-font
 
+brew_install opensearch # elastic search alternative
 #arch -arm64 brew install openjdk@17
 #export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
 #arch -arm64 brew tap elastic/tap
 #arch -arm64 brew install elastic/tap/elasticsearch-full
 
+npm install -g opencommit
+oco config set OCO_GITPUSH=false
+
 # try install; if it fails due to an existing app, adopt; if adopt fails, force.
 cask_install() {
   local cask="$1"
-  if arch -arm64 brew list --cask "$cask" >/dev/null 2>&1; then
+  if abrew list --cask "$cask" >/dev/null 2>&1; then
     # Verify the app actually exists in /Applications (brew may think it's
     # installed even if the .app was manually removed)
     local app_missing=false
     local app_name
-    app_name=$(arch -arm64 brew info --cask "$cask" 2>/dev/null | grep '\.app (App)' | head -1 | sed 's/.*\///' | sed 's/ (App)//')
+    app_name=$(abrew info --cask "$cask" 2>/dev/null | grep '\.app (App)' | head -1 | sed 's/.*\///' | sed 's/ (App)//')
     if [ -n "$app_name" ] && [ ! -d "/Applications/$app_name" ]; then
       app_missing=true
     fi
@@ -147,16 +156,16 @@ cask_install() {
     fi
 
     echo "$cask is registered in brew but app is missing. Reinstalling..."
-    arch -arm64 brew reinstall --verbose --cask "$cask" && return 0
+    abrew reinstall --verbose --cask "$cask" && return 0
   fi
 
-  arch -arm64 brew install --verbose --cask "$cask" && return 0
+  abrew install --verbose --cask "$cask" && return 0
 
   echo "Install failed for $cask; trying --adopt..."
-  arch -arm64 brew install --verbose --cask "$cask" --adopt && return 0
+  abrew install --verbose --cask "$cask" --adopt && return 0
 
   echo "Adopt failed for $cask; trying --force..."
-  arch -arm64 brew install --verbose --cask "$cask" --force
+  abrew install --verbose --cask "$cask" --force
 }
 
 cask_install raycast
@@ -229,7 +238,7 @@ echo_header_done
 export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 
 # mise needs it to compile Ruby properly
-export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(arch -arm64 brew --prefix libyaml)"
+export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(abrew --prefix libyaml)"
 
 echo ""
 mkdir -p "$DEVBOXD/../neetozone"
