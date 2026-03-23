@@ -9,9 +9,9 @@ Open terminal application and paste following lines.
 ```
 mkdir -p ~/code/devbox
 cd ~/code/devbox
-rm -rf laptop
-git clone https://github.com/neerajsingh0101/laptop.git
-cd laptop
+rm -rf laptonite
+git clone https://github.com/neerajsingh0101/laptonite.git
+cd laptonite
 ./bin/setup
 ```
 
@@ -26,15 +26,13 @@ Click on "Install". It will ask you to accept "License agreement". The thing is 
 asking for "License agreement" will be hidden behind other things. So after clicking on "Install"
 minimize all the applications so that you can see the "License agreement" modal.
 
-
-
 Command `./bin/setup` backs up your existing ~/.zshrc file as .zshrc-bkp-YYYYMMDDSSSS. So If you don't want to use the dotfiles, you can revert to the backed-up .zshrc file.
 
 You can run `./bin/setup` any number of times and it won't have any adverse effect.
 
 # Auto-update
 
-Every 7 days, when you open a new terminal, the laptop script checks if there is a newer version available on GitHub. If an update is found, it automatically pulls the latest changes.
+Every day, when you open a new terminal, the laptonite script checks if there is a newer version available on GitHub. If an update is found, it automatically pulls the latest changes.
 
 # Overriding the dotfiles and other things create by laptop
 
