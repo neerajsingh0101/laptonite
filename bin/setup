@@ -140,6 +140,7 @@ brew_install libyaml #mise needs it
 brew_install postgresql@18
 brew_install redis
 brew_install font-hack-nerd-font
+brew_install jnsahaj/lumen/lumen
 
 brew_install opensearch # elastic search alternative
 #arch -arm64 brew install openjdk@17
