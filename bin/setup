@@ -15,6 +15,7 @@ if [ "$(uname -m)" != "arm64" ]; then
 fi
 
 if xcrun --show-sdk-path >/dev/null 2>&1; then
+  echo "" # no ops
 else
   echo "Please run: xcode-select --install"
   exit 1
@@ -119,7 +120,7 @@ echo_header "Upgrade any already-installed formulae"
 abrew upgrade --verbose
 echo_header_done
 
-echo_header "Installing various things"
+echo_header "Installing various applications"
 brew_install zoxide    # for jumping around
 brew_install fzf
 brew_install eza       # this is replacement for ls
@@ -226,10 +227,14 @@ fi
 echo_header_done
 
 echo ""
-echo_header "Applying customize Macos configurations."
-echo "You will be asked to provide your laptop password."
-./bin/customize-macos
-echo_header_done
+echo_header "Customizing macos configuration."
+echo "Would you like to change your macos configurations?"
+read -p "Hit Enter to skip. Press c to set up your SSH key. " answer
+if [[ "$answer" =~ ^[Cc](hange)?$ ]]; then
+  echo "You will be asked to provide your laptop password."
+  ./bin/customize-macos
+  echo_header_done
+fi
 
 echo ""
 echo_header "Setting up GitHub SSH keys"
