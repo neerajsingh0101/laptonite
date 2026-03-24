@@ -1,6 +1,6 @@
 # Introduction
 
-Build your laptop in minutes. A script to setup a Mac laptop with sensible defaults.
+Build your laptop in minutes. A script to setup a Mac laptop with sensible defaults for working on [Neeto](https://neeto.com) products.
 
 # Installation
 
