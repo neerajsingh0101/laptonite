@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd ~/code/devbox/laptop && git pull
+cd ~/code/devbox/laptonite && git pull

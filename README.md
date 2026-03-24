@@ -1,6 +1,6 @@
 # Introduction
 
-A script to setup a Mac laptop with sensible defaults to get started.
+Build your laptop in minutes. A script to setup a Mac laptop with sensible defaults.
 
 # Installation
 
@@ -34,10 +34,10 @@ You can run `./bin/setup` any number of times and it won't have any adverse effe
 
 Every day, when you open a new terminal, the laptonite script checks if there is a newer version available on GitHub. If an update is found, it automatically pulls the latest changes.
 
-# Overriding the dotfiles and other things create by laptop
+# Overriding the dotfiles and other things create by laptonite
 
 At the end of `./bin/setup` there is a provision to execute a custom script file.
-Create a directory called `dotfiles` as a sibling to the `laptop` directory. This
+Create a directory called `dotfiles` as a sibling to the `laptonite` directory. This
 directoty should have a file called `setup` and it should be executable. At the
 end of the `./bin/setup` the `setup` of the "dotfiles" is executed. You can see
 https://github.com/neerajsingh0101/dotfiles/blob/main/setup as a real world example.
@@ -47,12 +47,12 @@ is present then it's loaded. This is a good place to put private Environment var
 etc which should not be checked in.
 
 At the every end of the `~/.zshrc` the script looks for folder `dotfiles` as a sibling to
-`laptops` directory. For example if the path to `laptop` directory is `~/work/devbox/laptop`
+`laptopnite` directory. For example if the path to `laptonite` directory is `~/work/devbox/laptonite`
 then dotfiles is expected at `~/work/devbox/dotfiles`. If `dotfiles` directory is present
 and if this direcotry has a file named `.zshrc` then that `.zshrc` is loaded.
 
 Since this `.zshrc` is loaded at the very end you can override anything you want from the values
-set by dotfiles created by laptop.
+set by dotfiles created by laptonite.
 
 # Wezterm as the terminal emulator
 

@@ -9,8 +9,8 @@ set -eE
 trap 'echo "Error on line $LINENO (exit code $?)" >&2' ERR
 
 if [ "$(uname -m)" != "arm64" ]; then
-  echo "You are using Intel chips and this laptop script doesn't support Intel chips."
-  echo "This laptop script is meant only for M series Silicon chips laptops."
+  echo "You are using Intel chips and this laptonite script doesn't support Intel chips."
+  echo "This laptonite script is meant only for M series Silicon chips laptops."
   exit 1
 fi
 
@@ -19,7 +19,7 @@ fi
 
 # Load .devbox.env (source local file since $HOME symlink may not exist yet)
 [ -f "./zsh/.devbox" ] && source "./zsh/.devbox"
-LAPTOPD="$DEVBOXD/laptop"
+LAPTONITED="$DEVBOXD/laptonite"
 
 # Remove destination (file/symlink/dir) and recreate symlink
 # If destination is a real file (not a symlink), back it up first
@@ -61,19 +61,19 @@ link_force() {
 }
 
 echo_header "Setting up soft links for zshrc, gemrc, gitconfig, gitignore, irbrc, psqlrc & wezterm"
-link_force "$LAPTOPD/zsh/zshrc"          "$HOME/.zshrc"
-link_force "$LAPTOPD/zsh/.devbox"         "$HOME/.devbox"
+link_force "$LAPTONITED/zsh/zshrc"          "$HOME/.zshrc"
+link_force "$LAPTONITED/zsh/.devbox"         "$HOME/.devbox"
 
-link_force "$LAPTOPD/symlinks/.gemrc"    "$HOME/.gemrc"
-link_force "$LAPTOPD/symlinks/.gitconfig" "$HOME/.gitconfig"
-link_force "$LAPTOPD/symlinks/.gitignore" "$HOME/.gitignore"
-link_force "$LAPTOPD/symlinks/.irbrc"    "$HOME/.irbrc"
-link_force "$LAPTOPD/symlinks/.psqlrc"   "$HOME/.psqlrc"
+link_force "$LAPTONITED/symlinks/.gemrc"    "$HOME/.gemrc"
+link_force "$LAPTONITED/symlinks/.gitconfig" "$HOME/.gitconfig"
+link_force "$LAPTONITED/symlinks/.gitignore" "$HOME/.gitignore"
+link_force "$LAPTONITED/symlinks/.irbrc"    "$HOME/.irbrc"
+link_force "$LAPTONITED/symlinks/.psqlrc"   "$HOME/.psqlrc"
 mkdir -p "$HOME/.config"
-link_force "$LAPTOPD/symlinks/wezterm"   "$HOME/.config/wezterm"
-link_force "$LAPTOPD/symlinks/mise"      "$HOME/.config/mise"
+link_force "$LAPTONITED/symlinks/wezterm"   "$HOME/.config/wezterm"
+link_force "$LAPTONITED/symlinks/mise"      "$HOME/.config/mise"
 mkdir -p "$HOME/.claude"
-link_force "$LAPTOPD/symlinks/skills"    "$HOME/.claude/skills"
+link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"
 echo_header_done
 
 echo_header "Setting up homebrew"
@@ -214,8 +214,8 @@ fi
 echo_header_done
 
 echo ""
-echo_header "Applying customize Macos configurations"
-echo "You will be asked to provide your laptop password"
+echo_header "Applying customize Macos configurations."
+echo "You will be asked to provide your laptop password."
 ./bin/customize-macos
 echo_header_done
 
@@ -250,12 +250,12 @@ git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../neetozone/neetob"
 
 echo ""
 echo "You are all done."
-echo "See README at https://github.com/neerajsingh0101/laptop to get to know keyboard shortcuts."
+echo "See README at https://github.com/neerajsingh0101/laptonite to get to know keyboard shortcuts."
 
 DOTFILESD="$DEVBOXD/dotfiles"
 
 # If you want your custom script to be executed as part of the setup
-# then setup a directory called "dotfiles" as a sibling to the "laptop"
+# then setup a directory called "dotfiles" as a sibling to the "laptonite"
 # directory. This directory shoudl have a file called "setup". This
 # "setup" file should be executable.
 #

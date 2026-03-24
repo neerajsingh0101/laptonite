@@ -6,10 +6,10 @@
 # you'll have access to them in your scripts.
 [[ -f ~/.devbox-zshrc.local ]] && source ~/.devbox-zshrc.local
 
-LAPTOPD="$DEVBOXD/laptop"
+LAPTONITED="$DEVBOXD/laptonite"
 DOTFILESD="$DEVBOXD/dotfiles"
 
-source "$LAPTOPD/zsh/auto_update.zshrc"
+source "$LAPTONITED/zsh/auto_update.zshrc"
 
 # if condition is checking if homebrew is installed or not
 # `brew shellenv` prints a bunch of shell commands like export PATH=..., export HOMEBREW_PREFIX=..., etc.
@@ -68,7 +68,7 @@ chpwd_functions+=(__wezterm_osc7)
 __wezterm_osc7
 
 eval "$(zoxide init zsh)"
-source "$LAPTOPD/zsh/prompt.zshrc"
+source "$LAPTONITED/zsh/prompt.zshrc"
 
 ##### ALIASES #####
 alias reload!='. ~/.zshrc'
@@ -191,8 +191,8 @@ stl() {
 }
 alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 x.com
 
-alias laptop="cd $LAPTOPD"   # go to laptop directory
-alias laptopd="cd $LAPTOPD"  # go to laptop directory
+alias laptonite="cd $LAPTONITED"   # go to laptonite directory
+alias laptonited="cd $LAPTONITED"  # go to laptonite directory
 alias dotfiles="cd $DOTFILESD"  # go to dotfiles directory
 alias dotfilesd="cd $DOTFILESD" # go to dotfiles directory
 
@@ -232,7 +232,7 @@ compinit -C
 # By placing the bin, utils and .local/bin at the front of $PATH,
 # executables in these directories take priority over
 # system-installed ones with the same name.
-export PATH="$LAPTOPD/bin:$LAPTOPD/utils:$HOME/.local/bin:$PATH"
+export PATH="$LAPTONITED/bin:$LAPTONITED/utils:$HOME/.local/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 
@@ -276,9 +276,9 @@ start_nano() {
 
 
 # Put any overriding things in personal dotfiles. Personal dotfiles
-# should be sibling to laptop repo and it should have a file calle
+# should be sibling to laptonite repo and it should have a file calle
 # .zshrc. This will always be loaded at the very end so ti can override
-# anything in the .zshrc of laptop.
+# anything in the .zshrc of laptonite.
 #
 # You can see a real world example of it at
 # https://github.com/neerajsingh0101/dotfiles/blob/main/.zshrc
