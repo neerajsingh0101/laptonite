@@ -21,6 +21,13 @@ fi
 [ -f "./zsh/.devbox" ] && source "./zsh/.devbox"
 LAPTONITED="$DEVBOXD/laptonite"
 
+# TEMPORARY: Remove the old "laptop" directory that was renamed to "laptonite".
+# This block can be removed once all machines have run setup at least once.
+if [ -d "$DEVBOXD/laptop" ]; then
+  echo "Removing old 'laptop' directory ..."
+  rm -rf "$DEVBOXD/laptop"
+fi
+
 # Remove destination (file/symlink/dir) and recreate symlink
 # If destination is a real file (not a symlink), back it up first
 echo_header() {
@@ -32,7 +39,6 @@ echo_header_done() {
   echo "Done!!!"
   echo ""
 }
-
 
 link_force() {
   src="$1"
@@ -240,13 +246,11 @@ export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 # mise needs it to compile Ruby properly
 export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(abrew --prefix libyaml)"
 
-echo ""
-mkdir -p "$DEVBOXD/../neetozone"
-rm -rf "$DEVBOXD/../neetozone/neetob"
-git clone git@github.com:neetozone/neetob.git "$DEVBOXD/../neetozone/neetob"
-#gem install bundler -v 2.4.7
-#bundle _2.4.7_ install
-#"$DEVBOXD/../neetozone/neetob/bin/gh-make-repos-uptodate"
+echo "Deleting and cloning neetob repository"
+NEETOZONED="$(cd "$DEVBOXD/.." && pwd)/neetozone"
+mkdir -p "$NEETOZONED"
+rm -rf "$NEETOZONED/neetob"
+git clone git@github.com:neetozone/neetob.git "$NEETOZONED/neetob"
 
 echo ""
 echo "You are all done."
@@ -265,6 +269,8 @@ DOTFILESD="$DEVBOXD/dotfiles"
 if [ -d "$DOTFILESD" ] && [ -f "$DOTFILESD/setup" ]; then
   "$DOTFILESD/setup"
 fi
+
+
 
 echo ""
 echo "Reloading shell..."
