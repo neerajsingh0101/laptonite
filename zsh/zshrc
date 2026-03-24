@@ -171,7 +171,7 @@ alias setup='./bin/setup-mise'
 alias launch='./bin/launch'
 stl() {
   local repo_name=$(basename "$(pwd)")
-  if [[ "$repo_name" == "neeto-website" || "$repo_name" == "bigbinary-website" ]]; then
+  if [[ "$repo_name" == *-website ]]; then
     yarn install
     yarn dev &
     local dev_pid=$!
