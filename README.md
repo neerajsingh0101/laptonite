@@ -15,17 +15,6 @@ cd laptonite
 ./bin/setup
 ```
 
-If it's a brand new laptop then you might get a modal saying the following.
-
-```
-The "git" command requires the command line developer tools. Would you like to install
-the tools now?
-```
-
-Click on "Install". It will ask you to accept "License agreement". The thing is that the modal
-asking for "License agreement" will be hidden behind other things. So after clicking on "Install"
-minimize all the applications so that you can see the "License agreement" modal.
-
 Command `./bin/setup` backs up your existing ~/.zshrc file as .zshrc-bkp-YYYYMMDDSSSS. So If you don't want to use the dotfiles, you can revert to the backed-up .zshrc file.
 
 You can run `./bin/setup` any number of times and it won't have any adverse effect.
