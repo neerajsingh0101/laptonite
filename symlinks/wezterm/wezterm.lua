@@ -16,6 +16,7 @@ config.color_scheme = 'Catppuccin Mocha'
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = true
+config.tab_max_width = 30
 config.tab_bar_at_bottom = true
 config.window_frame = {
   font_size = config.font_size + 1,

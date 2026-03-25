@@ -134,9 +134,12 @@ cldw() {
   echo -n "$(pwd)/.claude/worktrees/$slug" | pbcopy
 
   local repo_name=$(basename "$(pwd)")
-  repo_name=${repo_name#neeto-}
-  local short_slug=${slug:0:15}
-  wezterm cli set-tab-title "$repo_name ($short_slug)"
+  local short_repo_name=${repo_name#neeto-}
+  short_repo_name=${short_repo_name#bigbinary-}
+  short_repo_name=${short_repo_name%-web}
+  local short_slug=${slug:0:10}
+  echo "repo_name: $repo_name, short_repo_name: $short_repo_name, short_slug: $short_slug"
+  wezterm cli set-tab-title "$short_repo_name ($short_slug)"
 
   local worktree_path="$(pwd)/.claude/worktrees/$slug"
   local pane_id=$(wezterm cli split-pane --right)
