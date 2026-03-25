@@ -130,7 +130,6 @@ cldw() {
     git pull
   fi
   local slug=$(echo "$*" | tr -s ' ' '-')
-  echo "slug: $slug"
   echo -n "$(pwd)/.claude/worktrees/$slug" | pbcopy
 
   local repo_name=$(basename "$(pwd)")
@@ -139,6 +138,7 @@ cldw() {
   short_repo_name=${short_repo_name%-web}
   local short_slug=${slug:0:10}
   echo "repo_name: $repo_name, short_repo_name: $short_repo_name, short_slug: $short_slug"
+  echo ""
   wezterm cli set-tab-title "$short_repo_name ($short_slug)"
 
   local worktree_path="$(pwd)/.claude/worktrees/$slug"
