@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+# Usage
+# delete-all-worktrees
+#
+# Removes all git worktrees and their associated branches.
+
+worktrees = `git worktree list --porcelain`.split("\n\n")
+
+main_worktree = true
+worktrees.each do |entry|
+  if main_worktree
+    main_worktree = false
+    next
+  end
+
+  path = entry[/^worktree (.+)$/, 1]
+  branch = entry[/^branch refs\/heads\/(.+)$/, 1]
+
+  next unless path
+
+  puts "Removing worktree: #{path}"
+  system("git", "worktree", "remove", "--force", path)
+
+  if branch
+    puts "Deleting branch: #{branch}"
+    system("git", "branch", "-D", branch)
+  end
+end
+
+system("git", "worktree", "prune")
+puts "Done."
