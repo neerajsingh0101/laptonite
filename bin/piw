@@ -9,28 +9,14 @@
 # git worktree remove <absolute-path>
 # Example: /Users/neerajsingh/code/neetozone/neeto-git-web/.pi/support-paypal
 
-if ARGV.empty?
-  abort "ERROR: piw expects an argument. Why don't you tell piw what you are working on."
-end
+#!/usr/bin/env ruby
 
-# If inside a .claude or .pi subdirectory, navigate to just above it
-current_dir = Dir.pwd
-if current_dir.include?("/.claude")
-  Dir.chdir(current_dir.split("/.claude").first)
-elsif current_dir.include?("/.pi")
-  Dir.chdir(current_dir.split("/.pi").first)
-end
-
-if `git branch --show-current`.strip == "main"
-  system("git pull") || abort("git pull failed")
-end
+system("worktree", "pi", *ARGV)
 
 slug = ARGV.join("-")[0, 50]
-
-worktree_path = "#{Dir.pwd}/.pi/worktrees/#{slug}"
-IO.popen("pbcopy", "w") { |io| io.print worktree_path }
-
 system("git", "worktree", "add", "-b", slug, "./.pi/#{slug}", "main") || abort("git worktree add failed")
 
-Dir.chdir(".pi/#{slug}")
-exec ENV["SHELL"] # to cd into the newly created worktree directory
+worktree_path = File.expand_path(".pi/#{slug}")
+Dir.chdir(worktree_path)
+puts Dir.pwd
+exec("pi")
