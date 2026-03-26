@@ -114,41 +114,6 @@ fi
 alias cld="claude"
 alias cldd="claude --dangerously-skip-permissions"
 alias claudew="cldw"
-cldw() {
-  if [ $# -eq 0 ]; then
-    echo "ERROR: cldw expects an argument. Why don't you tell cldw what you are working on."
-    return 1
-  fi
-
-  # If inside a .claude subdirectory, navigate to just above it
-  local current_dir="$(pwd)"
-  if [[ "$current_dir" == */.claude/* || "$current_dir" == */.claude ]]; then
-    cd "${current_dir%%/.claude*}"
-  fi
-
-  if [ "$(git branch --show-current)" = "main" ]; then
-    git pull
-  fi
-  local slug=$(echo "$*" | tr -s ' ' '-')
-  echo -n "$(pwd)/.claude/worktrees/$slug" | pbcopy
-
-  local repo_name=$(basename "$(pwd)")
-  local short_repo_name=${repo_name#neeto-}
-  short_repo_name=${short_repo_name#bigbinary-}
-  short_repo_name=${short_repo_name%-web}
-  local short_slug=${slug:0:10}
-  echo "repo_name: $repo_name, short_repo_name: $short_repo_name, short_slug: $short_slug"
-  echo ""
-  wezterm cli set-tab-title "$short_repo_name ($short_slug)"
-
-  local worktree_path="$(pwd)/.claude/worktrees/$slug"
-  local pane_id=$(wezterm cli split-pane --right)
-  wezterm cli send-text --pane-id "$pane_id" -- "sleep 15 && cd $worktree_path && SIDEBAR_TITLE=$short_slug stl
-"
-
-  sleep 3
-  claude --dangerously-skip-permissions --worktree "$slug"
-}
 
 # Easier navigation
 alias cd..="cd .."

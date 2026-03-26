@@ -13,12 +13,22 @@ if ARGV.empty?
   abort "ERROR: piw expects an argument. Why don't you tell piw what you are working on."
 end
 
-current_branch = `git branch --show-current`.strip
-if current_branch == "main"
+# If inside a .claude or .pi subdirectory, navigate to just above it
+current_dir = Dir.pwd
+if current_dir.include?("/.claude")
+  Dir.chdir(current_dir.split("/.claude").first)
+elsif current_dir.include?("/.pi")
+  Dir.chdir(current_dir.split("/.pi").first)
+end
+
+if `git branch --show-current`.strip == "main"
   system("git pull") || abort("git pull failed")
 end
 
 slug = ARGV.join("-")[0, 50]
+
+worktree_path = "#{Dir.pwd}/.pi/worktrees/#{slug}"
+IO.popen("pbcopy", "w") { |io| io.print worktree_path }
 
 system("git", "worktree", "add", "-b", slug, "./.pi/#{slug}", "main") || abort("git worktree add failed")
 

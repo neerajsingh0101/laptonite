@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+# Usage
+# cldw feature paypal
+# cldw sampledata-fix
+# cldw support currencies from multiple countries
+
+if ARGV.empty?
+  abort "ERROR: cldw expects an argument. Why don't you tell cldw what you are working on."
+end
+
+# If inside a .claude or .pi subdirectory, navigate to just above it
+current_dir = Dir.pwd
+agent = "claude"
+if current_dir.include?("/.#{agent}")
+  Dir.chdir(current_dir.split("/.#{agent}").first)
+end
+
+if `git branch --show-current`.strip == "main"
+    system("git pull") || abort("git pull failed")
+end
+
+slug = ARGV.join("-")[0, 50]
+
+worktree_path = "#{Dir.pwd}/.#{agent}/worktrees/#{slug}"
+IO.popen("pbcopy", "w") { |io| io.print worktree_path }
+
+repo_name = File.basename(Dir.pwd)
+short_repo_name = repo_name
+  .delete_prefix("neeto-")
+  .delete_prefix("bigbinary-")
+  .delete_suffix("-web")
+short_slug = slug[0, 10]
+puts "repo_name: #{repo_name}, short_repo_name: #{short_repo_name}, short_slug: #{short_slug}"
+puts
+
+system("wezterm", "cli", "set-tab-title", "#{short_repo_name} (#{short_slug})")
+
+pane_id = `wezterm cli split-pane --right`.strip
+system("wezterm", "cli", "send-text", "--pane-id", pane_id, "--",
+  "sleep 15 && cd #{worktree_path} && SIDEBAR_TITLE=#{short_slug} stl\n")
+
+sleep 3
+exec("claude", "--dangerously-skip-permissions", "--worktree", slug)
