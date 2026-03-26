@@ -87,6 +87,7 @@ link_force "$LAPTONITED/symlinks/wezterm"   "$HOME/.config/wezterm"
 link_force "$LAPTONITED/symlinks/mise"      "$HOME/.config/mise"
 
 mkdir -p "$HOME/.claude"
+link_force "$LAPTONITED/.claude/settings.json"    "$HOME/.claude/settings.json"
 link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"
 
 mkdir -p "$HOME/.pi/agent"
