@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Glob(**)",
+      "Grep(*)",
+      "Write(*)",
+      "Edit(*)",
+      "MultiEdit(*)",
+      "NotebookEdit(*)",
+      "WebFetch(*)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(git checkout *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git branch *)",
+      "Bash(git stash *)",
+      "Bash(git mv *)",
+      "Bash(git pull *)",
+      "Bash(git fetch *)",
+      "Bash(git rebase *)",
+      "Bash(git remote *)",
+      "Bash(gh pr *)",
+      "Bash(gh issue *)",
+      "Bash(gh repo *)",
+      "Bash(gh status *)",
+      "Bash(gh api *)",
+      "Bash(ls *)",
+      "Bash(find *)",
+      "Bash(tree *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(pwd *)",
+      "Bash(which *)",
+      "Bash(wc *)",
+      "Bash(rg *)",
+      "Bash(fd *)",
+      "Bash(bundle exec *)",
+      "Bash(bundle install *)",
+      "Bash(bin/*)",
+      "Bash(rake *)",
+      "Bash(rails *)",
+      "Bash(npm run *)",
+      "Bash(npm list *)",
+      "Bash(node --version *)",
+      "Bash(pnpm run *)",
+      "Bash(yarn *)",
+      "Bash(bun run *)",
+      "Bash(brew install *)",
+      "Bash(pytest *)",
+      "Bash(python -m pytest *)",
+      "Bash(go test *)",
+      "Bash(cargo test *)",
+      "Bash(psql *)",
+      "Bash(ruby *)",
+      "Bash(grep *)",
+      "Bash(bundle show *)",
+      "Bash(bundle update *)",
+      "Bash(shasum *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/.ssh/**)",
+      "Read(**/.aws/**)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(ssh *)",
+      "Bash(scp *)",
+      "Bash(rsync *)",
+      "Bash(sudo *)",
+      "Bash(chmod -R 777 *)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "description": "Sound alert when Claude needs permission (disable by removing this block)",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          },
+          {
+            "type": "command",
+            "description": "Set WezTerm tab color to red when Claude needs permission",
+            "command": "[ -n \"$WEZTERM_PANE\" ] && echo permission_prompt > /tmp/claude-wezterm-$WEZTERM_PANE"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "description": "Clear WezTerm tab color when user interacts with Claude",
+            "command": "[ -n \"$WEZTERM_PANE\" ] && rm -f /tmp/claude-wezterm-$WEZTERM_PANE"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "description": "Sound alert when Claude finishes a task (disable by removing this block)",
+            "command": "afplay /System/Library/Sounds/Hero.aiff"
+          },
+          {
+            "type": "command",
+            "description": "Set WezTerm tab color to green when Claude is done",
+            "command": "[ -n \"$WEZTERM_PANE\" ] && echo done > /tmp/claude-wezterm-$WEZTERM_PANE"
+          }
+        ]
+      }
+    ]
+  },
+  "alwaysThinkingEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "enabledPlugins": {
+    "ruby-lsp@claude-plugins-official": true
+  }
+}
