@@ -143,7 +143,7 @@ cldw() {
 
   local worktree_path="$(pwd)/.claude/worktrees/$slug"
   local pane_id=$(wezterm cli split-pane --right)
-  wezterm cli send-text --pane-id "$pane_id" -- "sleep 5 && cd $worktree_path && SIDEBAR_TITLE=$short_slug stl
+  wezterm cli send-text --pane-id "$pane_id" -- "sleep 15 && cd $worktree_path && SIDEBAR_TITLE=$short_slug stl
 "
 
   sleep 3
