@@ -135,7 +135,7 @@ alias h='history'
 # If you do not want confirmation then exetcute /bin/rm file1 file2
 alias rm='rm -i -v'
 
-unalias setup 2>/dev/null; setup() { ./bin/setup-mise "$@"; }
+unalias setup 2>/dev/null; setup() { if [[ -x ./bin/setup ]]; then ./bin/setup "$@"; else ./bin/setup-mise "$@"; fi; }
 unalias launch 2>/dev/null; launch() { ./bin/launch "$@"; }
 stl() {
   local repo_name=$(basename "$(pwd)")
@@ -154,7 +154,9 @@ stl() {
     done
     wait $dev_pid
   else
-    SIDEBAR_TITLE="$SIDEBAR_TITLE" ./bin/setup-mise "$@" \
+    local setup_cmd="./bin/setup-mise"
+    [[ -x ./bin/setup ]] && setup_cmd="./bin/setup"
+    SIDEBAR_TITLE="$SIDEBAR_TITLE" $setup_cmd "$@" \
       && SIDEBAR_TITLE="$SIDEBAR_TITLE" ./bin/launch "$@"
   fi
 }
