@@ -14,9 +14,9 @@
 system("worktree", "pi", *ARGV)
 
 slug = ARGV.join("-")[0, 50]
-system("git", "worktree", "add", "-b", slug, "./.pi/#{slug}", "main") || abort("git worktree add failed")
+system("git", "worktree", "add", "-b", slug, "./.pi/worktrees/#{slug}", "main") || abort("git worktree add failed")
 
-worktree_path = File.expand_path(".pi/#{slug}")
+worktree_path = File.expand_path(".pi/worktrees/#{slug}")
 Dir.chdir(worktree_path)
 puts Dir.pwd
 exec("pi")
