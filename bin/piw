@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+# Usage
+# piw feature paypal
+# piw sampledata-fix
+# piw support currencies from multiple countries
+
+# Removing worktree
+# git worktree remove <absolute-path>
+# Example: /Users/neerajsingh/code/neetozone/neeto-git-web/.pi/support-paypal
+
+if ARGV.empty?
+  abort "ERROR: piw expects an argument. Why don't you tell piw what you are working on."
+end
+
+current_branch = `git branch --show-current`.strip
+if current_branch == "main"
+  system("git pull") || abort("git pull failed")
+end
+
+slug = ARGV.join("-")[0, 50]
+
+system("git", "worktree", "add", "-b", slug, "./.pi/#{slug}", "main") || abort("git worktree add failed")
+
+Dir.chdir(".pi/#{slug}")
+exec ENV["SHELL"] # to cd into the newly created worktree directory
