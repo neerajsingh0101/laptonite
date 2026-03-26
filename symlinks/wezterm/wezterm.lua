@@ -46,8 +46,8 @@ config.enable_scroll_bar = true
 
 -- Dim the inactive pane so that we can detect the active pane
 config.inactive_pane_hsb = {
-  saturation = .1,
-  brightness = 0.4,
+  saturation = .2,
+  brightness = 0.9,
 }
 
 
