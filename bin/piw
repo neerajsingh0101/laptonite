@@ -11,10 +11,10 @@
 
 #!/usr/bin/env ruby
 
-system("worktree", "pi", *ARGV)
-
 slug = ARGV.join("-")[0, 50]
 system("git", "worktree", "add", "-b", slug, "./.pi/worktrees/#{slug}", "main") || abort("git worktree add failed")
+
+system("invoke-stl", "pi", *ARGV)
 
 worktree_path = File.expand_path(".pi/worktrees/#{slug}")
 Dir.chdir(worktree_path)
