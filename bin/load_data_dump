@@ -16,14 +16,28 @@
 
 # --- Find dump file ---
 
-downloads_dir = File.expand_path("~/Downloads")
-dump_file = Dir.glob(File.join(downloads_dir, "*.dump")).first
 
-if dump_file.nil?
-  puts "ERROR: No .dump files found in #{downloads_dir}. See https://neetozone.neetokb.com/articles/load-database-dump-locally and download the data dump."
+
+downloads_dir = File.expand_path("~/Downloads")
+
+current_path = Dir.pwd
+
+project_name = current_path[/neeto-.*?-web/]
+
+dump_files = Dir.glob(File.join(downloads_dir, "#{project_name}*.dump"))
+
+if dump_files.empty?
+  puts "ERROR: No #{project_name}*.dump file was found in #{downloads_dir}. See https://neetozone.neetokb.com/articles/load-database-dump-locally and download the data dump."
   exit 1
 end
 
+if dump_files.size > 1
+  puts "ERROR: Found #{dump_files.size} dump files: #{dump_files.map { |f| File.basename(f) }.join(', ')}"
+  puts "Please keep only one .dump file in #{downloads_dir} and try again."
+  exit 1
+end
+
+dump_file = dump_files.first
 puts "Using dump file: #{dump_file}"
 
 DB_USER = "bigbinary"
