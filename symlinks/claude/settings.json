@@ -90,12 +90,10 @@
         "hooks": [
           {
             "type": "command",
-            "description": "Sound alert when Claude needs permission (disable by removing this block)",
             "command": "afplay /System/Library/Sounds/Glass.aiff"
           },
           {
             "type": "command",
-            "description": "Set WezTerm tab color to red when Claude needs permission",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo permission_prompt > /tmp/claude-wezterm-$WEZTERM_PANE"
           }
         ]
@@ -106,7 +104,6 @@
         "hooks": [
           {
             "type": "command",
-            "description": "Clear WezTerm tab color when user interacts with Claude",
             "command": "[ -n \"$WEZTERM_PANE\" ] && rm -f /tmp/claude-wezterm-$WEZTERM_PANE"
           }
         ]
@@ -117,21 +114,20 @@
         "hooks": [
           {
             "type": "command",
-            "description": "Sound alert when Claude finishes a task (disable by removing this block)",
             "command": "afplay /System/Library/Sounds/Hero.aiff"
           },
           {
             "type": "command",
-            "description": "Set WezTerm tab color to green when Claude is done",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo done > /tmp/claude-wezterm-$WEZTERM_PANE"
           }
         ]
       }
     ]
   },
-  "alwaysThinkingEnabled": true,
-  "skipDangerousModePermissionPrompt": true,
   "enabledPlugins": {
     "ruby-lsp@claude-plugins-official": true
-  }
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "medium",
+  "skipDangerousModePermissionPrompt": true
 }

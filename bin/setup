@@ -92,6 +92,7 @@ link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"
 
 mkdir -p "$HOME/.pi/agent"
 link_force "$LAPTONITED/symlinks/pi/agent/settings.json"    "$HOME/.pi/agent/settings.json"
+link_force "$LAPTONITED/symlinks/pi/agent/extensions/wezterm-tab-color.ts"    "$HOME/.pi/agent/extensions/wezterm-tab-color.ts"
 
 echo_header_done
 
