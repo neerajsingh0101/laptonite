@@ -256,3 +256,10 @@ start_nano() {
 if [ -d "$DOTFILESD" ] && [ -f "$DOTFILESD/.zshrc" ]; then
   source "$DOTFILESD/.zshrc"
 fi
+
+# bun completions
+[ -s "/Users/neerajsingh/.bun/_bun" ] && source "/Users/neerajsingh/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
