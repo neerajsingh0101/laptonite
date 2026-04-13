@@ -264,5 +264,6 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-export MISE_PARANOID=0
-export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
+#export MISE_PARANOID=0
+#export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
+export MISE_YES=1 # Just do not ask about trusting anything anywhere
