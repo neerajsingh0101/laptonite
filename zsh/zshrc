@@ -263,3 +263,6 @@ fi
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+export MISE_PARANOID=0
+export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"

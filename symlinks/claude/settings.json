@@ -95,6 +95,10 @@
           {
             "type": "command",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo permission_prompt > /tmp/claude-wezterm-$WEZTERM_PANE"
+          },
+          {
+            "type": "command",
+            "command": "[ -n \"$NEETLY_SOCKET\" ] && neetly notify red || true"
           }
         ]
       }
@@ -105,6 +109,10 @@
           {
             "type": "command",
             "command": "[ -n \"$WEZTERM_PANE\" ] && rm -f /tmp/claude-wezterm-$WEZTERM_PANE"
+          },
+          {
+            "type": "command",
+            "command": "[ -n \"$NEETLY_SOCKET\" ] && neetly notify clear || true"
           }
         ]
       },
@@ -127,6 +135,10 @@
           {
             "type": "command",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo done > /tmp/claude-wezterm-$WEZTERM_PANE"
+          },
+          {
+            "type": "command",
+            "command": "[ -n \"$NEETLY_SOCKET\" ] && neetly notify green || true"
           }
         ]
       },
@@ -178,5 +190,10 @@
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
-  "skipDangerousModePermissionPrompt": true
+  "skipDangerousModePermissionPrompt": true,
+  "voiceEnabled": true,
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  }
 }
