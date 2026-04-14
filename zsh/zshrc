@@ -154,8 +154,13 @@ stl() {
     done
     wait $dev_pid
   else
-    local setup_cmd="./bin/setup-mise"
-    [[ -x ./bin/setup ]] && setup_cmd="./bin/setup"
+
+    local setup_cmd
+    if [[ -f ./bin/setup-mise ]]; then
+      setup_cmd="./bin/setup-mise"
+    else
+      setup_cmd="./bin/setup"
+    fi
     SIDEBAR_TITLE="$SIDEBAR_TITLE" $setup_cmd "$@" \
       && SIDEBAR_TITLE="$SIDEBAR_TITLE" ./bin/launch "$@"
   fi
