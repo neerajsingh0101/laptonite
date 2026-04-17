@@ -172,11 +172,16 @@ alias laptonited="cd $LAPTONITED"  # go to laptonite directory
 alias dotfiles="cd $DOTFILESD"  # go to dotfiles directory
 alias dotfilesd="cd $DOTFILESD" # go to dotfiles directory
 
-
 alias aic="oco --yes" # aic stands for aicommit
 
 # neeto repos
-neeto_repos=(auth form cal chat desk kb quiz site runner replay invoice planner course wireframe engage crm deploy ci git record tower publish playdash code pay bugwatch)
+neeto_repos=(
+  auth form cal chat desk kb
+  quiz site runner replay invoice
+  planner course wireframe engage crm
+  deploy ci git record tower
+  publish playdash code pay bugwatch sign wheel
+)
 for repo in "${neeto_repos[@]}"; do
   alias "${repo}w"="cd ~/code/neetozone/neeto-${repo}-web"
   alias "${repo}d"="cd ~/code/neetozone/neeto-${repo}-web"
