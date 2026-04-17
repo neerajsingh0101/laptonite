@@ -254,8 +254,6 @@ start_nano() {
   echo 'if there is ruby code change then refer to gem with relative path'
 }
 
-
-
 # Put any overriding things in personal dotfiles. Personal dotfiles
 # should be sibling to laptonite repo and it should have a file calle
 # .zshrc. This will always be loaded at the very end so ti can override
@@ -274,8 +272,5 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-#export MISE_PARANOID=0
-#export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 export MISE_YES=1 # Just do not ask about trusting anything anywhere
-
 export MISE_TRUSTED_CONFIG_PATHS=$HOME/neetly
