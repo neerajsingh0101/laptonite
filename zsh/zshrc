@@ -228,6 +228,11 @@ export PATH="$TUNNELTO_INSTALL/bin:$PATH"
 # Add installed curl to path
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
+# Re-prepend mise shims so they sit at the front of PATH when mise activates.
+# Earlier zshenv/zprofile/zshrc prepends push the zshenv shims line to the end,
+# which makes `mise exec` resolve tools behind /usr/bin and /opt/homebrew/bin.
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+
 # Activate mise last so it can manage tool versions per-directory cleanly
 eval "$(mise activate zsh)"
 

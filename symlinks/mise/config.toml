@@ -2,3 +2,6 @@
 trusted_config_paths = [
   "~/code",
 ]
+
+[tools]
+node = "22.13.1"
