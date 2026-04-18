@@ -68,13 +68,20 @@ chpwd_functions+=(__wezterm_osc7)
 __wezterm_osc7
 
 eval "$(zoxide init zsh)"
-source "$LAPTONITED/zsh/prompt.zshrc"
 
-##### ALIASES #####
-alias reload!='. ~/.zshrc'
+source "$LAPTONITED/zsh/prompt.zshrc"
 
 # Enable mouse scrolling in git diff, git log, etc.
 git config --global core.pager "less --mouse"
+
+# git root
+gr() {
+  local root
+  root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 1
+  cd "$root"
+}
+
+alias reload!='. ~/.zshrc'
 
 # GIT aliases
 alias gps='git push origin HEAD'
@@ -87,13 +94,6 @@ alias glg2='git lg2'
 alias gwip='git add . && git commit -m "wip"'
 alias gitb='git branch'
 alias aic="aicommits --yes"
-
-# git root
-gr() {
-  local root
-  root="$(git rev-parse --show-toplevel 2>/dev/null)" || return 1
-  cd "$root"
-}
 
 # Update local branch from the remote, and also clean up remote branches.
 # It means if a branch was deleted on the remote (say origin/feature-x), then
@@ -137,6 +137,7 @@ alias rm='rm -i -v'
 
 unalias setup 2>/dev/null; setup() { if [[ -x ./bin/setup ]]; then ./bin/setup "$@"; else ./bin/setup-mise "$@"; fi; }
 unalias launch 2>/dev/null; launch() { ./bin/launch "$@"; }
+
 stl() {
   local repo_name=$(basename "$(pwd)")
   if [[ "$repo_name" == *-website ]]; then
