@@ -73,32 +73,6 @@ https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d
 
 https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732
 
-# Mac applications
-
-Here are some Mac applications that I use and I recommend.
-
-## Rocket Emoji app
-
-[Rocket](https://matthewpalmer.net/rocket/) is a free Mac app that lets you type emojis slack style.
-Download the app. Install it. Open it.
-
-Now open Apple notes. Type I `:hear` AI and you will see heart emoji pop up.
-Now open google doc and do the same. Do the same in google sheet.
-
-Point is once this app is installed then you can type emojis really fast Slack style. This is so good that
-it should be the default feature of Mac and Apple should ship it out of the box.
-
-Rocket by default disables the trigger key `:` in applications like `Terminal` and `iTerm2`. If you are using
-wezterm then you should add wezterm to this list. Click on Rocket application from the top menu bar. Click on
-"Preferences". Add wezterm to the list of "Disable apps".
-
-## Hidden bar
-
-[Hideen bar](https://apps.apple.com/us/app/hidden-bar/id1452453066?mt=12) is a free and open source Mac app
-that helps clean up the menus. [Here](https://www.youtube.com/watch?v=EHeg_onNDr8) is a YouTube video with all the information.
-On Reddit a lot of people complain that the software has not been updated in the last 5 years. I consider this a
-positive sign. It indicates that the software is mature and stable. [Here](https://github.com/dwarvesf/hidden) is link to GitHub repo.
-
 ## Raycast
 
 [Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the things you get out of the box with Raycast.
@@ -169,20 +143,9 @@ a new tab in your browser will be opened with the right url.
 This pattern of `/calw` and `calw` is set for all neeto products. If you find it not working for any repo then please
 let me know.
 
-## Menu Bar Calendar
+## Extra - Hidden bar Mac application
 
-Sometimes in the call I need to share a calendar to discuss dates.
-Typically I open google calendar but it has information about my upcoming meetings
-and appointments.
-
-[Menu Bar Calendar](https://sindresorhus.com/menu-bar-calendar) is a free calendar app
-which sits on the menu bar.
-
-## Firewally
-
-[Firewally](https://nektony.com/firewally) is a free Mac app that lets me see all the applications that are sending and receiving data from the Internet. With a click of a button I can cut off the network access of any application.
-
-## Speediness
-
-[Speediness](https://sindresorhus.com/speediness) is a free Mac app that tests my upload and download speed. Mostly I use it to check
-if I have Internet access or not.
+[Hideen bar](https://apps.apple.com/us/app/hidden-bar/id1452453066?mt=12) is a free and open source Mac app
+that helps clean up the menus. [Here](https://www.youtube.com/watch?v=EHeg_onNDr8) is a YouTube video with all the information.
+On Reddit a lot of people complain that the software has not been updated in the last 5 years. I consider this a
+positive sign. It indicates that the software is mature and stable. [Here](https://github.com/dwarvesf/hidden) is link to GitHub repo.
