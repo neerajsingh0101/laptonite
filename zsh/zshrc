@@ -275,3 +275,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 export MISE_YES=1 # Just do not ask about trusting anything anywhere
 export MISE_TRUSTED_CONFIG_PATHS=$HOME/neetly
+
+MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
+if [ ! -f "$HOME/.zshenv" ] || ! grep -Fqx "$MISE_SHIMS_LINE" "$HOME/.zshenv"; then
+  echo "$MISE_SHIMS_LINE" >> "$HOME/.zshenv"
+fi
