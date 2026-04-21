@@ -11,40 +11,40 @@ DOTFILESD="$DEVBOXD/dotfiles"
 
 source "$LAPTONITED/zsh/auto_update.zshrc"
 
-# if condition is checking if homebrew is installed or not
+# If condition is checking if homebrew is installed or not.
 # `brew shellenv` prints a bunch of shell commands like export PATH=..., export HOMEBREW_PREFIX=..., etc.
-# that sets your environment so your shell can “find Homebrew” (and the stuff you install with it) in the right places.
+# that sets your environment so your shell can "find Homebrew" (and the stuff you install with it) in the right places.
 # eval "$( ... )" executes those printed commands in the current shell.
 if command -v brew >/dev/null; then
   eval "$(brew shellenv)"
 fi
 
-# tell zsh where to store command history
+# Tell zsh where to store command history.
 HISTFILE=$HOME/.zhistory
 
-# store last ten thousand history commands
+# Store last ten thousand history commands.
 SAVEHIST=10000
 
-# how many histories to keep in memory. For more it will have to read from the disk
+# How many histories to keep in memory. For more it will have to read from the disk.
 HISTSIZE=10000
 
-# Share command history across multiple running zsh sessions
+# Share command history across multiple running zsh sessions.
 setopt share_history
 
-# Drop duplicates before dropping history while trying to not exceed HISTSIZE value
+# Drop duplicates before dropping history while trying to not exceed HISTSIZE value.
 setopt hist_expire_dups_first
 
-# Don’t record a command if it’s exactly the same as the previous command in history.
-# If you run ls then ls again immediately, the second one won’t be added.
+# Don't record a command if it's exactly the same as the previous command in history.
+# If you run ls then ls again immediately, the second one won't be added.
 # It only ignores consecutive duplicates.
 setopt hist_ignore_dups
 
-# keep history unique; keep only the latest occurrence of each command
+# Keep history unique; keep only the latest occurrence of each command.
 setopt hist_ignore_all_dups
 
 # When executing history commands like !!, !$, !grep the command will be first expanded
 # you will get to see the command before it's executed to avoid cases like I didn't want
-# to run that command
+# to run that command.
 setopt hist_verify
 
 # Remap what Up and Down arrows do in Zsh.
@@ -83,7 +83,7 @@ gr() {
 
 alias reload!='. ~/.zshrc'
 
-# GIT aliases
+# Git aliases
 alias gps='git push origin HEAD'
 alias gs='git status'
 alias gap='git add -p'
@@ -93,37 +93,38 @@ alias glg='git lg'
 alias glg2='git lg2'
 alias gwip='git add . && git commit -m "wip"'
 alias gitb='git branch'
-alias aic="aicommits --yes"
 
 # Update local branch from the remote, and also clean up remote branches.
 # It means if a branch was deleted on the remote (say origin/feature-x), then
 # local reference origin/feature-x gets removed too.
 alias gpl='git pull --prune'
 
-alias ls="ls -G"
-alias ll="ls -l"
-alias la="ls -al"
+# ls aliases
+alias ls='ls -G'
+alias ll='ls -l'
+alias la='ls -al'
 
-# here f stands for "fancy" version
+# Here `f` stands for "fancy" version.
 if command -v eza >/dev/null; then
-  alias lsf="eza --icons=always"
+  alias lsf='eza --icons=always'
   alias llf='eza --classify=auto --color -l --icons=always'
   alias laf='eza --classify=auto --color -a -l --icons=always'
 fi
 
-alias cld="claude"
-alias cldd="claude --dangerously-skip-permissions"
-alias claudew="cldw"
+# Claude aliases
+alias cld='claude'
+alias cldd='claude --dangerously-skip-permissions'
+alias claudew='cldw'
 
 # Easier navigation
-alias cd..="cd .."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+alias cd..='cd ..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
 
-# open VSCode from the present directory
-alias c="code ."
+# Open VSCode from the present directory.
+alias c='code .'
 
 # mv, rm, cp
 alias mv='mv -v'
@@ -131,12 +132,23 @@ alias cp='cp -v'
 alias history='history -500'
 alias h='history'
 
-# this will prompt a confirmation before deleting the file
-# If you do not want confirmation then exetcute /bin/rm file1 file2
+# This will prompt a confirmation before deleting the file.
+# If you do not want confirmation then execute `/bin/rm file1 file2`.
 alias rm='rm -i -v'
 
-unalias setup 2>/dev/null; setup() { if [[ -x ./bin/setup ]]; then ./bin/setup "$@"; else ./bin/setup-mise "$@"; fi; }
-unalias launch 2>/dev/null; launch() { ./bin/launch "$@"; }
+unalias setup 2>/dev/null
+setup() {
+  if [[ -x ./bin/setup ]]; then
+    ./bin/setup "$@"
+  else
+    ./bin/setup-mise "$@"
+  fi
+}
+
+unalias launch 2>/dev/null
+launch() {
+  ./bin/launch "$@"
+}
 
 stl() {
   local repo_name=$(basename "$(pwd)")
@@ -157,7 +169,6 @@ stl() {
     done
     wait $dev_pid
   else
-
     local setup_cmd
     if [[ -f ./bin/setup-mise ]]; then
       setup_cmd="./bin/setup-mise"
@@ -168,14 +179,20 @@ stl() {
       && SIDEBAR_TITLE="$SIDEBAR_TITLE" ./bin/launch "$@"
   fi
 }
-alias hosts='sudo $EDITOR /etc/hosts'   # yes I occasionally 127.0.0.1 x.com
 
-alias laptonite="cd $LAPTONITED"   # go to laptonite directory
-alias laptonited="cd $LAPTONITED"  # go to laptonite directory
-alias dotfiles="cd $DOTFILESD"  # go to dotfiles directory
-alias dotfilesd="cd $DOTFILESD" # go to dotfiles directory
+# yes, I occasionally 127.0.0.1 x.com
+alias hosts='sudo $EDITOR /etc/hosts'
 
-alias aic="oco --yes" # aic stands for aicommit
+# Go to laptonite directory.
+alias laptonite="cd $LAPTONITED"
+alias laptonited="cd $LAPTONITED"
+
+# Go to dotfiles directory.
+alias dotfiles="cd $DOTFILESD"
+alias dotfilesd="cd $DOTFILESD"
+
+# aic stands for aicommit
+alias aic='oco --yes'
 
 # neeto repos
 neeto_repos=(
@@ -190,27 +207,26 @@ for repo in "${neeto_repos[@]}"; do
   alias "${repo}d"="cd ~/code/neetozone/neeto-${repo}-web"
 done
 
-alias neetozone="cd ~/code/neetozone"
-alias neetozoned="cd ~/code/neetozone"
-alias neetob="cd ~/code/neetozone/neetob"
-alias neetobd="cd ~/code/neetozone/neetob"
-alias neetlyd="cd ~/code/neetozone/neetly"
+alias neetozone='cd ~/code/neetozone'
+alias neetozoned='cd ~/code/neetozone'
+alias neetob='cd ~/code/neetozone/neetob'
+alias neetobd='cd ~/code/neetozone/neetob'
+alias neetlyd='cd ~/code/neetozone/neetly'
 
-# Away From Keyboard (AFK) - Start screen saver
-alias afk="open /System/Library/CoreServices/ScreenSaverEngine.app"
+# Away From Keyboard (AFK) - Start screen saver.
+alias afk='open /System/Library/CoreServices/ScreenSaverEngine.app'
 
-# GRC colorizes logfiles and command output
+# GRC colorizes logfiles and command output.
 # https://stackoverflow.com/questions/25183624/grc-bashrc-no-such-file-or-directory
-if (( $+commands[grc] )) && (( $+commands[brew] ))
-then
-    source "$HOMEBREW_PREFIX/etc/grc.bashrc"
+if (( $+commands[grc] )) && (( $+commands[brew] )); then
+  source "$HOMEBREW_PREFIX/etc/grc.bashrc"
 fi
 
-# load the compinit function when I first use it.
+# Load the compinit function when I first use it.
 # -U avoids alias expansion; -z uses zsh-style autoloading.
 autoload -Uz compinit
 
-# compinit initializes zsh’s completion system (tab completion).
+# compinit initializes zsh's completion system (tab completion).
 # It loads completion definitions so things like git <TAB> or brew <TAB> work nicely.
 compinit -C
 
@@ -244,17 +260,18 @@ if [ ! -f "$HOME/.bashrc" ] || ! grep -q 'mise activate bash' "$HOME/.bashrc"; t
   echo 'eval "$(mise activate bash)"' >> "$HOME/.bashrc"
 fi
 
-alias start_tunnel=tunnel2
-alias start_tunnel2=tunnel2
-alias start_rails="bundle exec rails server"
-alias start_server="bundle exec rails server"
-alias start_vite="yarn dev --host"
-alias start_frontend="yarn dev --host"
-alias start_ui="yarn dev --host"
-alias start_sidekiq="bundle exec sidekiq -C config/sidekiq.yml"
-alias start_background_worker="bundle exec sidekiq -C config/sidekiq.yml"
-alias start_backgroundworker="bundle exec sidekiq -C config/sidekiq.yml"
-alias start_bg="bundle exec sidekiq -C config/sidekiq.yml"
+alias start_tunnel='tunnel2'
+alias start_tunnel2='tunnel2'
+alias start_rails='bundle exec rails server'
+alias start_server='bundle exec rails server'
+alias start_vite='yarn dev --host'
+alias start_frontend='yarn dev --host'
+alias start_ui='yarn dev --host'
+alias start_sidekiq='bundle exec sidekiq -C config/sidekiq.yml'
+alias start_background_worker='bundle exec sidekiq -C config/sidekiq.yml'
+alias start_backgroundworker='bundle exec sidekiq -C config/sidekiq.yml'
+alias start_bg='bundle exec sidekiq -C config/sidekiq.yml'
+
 start_nano() {
   echo 'yarn build --watch --app ~/code/neetozone/neeto-cal-web'
   echo 'If you are working with "neeto-molecule", "neeto-ui", "neeto-editor" then replace "yarn build" with "yarn bundle" in the above command.'
@@ -264,8 +281,8 @@ start_nano() {
 }
 
 # Put any overriding things in personal dotfiles. Personal dotfiles
-# should be sibling to laptonite repo and it should have a file calle
-# .zshrc. This will always be loaded at the very end so ti can override
+# should be sibling to laptonite repo and it should have a file called
+# .zshrc. This will always be loaded at the very end so it can override
 # anything in the .zshrc of laptonite.
 #
 # You can see a real world example of it at
