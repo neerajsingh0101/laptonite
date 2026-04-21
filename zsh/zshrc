@@ -140,7 +140,9 @@ unalias launch 2>/dev/null; launch() { ./bin/launch "$@"; }
 
 stl() {
   local repo_name=$(basename "$(pwd)")
-  if [[ "$repo_name" == *-website ]]; then
+  if [[ "$repo_name" == "neetly" ]]; then
+    swift run neetly-app
+  elif [[ "$repo_name" == *-website ]]; then
     yarn install
     yarn dev &
     local dev_pid=$!
@@ -192,6 +194,7 @@ alias neetozone="cd ~/code/neetozone"
 alias neetozoned="cd ~/code/neetozone"
 alias neetob="cd ~/code/neetozone/neetob"
 alias neetobd="cd ~/code/neetozone/neetob"
+alias neetlyd="cd ~/code/neetozone/neetly"
 
 # Away From Keyboard (AFK) - Start screen saver
 alias afk="open /System/Library/CoreServices/ScreenSaverEngine.app"
