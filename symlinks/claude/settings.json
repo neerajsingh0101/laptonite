@@ -3,6 +3,7 @@
   "permissions": {
     "allow": [
       "Read(**)",
+      "Read(~/code/neetozone/**)",
       "Glob(**)",
       "Grep(*)",
       "Write(*)",
@@ -58,6 +59,7 @@
       "Bash(go test *)",
       "Bash(cargo test *)",
       "Bash(psql *)",
+      "Bash(redis-cli *)",
       "Bash(ruby *)",
       "Bash(grep *)",
       "Bash(bundle show *)",
@@ -65,20 +67,11 @@
       "Bash(shasum *)"
     ],
     "deny": [
-      "Read(.env)",
-      "Read(.env.*)",
-      "Read(**/.env)",
-      "Read(**/.env.*)",
       "Read(**/secrets/**)",
       "Read(**/*.pem)",
       "Read(**/*.key)",
       "Read(**/.ssh/**)",
       "Read(**/.aws/**)",
-      "Bash(curl *)",
-      "Bash(wget *)",
-      "Bash(ssh *)",
-      "Bash(scp *)",
-      "Bash(rsync *)",
       "Bash(sudo *)",
       "Bash(chmod -R 777 *)"
     ]
@@ -186,14 +179,10 @@
     ]
   },
   "enabledPlugins": {
-    "ruby-lsp@claude-plugins-official": true
+    "ruby-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "medium",
-  "skipDangerousModePermissionPrompt": true,
-  "voiceEnabled": true,
-  "voice": {
-    "enabled": true,
-    "mode": "hold"
-  }
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true
 }
