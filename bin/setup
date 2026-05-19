@@ -89,11 +89,14 @@ link_force "$LAPTONITED/symlinks/mise"      "$HOME/.config/mise"
 
 mkdir -p "$HOME/.claude"
 mkdir -p "$HOME/.claude/skills"
+mkdir -p "$LAPTONITED/symlinks/skills"
+mkdir -p "$LAPTONITED/symlinks/claude"
 link_force "$LAPTONITED/symlinks/claude/settings.json"    "$HOME/.claude/settings.json"
 link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"
 
 mkdir -p "$HOME/.pi/agent"
 mkdir -p "$HOME/.pi/agent/extensions"
+mkdir -p "$LAPTONITED/symlinks/pi/agent/extensions"
 link_force "$LAPTONITED/symlinks/pi/agent/settings.json"    "$HOME/.pi/agent/settings.json"
 link_force "$LAPTONITED/symlinks/pi/agent/extensions/wezterm-tab-color.ts"    "$HOME/.pi/agent/extensions/wezterm-tab-color.ts"
 
