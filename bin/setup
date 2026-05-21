@@ -241,7 +241,7 @@ echo_header_done
 echo ""
 echo_header "Customizing macos configuration."
 echo "Would you like to change your macos configurations?"
-read -p "Hit Enter to skip. Press c to set up your SSH key. " answer
+read -p "Hit Enter to skip. Press c to change your macos configuration. " answer
 if [[ "$answer" =~ ^[Cc](hange)?$ ]]; then
   echo "You will be asked to provide your laptop password."
   ./bin/customize-macos
