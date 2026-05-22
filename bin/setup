@@ -272,10 +272,6 @@ export MISE_TRUSTED_CONFIG_PATHS="$HOME/code"
 # mise needs it to compile Ruby properly
 export RUBY_CONFIGURE_OPTS="--with-libyaml-dir=$(abrew --prefix libyaml)"
 
-echo ""
-echo "You are all done."
-echo "See README at https://github.com/neerajsingh0101/laptonite to get to know keyboard shortcuts."
-
 DOTFILESD="$DEVBOXD/dotfiles"
 
 # If you want your custom script to be executed as part of the setup
@@ -300,3 +296,7 @@ echo_header_done
 echo ""
 echo "Reloading shell..."
 exec "$SHELL" -l
+
+echo ""
+echo "You are all done."
+echo "See README at https://github.com/neerajsingh0101/laptonite to get to know keyboard shortcuts."
