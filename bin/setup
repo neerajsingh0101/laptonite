@@ -79,7 +79,7 @@ link_force "$LAPTONITED/zsh/.devbox"         "$HOME/.devbox"
 
 link_force "$LAPTONITED/symlinks/.gemrc"    "$HOME/.gemrc"
 link_force "$LAPTONITED/symlinks/.gitconfig" "$HOME/.gitconfig"
-link_force "$LAPTONITED/symlinks/.gitignore" "$HOME/.gitignore"
+link_force "$LAPTONITED/symlinks/gitignore" "$HOME/.gitignore"
 link_force "$LAPTONITED/symlinks/.irbrc"    "$HOME/.irbrc"
 link_force "$LAPTONITED/symlinks/.psqlrc"   "$HOME/.psqlrc"
 
