@@ -204,6 +204,8 @@ cask_install meetingbar
 cask_install 1password
 cask_install dbeaver-community # client for database
 cask_install slack
+cask_install chatgpt
+cask_install google-chrome
 echo_header_done
 
 echo_header "Installing Claude Code"
