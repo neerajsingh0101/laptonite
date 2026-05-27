@@ -86,12 +86,12 @@ After copying we do Command + v to paste. If you add Shift to it then you would 
 If you want to get to Slack app then you don't have to cycle through all open apps to get to Slack. Here are the hot keys for certain applications:
 
 * Ctrl + 1 -> 1password
+* Ctrl + h -> ChatGPT
 * Ctrl + s -> Slack
 * Ctrl + w -> Whatsapp
 * Ctrl + d -> downloads in finder
 * Ctrl + z -> Wezterm
 * Ctrl + n -> Apple notes
-* Ctrl + o -> Obsidian
 * Ctrl + m -> maximize window
 
 ### Resizing screens
