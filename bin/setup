@@ -206,6 +206,8 @@ cask_install dbeaver-community # client for database
 cask_install slack
 cask_install chatgpt
 cask_install google-chrome
+cask_install tolaria
+cask_install dropbox
 echo_header_done
 
 echo_header "Installing Claude Code"
