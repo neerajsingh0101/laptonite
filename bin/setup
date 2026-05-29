@@ -208,6 +208,7 @@ cask_install chatgpt
 cask_install google-chrome
 cask_install tolaria
 cask_install dropbox
+cask_install zoom
 echo_header_done
 
 echo_header "Installing Claude Code"
