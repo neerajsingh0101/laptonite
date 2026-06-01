@@ -1,4 +1,3 @@
 #!/usr/bin/env ruby
 
 system("invoke-stl", "claude", *ARGV)
-exec("claude", "--dangerously-skip-permissions", "--worktree", ARGV.join("-")[0, 50])

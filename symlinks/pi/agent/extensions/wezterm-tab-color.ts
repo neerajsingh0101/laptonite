@@ -9,7 +9,7 @@
  * so the existing WezTerm Lua config handles the tab coloring.
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { writeFileSync, unlinkSync } from "node:fs";
 
 const paneId = process.env.WEZTERM_PANE;

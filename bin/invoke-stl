@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require "fileutils"
+
 # Usage
 # worktree <agent> <task description>
 # e.g. worktree claude feature paypal
@@ -10,20 +12,26 @@ end
 
 agent = ARGV.shift
 
-# If inside a .claude or .pi subdirectory, navigate to just above it
+# If inside a .claude, .codex or .pi subdirectory, navigate to just above it
 current_dir = Dir.pwd
 if current_dir.include?("/.#{agent}")
   Dir.chdir(current_dir.split("/.#{agent}").first)
 end
 
+# Pull the latest changes if the branch is main
 if `git branch --show-current`.strip == "main"
-    system("git pull") || abort("git pull failed")
+  system("git pull") || abort("git pull failed")
 end
 
 slug = ARGV.join("-")[0, 50]
-
 worktree_path = "#{Dir.pwd}/.#{agent}/worktrees/#{slug}"
-IO.popen("pbcopy", "w") { |io| io.print worktree_path }
+FileUtils.mkdir_p(worktree_path)
+
+system("git", "worktree", "add", "-b", slug, worktree_path, "main") || abort("git worktree add failed")
+Dir.chdir(worktree_path) do
+  system("mise", "trust") || abort("mise trust failed")
+end
+sleep 1
 
 repo_name = File.basename(Dir.pwd)
 short_repo_name = repo_name
@@ -31,13 +39,37 @@ short_repo_name = repo_name
   .delete_prefix("bigbinary-")
   .delete_suffix("-web")
 short_slug = slug[0, 10]
-puts "repo_name: #{repo_name}, short_repo_name: #{short_repo_name}, short_slug: #{short_slug}"
-puts
 
 system("wezterm", "cli", "set-tab-title", "#{short_repo_name} (#{short_slug})")
 
 pane_id = `wezterm cli split-pane --right`.strip
-system("wezterm", "cli", "send-text", "--pane-id", pane_id, "--",
-  "sleep 15 && cd #{worktree_path} && SIDEBAR_TITLE=#{short_slug} stl\n")
+system(
+  "wezterm", "cli", "send-text",
+  "--pane-id", pane_id,
+  "--no-paste",
+  "--",
+  "cd #{worktree_path}\r"
+)
+sleep 2
+system(
+  "wezterm", "cli", "send-text",
+  "--pane-id", pane_id,
+  "--no-paste",
+  "--",
+  "sleep 1 && SIDEBAR_TITLE=#{short_slug} stl\r"
+)
+sleep 2
 
-sleep 3
+if agent == "codex"
+  exec("codex", "--dangerously-bypass-approvals-and-sandbox", "-C", worktree_path)
+end
+
+if agent == "claude"
+  exec("claude", "--dangerously-skip-permissions", "--worktree", slug)
+end
+
+if agent == "pi"
+  Dir.chdir(worktree_path) do
+    exec("pi")
+  end
+end

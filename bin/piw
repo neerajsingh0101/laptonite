@@ -1,22 +1,3 @@
 #!/usr/bin/env ruby
 
-# Usage
-# piw feature paypal
-# piw sampledata-fix
-# piw support currencies from multiple countries
-
-# Removing worktree
-# git worktree remove <absolute-path>
-# Example: /Users/neerajsingh/code/neetozone/neeto-git-web/.pi/support-paypal
-
-#!/usr/bin/env ruby
-
-slug = ARGV.join("-")[0, 50]
-system("git", "worktree", "add", "-b", slug, "./.pi/worktrees/#{slug}", "main") || abort("git worktree add failed")
-
 system("invoke-stl", "pi", *ARGV)
-
-worktree_path = File.expand_path(".pi/worktrees/#{slug}")
-Dir.chdir(worktree_path)
-puts Dir.pwd
-exec("pi")
