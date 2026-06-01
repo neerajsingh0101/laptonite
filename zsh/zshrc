@@ -115,6 +115,7 @@ fi
 alias cld='claude'
 alias cldd='claude --dangerously-skip-permissions'
 alias claudew='cldw'
+alias codexw='cdxw'
 
 # Easier navigation
 alias cd..='cd ..'
