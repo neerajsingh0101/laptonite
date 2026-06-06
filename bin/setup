@@ -149,10 +149,10 @@ brew_install zsh-syntax-highlighting
 brew_install mise
 brew_install curl # curl that comes with Mac is highly outdated
 brew_install ripgrep
-brew_install aicommits
 brew_install libyaml #mise needs it
 brew_install postgresql@18
 brew_install redis
+brew_install tree
 brew_install font-hack-nerd-font
 brew_install jnsahaj/lumen/lumen
 brew_install modem-dev/tap/hunk
@@ -222,7 +222,7 @@ echo_header "Setting up gitconfig-local"
 ruby ./bin/setup-gitconfig-local.rb
 echo_header_done
 
-echo_header "Setting up raycast"
+echo_header "Setting up Raycast"
 echo ""
 echo "Would you like to reset Raycast settings and apply"
 echo "the ones provided by Neeto?"
