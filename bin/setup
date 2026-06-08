@@ -215,6 +215,10 @@ cask_install zoom
 cask_install codex
 echo_header_done
 
+echo_header "Installing JetBrains Mono Nerd Font"
+brew install --cask font-jetbrains-mono-nerd-font
+echo_header_done
+
 echo_header "Installing Claude Code"
 /bin/bash -c "$(curl -fsSL https://claude.ai/install.sh)"
 echo_header_done
