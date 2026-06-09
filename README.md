@@ -46,32 +46,40 @@ set by dotfiles created by laptonite.
 # Wezterm as the terminal emulator
 
 * Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm application.
-* Shift + Option governs wezterm configuration.
+* **Shift + Option governs wezterm configuration**.
+
 * Shift + Option + | -> split in two left hand side and right hand side
 * Shift + Option + _ -> split in two top side and bottom side
+  
 * Shift + Option + h -> navigate to left pane
 * Shift + Option + j -> navigate to the bottom pane
 * Shift + Option + k -> navigate to the top pane
 * Shift + Option + l -> navigate to right pane
+
 * Shift + Option + w -> Quit the pane
+* Ctrl + Shift + z -> to maximize and then bring back to the original state
+
 * Shift + Option + left arrow -> resize the pane and move left
 * Shift + Option + down arrow -> resize the pane and move down
 * Shift + Option + up arrow -> resize the pane and move up
 * Shift + Option + right arrow -> resize the pane and move right
+
 * Shift + Option + > -> switch to the tab on the right
 * Shift + Option + < -> switch to the tab on the left
+
 * Shift + Option + ( -> decrease font size
 * Shift + Option + ) -> increase font size
+
 * By default the tab name is the name of the running process. Press Shift + Option + r to rename the tab.
 
 # z command
 
 `z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
-https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d
+[Demo](https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d).
 
 # fkill
 
-https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732
+[Demo](https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732)
 
 ## Raycast
 
@@ -79,47 +87,47 @@ https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732
 
 ### Clipboard history
 
-After copying we do Command + v to paste. If you add Shift to it then you would see the history of all previously copied values. Command + Shift + v will let you see the past clipboards. You can even search to find the right value.
+After copying, typically we do Command + v to paste. If you add Shift to it, then you would see the history of all previously copied values. Command + Shift + V lets you view past clipboards. You can even search to find the right value.
 
 ### Hot keys for common applications
 
-If you want to get to Slack app then you don't have to cycle through all open apps to get to Slack. Here are the hot keys for certain applications:
+If you want to get to the Slack app, then you don't have to cycle through all open apps to get to Slack. Here are the hot keys for certain applications:
 
-* Ctrl + 1 -> 1password
-* Ctrl + h -> ChatGPT
-* Ctrl + s -> Slack
-* Ctrl + w -> Whatsapp
-* Ctrl + d -> downloads in finder
-* Ctrl + z -> Wezterm
-* Ctrl + n -> Apple notes
-* Ctrl + m -> maximize window
+* Option + 1 -> 1password
+* Option + h -> ChatGPT
+* Option + s -> Slack
+* Option + w -> Whatsapp
+* Option + d -> downloads in finder
+* Option + z -> Wezterm
+* Option + n -> Apple notes
+* Option + m -> maximize window
 
 ### Resizing screens
 
-There are some commonly used resizing options preconfigured. Before we discuss them please note that if you are not familiar with Vim then the
+Some commonly used resizing options are preconfigured. Before we discuss them, please note that if you are not familiar with Vim then the
 choice of keys `h`, `j`, `k` and `l` might seem odd. In vim these keys are configured to move in different directions. For our fingers it's
 much easier to reach `h j k l` than arrows.
 
-If you are not familiar with vim then these keys might take a while to get used to it but don't get discouraged. Once you have mastered them
-then you would be flying through your windows magically. Here are general settings in vim.
+If you are not familiar with Vim, then these keys might take a while to get used to, but don't get discouraged. Once you have mastered them
+then you would be flying through your windows magically. Here are the general settings in Vim.
 
 * h -> go left
 * j -> go down
 * k -> go up
 * l -> go right
 
-These keys combined with Ctrl + Options makes your screen move. Open Apple notes and hit `Ctrl + h`. See what happens.
+These keys, combined with Ctrl + Option, move your screen. Open Apple Notes and hit `Ctrl + h`. See what happens.
 
-* Ctrl + Options + h -> take left half of the vertical screen
-* Ctrl + Options + j -> take bottom half of the horizontal screen
-* Ctrl + Options + k -> take top half of the vertical screen
+* Ctrl + Options + h -> take the left half of the vertical screen
+* Ctrl + Options + j -> take the bottom half of the horizontal screen
+* Ctrl + Options + k -> take the top half of the vertical screen
 * Ctrl + Options + l -> take the right half of the vertical screen
 
-If you hit the same option again then the screen goes from  half to 3/4th. If you hit again then it goes to
-1/4th. If you hit again then it comes back to half screen. It circles through those three options and this is
+If you hit the same option again, then the screen goes from  half to 3/4th. If you hit again, then it goes to
+1/4th. If you hit again, then it comes back to the half screen. It circles through those three options and this is
 a really nice feature.
 
-* Ctrl + m -> to maximize any application in the given monitor
+* Option + m -> to maximize any application in the given monitor
 
 ### Multiple monitor
 
