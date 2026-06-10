@@ -46,31 +46,26 @@ set by dotfiles created by laptonite.
 # Wezterm as the terminal emulator
 
 * Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm application.
-* **Shift + Option governs wezterm configuration**.
+* **Ctrl + Option governs wezterm configuration**.
 
-* Shift + Option + | -> split in two left hand side and right hand side
-* Shift + Option + _ -> split in two top side and bottom side
+* Ctrl + Option + \ -> split in two left hand side and right hand side
+* Ctrl + Option + - -> split in two top side and bottom side
   
-* Shift + Option + h -> navigate to left pane
-* Shift + Option + j -> navigate to the bottom pane
-* Shift + Option + k -> navigate to the top pane
-* Shift + Option + l -> navigate to right pane
+* Ctrl + Option + h -> navigate to left pane
+* Ctrl + Option + j -> navigate to the bottom pane
+* Ctrl + Option + k -> navigate to the top pane
+* Ctrl + Option + l -> navigate to right pane
 
-* Shift + Option + w -> Quit the pane
-* Ctrl + Shift + z -> to maximize and then bring back to the original state
+* Ctrl + Option + m -> to maximize the current pane and then bring it back to the original state
 
-* Shift + Option + left arrow -> resize the pane and move left
-* Shift + Option + down arrow -> resize the pane and move down
-* Shift + Option + up arrow -> resize the pane and move up
-* Shift + Option + right arrow -> resize the pane and move right
+* Ctrl + Option + left arrow -> resize the pane and move left
+* Ctrl + Option + down arrow -> resize the pane and move down
+* Ctrl + Option + up arrow -> resize the pane and move up
+* Ctrl + Option + right arrow -> resize the pane and move right
 
-* Shift + Option + > -> switch to the tab on the right
-* Shift + Option + < -> switch to the tab on the left
+The Kinesis Advantage sends comma/period for Ctrl + Option + left/right arrow. Because of this, Ctrl + Option + , and Ctrl + Option + . resize left/right in WezTerm instead of switching tabs.
 
-* Shift + Option + ( -> decrease font size
-* Shift + Option + ) -> increase font size
-
-* By default the tab name is the name of the running process. Press Shift + Option + r to rename the tab.
+* By default the tab name is the name of the running process. Press Ctrl + Option + r to rename the tab.
 
 # z command
 

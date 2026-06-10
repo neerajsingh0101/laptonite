@@ -113,6 +113,12 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = wezterm.action.ActivatePaneDirection 'Right',
     },
+    -- Toggle pane zoom
+    {
+      key = 'm',
+      mods = 'CTRL|OPT',
+      action = wezterm.action.TogglePaneZoomState,
+    },
     -- Resize panes with Ctrl+Opt+Arrow
     {
       key = 'LeftArrow',
@@ -152,58 +158,6 @@ function M.setup(config)
     {
       key = 'phys:RightArrow',
       mods = 'CTRL|OPT',
-      action = move_vertical_divider('Right', 5),
-    },
-    -- Resize panes with Ctrl+Opt+Cmd+Arrow; avoids macOS Ctrl+Opt+Left/Right interception.
-    {
-      key = 'LeftArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = move_vertical_divider('Left', 5),
-    },
-    {
-      key = 'DownArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = wezterm.action.AdjustPaneSize { 'Down', 5 },
-    },
-    {
-      key = 'UpArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = wezterm.action.AdjustPaneSize { 'Up', 5 },
-    },
-    {
-      key = 'RightArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = move_vertical_divider('Right', 5),
-    },
-    {
-      key = 'phys:LeftArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = move_vertical_divider('Left', 5),
-    },
-    {
-      key = 'phys:DownArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = wezterm.action.AdjustPaneSize { 'Down', 5 },
-    },
-    {
-      key = 'phys:UpArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = wezterm.action.AdjustPaneSize { 'Up', 5 },
-    },
-    {
-      key = 'phys:RightArrow',
-      mods = 'CTRL|OPT|SUPER',
-      action = move_vertical_divider('Right', 5),
-    },
-    -- Kinesis Advantage emits comma/period for Cmd+Ctrl+Opt+Left/Right.
-    {
-      key = ',',
-      mods = 'CTRL|OPT|SUPER',
-      action = move_vertical_divider('Left', 5),
-    },
-    {
-      key = '.',
-      mods = 'CTRL|OPT|SUPER',
       action = move_vertical_divider('Right', 5),
     },
     -- Resize panes
