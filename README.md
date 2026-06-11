@@ -66,6 +66,8 @@ set by dotfiles created by laptonite.
 The Kinesis Advantage sends comma/period for Ctrl + Option + left/right arrow. Because of this, Ctrl + Option + , and Ctrl + Option + . resize left/right in WezTerm instead of switching tabs.
 
 * By default the tab name is the name of the running process. Press Ctrl + Option + r to rename the tab.
+* Press Command + Shift + ] to move forward through tabs and Command + Shift + [ to move backward.
+* Prefer direct tab switching by number when possible: Command + 1 opens tab 1, Command + 2 opens tab 2, and so on.
 
 # z command
 

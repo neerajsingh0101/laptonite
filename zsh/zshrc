@@ -134,54 +134,11 @@ alias mv='mv -v'
 alias cp='cp -v'
 alias history='history -500'
 alias h='history'
+alias l='lazygit'
 
 # This will prompt a confirmation before deleting the file.
 # If you do not want confirmation then execute `/bin/rm file1 file2`.
 alias rm='rm -i -v'
-
-unalias setup 2>/dev/null
-setup() {
-  if [[ -x ./bin/setup ]]; then
-    ./bin/setup "$@"
-  else
-    ./bin/setup-mise "$@"
-  fi
-}
-
-unalias launch 2>/dev/null
-launch() {
-  ./bin/launch "$@"
-}
-
-stl() {
-  local repo_name=$(basename "$(pwd)")
-  if [[ "$repo_name" == "neetly" ]]; then
-    swift run neetly-app
-  elif [[ "$repo_name" == *-website ]]; then
-    yarn install
-    yarn dev &
-    local dev_pid=$!
-    local url="http://localhost:3000"
-    local attempts=120
-    while (( attempts-- > 0 )); do
-      if curl -s -o /dev/null -w '' "$url" 2>/dev/null; then
-        open "$url"
-        break
-      fi
-      sleep 0.5
-    done
-    wait $dev_pid
-  else
-    local setup_cmd
-    if [[ -f ./bin/setup-mise ]]; then
-      setup_cmd="./bin/setup-mise"
-    else
-      setup_cmd="./bin/setup"
-    fi
-    SIDEBAR_TITLE="$SIDEBAR_TITLE" $setup_cmd "$@" \
-      && SIDEBAR_TITLE="$SIDEBAR_TITLE" ./bin/launch "$@"
-  fi
-}
 
 # yes, I occasionally 127.0.0.1 x.com
 alias hosts='sudo $EDITOR /etc/hosts'
@@ -196,28 +153,6 @@ alias dotfilesd="cd $DOTFILESD"
 
 # aic stands for commit by AI
 alias aic='oco --yes'
-
-# neeto repos
-neeto_repos=(
-  auth form cal chat desk kb
-  quiz site runner replay invoice
-  planner course wireframe engage crm
-  deploy ci git record tower
-  publish playdash code pay bugwatch sign wheel
-)
-for repo in "${neeto_repos[@]}"; do
-  alias "${repo}w"="cd ~/code/neetozone/neeto-${repo}-web"
-  alias "${repo}d"="cd ~/code/neetozone/neeto-${repo}-web"
-done
-
-alias neetozone='cd ~/code/neetozone'
-alias neetozoned='cd ~/code/neetozone'
-alias neetob='cd ~/code/neetozone/neetob'
-alias neetobd='cd ~/code/neetozone/neetob'
-alias neetlyd='cd ~/code/neetozone/neetly'
-
-# Away From Keyboard (AFK) - Start screen saver.
-alias afk='open /System/Library/CoreServices/ScreenSaverEngine.app'
 
 # GRC colorizes logfiles and command output.
 # https://stackoverflow.com/questions/25183624/grc-bashrc-no-such-file-or-directory
@@ -243,10 +178,6 @@ export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 # Add Visual Studio Code (code)
 export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
-# tunnelto
-export TUNNELTO_INSTALL="$HOME/.tunnelto"
-export PATH="$TUNNELTO_INSTALL/bin:$PATH"
-
 # Add installed curl to path
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
@@ -263,25 +194,17 @@ if [ ! -f "$HOME/.bashrc" ] || ! grep -q 'mise activate bash' "$HOME/.bashrc"; t
   echo 'eval "$(mise activate bash)"' >> "$HOME/.bashrc"
 fi
 
-alias start_tunnel='tunnel2'
-alias start_tunnel2='tunnel2'
-alias start_rails='bundle exec rails server'
-alias start_server='bundle exec rails server'
-alias start_vite='yarn dev --host'
-alias start_frontend='yarn dev --host'
-alias start_ui='yarn dev --host'
-alias start_sidekiq='bundle exec sidekiq -C config/sidekiq.yml'
-alias start_background_worker='bundle exec sidekiq -C config/sidekiq.yml'
-alias start_backgroundworker='bundle exec sidekiq -C config/sidekiq.yml'
-alias start_bg='bundle exec sidekiq -C config/sidekiq.yml'
+export MISE_YES=1 # Just do not ask about trusting anything anywhere
 
-start_nano() {
-  echo 'yarn build --watch --app ~/code/neetozone/neeto-cal-web'
-  echo 'If you are working with "neeto-molecule", "neeto-ui", "neeto-editor" then replace "yarn build" with "yarn bundle" in the above command.'
-  echo 'start the host application'\''s vite in watch mode'
-  echo 'WATCH_MODE=true yarn dev --force'
-  echo 'if there is ruby code change then refer to gem with relative path'
-}
+MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
+if [ ! -f "$HOME/.zshenv" ] || ! grep -Fqx "$MISE_SHIMS_LINE" "$HOME/.zshenv"; then
+  echo "$MISE_SHIMS_LINE" >> "$HOME/.zshenv"
+fi
+
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+source "$LAPTONITED/zsh/.neto.zshrc"
 
 # Put any overriding things in personal dotfiles. Personal dotfiles
 # should be sibling to laptonite repo and it should have a file called
@@ -292,19 +215,4 @@ start_nano() {
 # https://github.com/neerajsingh0101/dotfiles/blob/main/.zshrc
 if [ -d "$DOTFILESD" ] && [ -f "$DOTFILESD/.zshrc" ]; then
   source "$DOTFILESD/.zshrc"
-fi
-
-# bun completions
-[ -s "/Users/neerajsingh/.bun/_bun" ] && source "/Users/neerajsingh/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-export MISE_YES=1 # Just do not ask about trusting anything anywhere
-export MISE_TRUSTED_CONFIG_PATHS=$HOME/neetly
-
-MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
-if [ ! -f "$HOME/.zshenv" ] || ! grep -Fqx "$MISE_SHIMS_LINE" "$HOME/.zshenv"; then
-  echo "$MISE_SHIMS_LINE" >> "$HOME/.zshenv"
 fi
