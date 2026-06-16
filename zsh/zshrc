@@ -136,6 +136,33 @@ alias history='history -500'
 alias h='history'
 alias l='lazygit'
 
+# Ripgrep searches file contents by default. It does not search filenames.
+# This means a command like `rg fkill` can miss the exact thing you are trying
+# to find when `fkill` is the name of an executable script, but the script file
+# itself does not contain the literal text "fkill" inside its contents. That is
+# what happens with `utils/fkill`: the file is named `fkill`, but the script
+# body uses commands like `ps`, `fzf`, `awk`, and `kill`, so plain `rg fkill`
+# finds README mentions but not the script by filename.
+#
+# `rga` means "ripgrep all". It runs two searches:
+#   1. `rg <query>` searches inside files.
+#   2. `rg --files | rg <query>` searches the list of file paths.
+#
+# Use this when you are not sure whether the thing you remember is text inside
+# a file or part of a filename/path. For example, `rga fkill` will show both
+# README content matches and the `utils/fkill` filename match.
+rga() {
+  local q="$1"
+  shift
+
+  echo "== content matches =="
+  command rg "$q" "$@"
+
+  echo
+  echo "== filename matches =="
+  command rg --files "$@" | command rg "$q"
+}
+
 # This will prompt a confirmation before deleting the file.
 # If you do not want confirmation then execute `/bin/rm file1 file2`.
 alias rm='rm -i -v'
