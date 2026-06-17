@@ -74,7 +74,22 @@ The Kinesis Advantage sends comma/period for Ctrl + Option + left/right arrow. B
 `z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
 [Demo](https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d).
 
+# rga command
+
+`rga` means "ripgrep all". It searches both file contents and filenames.
+
+Plain `rg` searches file contents by default. For example, `rg fkill` will not
+find a script named `fkill` if the script file does not contain the text
+`fkill` inside it. `rga fkill` solves this by running a normal content search
+and then searching the file path list too, so it will find README mentions and
+the `utils/fkill` filename.
+
 # fkill
+
+`fkill` is an interactive process killer. It shows the running process list in
+`fzf`, lets you search and select one or more processes, and then force kills the
+selected process ids with `kill -9`. Press TAB in the `fzf` list to select
+multiple processes before hitting Enter.
 
 [Demo](https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732)
 

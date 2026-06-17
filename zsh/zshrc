@@ -216,11 +216,6 @@ export PATH="$HOME/.local/share/mise/shims:$PATH"
 # Activate mise last so it can manage tool versions per-directory cleanly
 eval "$(mise activate zsh)"
 
-# Ensure ~/.bashrc has mise activation so LLM-spawned bash shells get mise too
-if [ ! -f "$HOME/.bashrc" ] || ! grep -q 'mise activate bash' "$HOME/.bashrc"; then
-  echo 'eval "$(mise activate bash)"' >> "$HOME/.bashrc"
-fi
-
 export MISE_YES=1 # Just do not ask about trusting anything anywhere
 
 MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
@@ -232,6 +227,11 @@ bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
 source "$LAPTONITED/zsh/.neto.zshrc"
+
+# Ensure ~/.bashrc has mise activation so LLM-spawned bash shells get mise too
+if [ ! -f "$HOME/.bashrc" ] || ! grep -q 'mise activate bash' "$HOME/.bashrc"; then
+  echo 'eval "$(mise activate bash)"' >> "$HOME/.bashrc"
+fi
 
 # Put any overriding things in personal dotfiles. Personal dotfiles
 # should be sibling to laptonite repo and it should have a file called
