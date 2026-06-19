@@ -59,4 +59,5 @@ neeto_repos=(
 for repo in "${neeto_repos[@]}"; do
   alias "${repo}w"="cd ~/code/neetozone/neeto-${repo}-web"
   alias "${repo}d"="cd ~/code/neetozone/neeto-${repo}-web"
+  alias "${repo}rn"="cd ~/code/neetozone/neeto-${repo}-rn"
 done
