@@ -55,6 +55,7 @@ things you get out of the box with Raycast.
 
 ## Hotkeys
 
+```
 Ctrl + 1 -> 1password
 Ctrl + g -> ChatGPT Mac app
 Ctrl + 6 -> Chrome browser
@@ -63,16 +64,18 @@ Ctrl + t -> Tolaria (note taking app)
 Ctrl + z -> Wezterm
 Ctrl + 4 -> WhatsApp
 Ctrl + d -> Downloads folder
+```
 
 ### Hotkeys for windows management
 
+```
 Ctrl + m -> maximize the window
 
 Ctrl + Option + Cmd + 6 -> Left half of the window
 Ctrl + Option + Cmd + 7 -> Top half of the window
 Ctrl + Option + Cmd + 8 -> Right half of the window
 Ctrl + Option + Cmd + 9 -> Bottom half of the window
-
+```
 
 If you hit the same option again, then the screen goes from half to 3/4th. If
 you hit again, then it goes to 1/4th. If you hit again, then it comes back to
@@ -135,7 +138,6 @@ arrow. Hence we can't use Ctrl + Option + left/rigth arrow for anything.
 `z` is a smarter `cd` command. It comes from
 [zoxide](https://github.com/ajeetdsouza/zoxide).
 [Demo](https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d).
-
 
 # rga command
 
