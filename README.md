@@ -121,17 +121,18 @@ Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm applic
 * `Command + 1` opens tab 1, `Command + 2` opens tab 2, and so on. This will work
   till tab 9.
 
-# These two commands are useful when you are using multiple monitors
-* Ctrl + Option + ] -> move the application to the monitor on the right.
-* Ctrl + Option + [ -> move the application to the monitor on the left.
-
 * Ctrl + Option + left arrow -> resize the pane and move left
 * Ctrl + Option + down arrow -> resize the pane and move down
 * Ctrl + Option + up arrow -> resize the pane and move up
 * Ctrl + Option + right arrow -> resize the pane and move right
 
-The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right
-arrow. Hence we can't use Ctrl + Option + left/rigth arrow for anything.
+_The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right
+arrow. Hence we can't use Ctrl + Option + left/rigth arrow for anything._
+
+_The following two commands are useful when you are using multiple monitors_.
+
+* Ctrl + Option + ] -> move the application to the monitor on the right.
+* Ctrl + Option + [ -> move the application to the monitor on the left.
 
 # z command
 
