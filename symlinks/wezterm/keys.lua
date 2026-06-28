@@ -119,6 +119,17 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = wezterm.action.TogglePaneZoomState,
     },
+    -- Navigate between tabs (8 = left, 9 = right)
+    {
+      key = '8',
+      mods = 'CTRL|OPT',
+      action = wezterm.action.ActivateTabRelative(-1),
+    },
+    {
+      key = '9',
+      mods = 'CTRL|OPT',
+      action = wezterm.action.ActivateTabRelative(1),
+    },
     -- Resize panes with Ctrl+Opt+Arrow
     {
       key = 'LeftArrow',

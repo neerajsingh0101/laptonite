@@ -48,7 +48,7 @@ set by dotfiles created by laptonite.
 * Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm application.
 * **Ctrl + Option governs wezterm configuration**.
 
-* Ctrl + Option + \ -> split in two left hand side and right hand side
+* Ctrl + Option + | -> split in two left hand side and right hand side
 * Ctrl + Option + - -> split in two top side and bottom side
   
 * Ctrl + Option + h -> navigate to left pane
@@ -63,9 +63,12 @@ set by dotfiles created by laptonite.
 * Ctrl + Option + up arrow -> resize the pane and move up
 * Ctrl + Option + right arrow -> resize the pane and move right
 
-The Kinesis Advantage sends comma/period for Ctrl + Option + left/right arrow. Because of this, Ctrl + Option + , and Ctrl + Option + . resize left/right in WezTerm instead of switching tabs.
+The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right arrow. 
+Hence we can't use Ctrl + Option + left/rigth arrow for anything.
 
 * By default the tab name is the name of the running process. Press Ctrl + Option + r to rename the tab.
+* Ctrl + Option + 9 -> move to the tab on the right
+* Ctrl + Option + 8 -> move to the tab on the left
 * Press Command + Shift + ] to move forward through tabs and Command + Shift + [ to move backward.
 * Prefer direct tab switching by number when possible: Command + 1 opens tab 1, Command + 2 opens tab 2, and so on.
 
