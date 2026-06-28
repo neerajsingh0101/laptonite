@@ -170,6 +170,10 @@ multiple processes before hitting Enter.
 
 [Demo](https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732)
 
+### c1 and c1w
+
+### c2 and c2w
+
 # Mac application
 
 ## Hidden bar
