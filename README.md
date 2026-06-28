@@ -125,9 +125,7 @@ Misc functions
 * `Command + 1` opens tab 1, `Command + 2` opens tab 2, and so on. This will work
   till tab 9.
 
-Resizing the panes.
-
-_The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right
+Resizing the panes. _The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right
 arrow. Hence we can't use Ctrl + Option + left/rigth arrow for anything._
 
 * Ctrl + Option + left arrow -> resize the pane and move left
