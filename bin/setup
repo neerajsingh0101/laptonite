@@ -171,8 +171,20 @@ brew_install modem-dev/tap/hunk
 #arch -arm64 brew tap elastic/tap
 #arch -arm64 brew install elastic/tap/elasticsearch-full
 
+echo_header "Installing Node via mise (needed for npm)"
+# mise is installed above but isn't activated in this script's shell, and the
+# global config's node version isn't installed yet. Install it and put mise's
+# shims on PATH so `npm` (and later `oco`) resolve in this run.
+mise install node
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+echo_header_done
+
+# opencommit auto generates meaningful commits in a second
+# later the script "aic" is added which stands for "AI commit"
+# The only wayt o install it is using npm.
 npm install -g opencommit
-npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+# Expose newly installed global bins (e.g. `oco`) as mise shims.
+mise reshim
 oco config set OCO_GITPUSH=false
 
 # try install; if it fails due to an existing app, adopt; if adopt fails, force.
