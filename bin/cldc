@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+system("cmuxw", "claude", *ARGV)

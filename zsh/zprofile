@@ -1,0 +1,5 @@
+# Activate mise for login shells, including non-interactive automation shells.
+# This ensures git hooks inherit the repo-pinned Ruby/Node versions.
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
