@@ -22,7 +22,7 @@ revert to the backed-up .zshrc file.
 You can run `./bin/setup` any number of times and it won't have any adverse
 effect.
 
-## local small overrides
+## Local small overrides
 
 At the very top of `~/.zshrc` the scripts looks for file
 `~/.devbox-zshrc.local`. If this file is present then it's loaded. This is a
@@ -39,8 +39,6 @@ executed. You can see
 https://github.com/neerajsingh0101/dotfiles/blob/main/setup as a real world
 example.
 
-## Separate dotfiles to override and to enhance
-
 At the every end of the `~/.zshrc` the script looks for folder `dotfiles` as a
 sibling to `laptopnite` directory. For example if the path to `laptonite`
 directory is `~/work/devbox/laptonite` then dotfiles is expected at
@@ -50,10 +48,55 @@ direcotry has a file named `.zshrc` then that `.zshrc` is loaded.
 Since this `.zshrc` is loaded at the very end you can override anything you want
 from the values set by dotfiles created by laptonite.
 
+## Raycast
+
+[Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the
+things you get out of the box with Raycast.
+
+## Hotkeys
+
+Ctrl + 1 -> 1password
+Ctrl + g -> ChatGPT Mac app
+Ctrl + 6 -> Chrome browser
+Ctrl + 2 -> Slack
+Ctrl + t -> Tolaria (note taking app)
+Ctrl + z -> Wezterm
+Ctrl + 4 -> WhatsApp
+Ctrl + d -> Downloads folder
+
+### Hotkeys for windows management
+
+Ctrl + m -> maximize the window
+
+Ctrl + Option + Cmd + 6 -> Left half of the window
+Ctrl + Option + Cmd + 7 -> Top half of the window
+Ctrl + Option + Cmd + 8 -> Right half of the window
+Ctrl + Option + Cmd + 9 -> Bottom half of the window
+
+
+If you hit the same option again, then the screen goes from half to 3/4th. If
+you hit again, then it goes to 1/4th. If you hit again, then it comes back to
+the half screen. It circles through those three options and this is a really
+nice feature.
+
+### Clipboard history
+
+After copying, typically we do Command + v to paste. If you add Shift to it,
+then you would see the history of all previously copied values. Command + Shift
++ V lets you view past clipboards. You can even search to find the right value.
+
+### Multiple monitor
+
+If you use an external monitor and you want to move an application from one
+monitor to another monitor then use `Ctrl + Option + ]` to move the application to
+the monitor to the right of the main monitor. Use `Ctrl + Option + [` to move the
+application in the other direction.
+
 # Wezterm as the terminal emulator
 
 * Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm
   application.
+
 * **Ctrl + Option governs wezterm configuration**.
 
 * Ctrl + Option + | -> split in two left hand side and right hand side
@@ -113,49 +156,7 @@ multiple processes before hitting Enter.
 
 [Demo](https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732)
 
-## Raycast
 
-[Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the
-things you get out of the box with Raycast.
-
-## Hotkeys
-
-Ctrl + 1 -> 1password
-Ctrl + g -> ChatGPT Mac app
-Ctrl + 6 -> Chrome browser
-Ctrl + 2 -> Slack
-Ctrl + t -> Tolaria (note taking app)
-Ctrl + z -> Wezterm
-Ctrl + 4 -> WhatsApp
-Ctrl + d -> Downloads folder
-
-### Hotkeys for windows management
-
-Ctrl + m -> maximize the window
-
-Ctrl + Option + Cmd + 6 -> Left half of the window
-Ctrl + Option + Cmd + 7 -> Top half of the window
-Ctrl + Option + Cmd + 8 -> Right half of the window
-Ctrl + Option + Cmd + 9 -> Bottom half of the window
-
-
-If you hit the same option again, then the screen goes from half to 3/4th. If
-you hit again, then it goes to 1/4th. If you hit again, then it comes back to
-the half screen. It circles through those three options and this is a really
-nice feature.
-
-### Clipboard history
-
-After copying, typically we do Command + v to paste. If you add Shift to it,
-then you would see the history of all previously copied values. Command + Shift
-+ V lets you view past clipboards. You can even search to find the right value.
-
-### Multiple monitor
-
-If you use an external monitor and you want to move an application from one
-monitor to another monitor then use `Ctrl + Option + ]` to move the application to
-the monitor to the right of the main monitor. Use `Ctrl + Option + [` to move the
-application in the other direction.
 
 # Mac application
 
