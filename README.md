@@ -58,6 +58,16 @@ set by dotfiles created by laptonite.
 
 * Ctrl + Option + m -> to maximize the current pane and then bring it back to the original state
 
+* Ctrl + Option + r to rename the tab. By default the tab name is the name of the running process. 
+
+* Ctrl + Option + 9 -> move to the tab on the right
+* Ctrl + Option + 8 -> move to the tab on the left
+* Command + 1 opens tab 1, Command + 2 opens tab 2, and so on. This will work till tab 9.
+
+# These two commands are useful when you are using multiple monitors
+* Ctrl + Option + ] -> move the application to the monitor on the right.
+* Ctrl + Option + [ -> move the application to the monitor on the left.
+
 * Ctrl + Option + left arrow -> resize the pane and move left
 * Ctrl + Option + down arrow -> resize the pane and move down
 * Ctrl + Option + up arrow -> resize the pane and move up
@@ -65,12 +75,6 @@ set by dotfiles created by laptonite.
 
 The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right arrow. 
 Hence we can't use Ctrl + Option + left/rigth arrow for anything.
-
-* By default the tab name is the name of the running process. Press Ctrl + Option + r to rename the tab.
-* Ctrl + Option + 9 -> move to the tab on the right
-* Ctrl + Option + 8 -> move to the tab on the left
-* Press Command + Shift + ] to move forward through tabs and Command + Shift + [ to move backward.
-* Prefer direct tab switching by number when possible: Command + 1 opens tab 1, Command + 2 opens tab 2, and so on.
 
 # z command
 
