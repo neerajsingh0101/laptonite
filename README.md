@@ -85,8 +85,10 @@ nice feature.
 ### Clipboard history
 
 After copying, typically we do Command + v to paste. If you add Shift to it,
-then you would see the history of all previously copied values. Command + Shift
-+ V lets you view past clipboards. You can even search to find the right value.
+then you would see the history of all previously copied values. 
+
+`Command + Shift + V` lets you view past clipboards. You can even search 
+to find the right value.
 
 ### Multiple monitor
 
@@ -97,12 +99,10 @@ application in the other direction.
 
 # Wezterm as the terminal emulator
 
-* Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm
-  application.
+Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm application.
+**Ctrl + Option** governs wezterm configuration.
 
-* **Ctrl + Option governs wezterm configuration**.
-
-* Ctrl + Option + | -> split in two left hand side and right hand side
+* `Ctrl + Option + |` -> split in two left hand side and right hand side
 * Ctrl + Option + - -> split in two top side and bottom side
   
 * Ctrl + Option + h -> navigate to left pane
