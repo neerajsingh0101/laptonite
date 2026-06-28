@@ -69,6 +69,19 @@ system(
 )
 sleep 2
 
+# Split the right pane horizontally: the existing pane (running stl) keeps the
+# top 85%, and a new bottom pane (15%, half of the previous 30%) watches for
+# the launch_url file.
+url_pane_id = `wezterm cli split-pane --pane-id #{pane_id} --bottom --percent 15`.strip
+system(
+  "wezterm", "cli", "send-text",
+  "--pane-id", url_pane_id,
+  "--no-paste",
+  "--",
+  "cd #{worktree_path} && watch-launch-url\r"
+)
+sleep 2
+
 if agent == "codex"
   exec("codex", "--dangerously-bypass-approvals-and-sandbox", "-C", worktree_path)
 end

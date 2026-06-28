@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Watches for a `tmp/launch_url` file relative to the current directory. Once
+# it appears, the file's contents (a single URL) are printed so the user can
+# click it. The script keeps watching and reprints whenever the URL changes.
+
+file="tmp/launch_url"
+last=""
+
+printf '\033[2mWaiting for %s ...\033[0m\n' "$file"
+
+while true; do
+  if [ -f "$file" ]; then
+    url="$(tr -d '[:space:]' < "$file")"
+    if [ -n "$url" ] && [ "$url" != "$last" ]; then
+      last="$url"
+      printf '\n\033[1;32mLaunch URL:\033[0m %s\n' "$url"
+    fi
+  fi
+  sleep 1
+done
