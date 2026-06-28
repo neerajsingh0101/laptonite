@@ -21,6 +21,12 @@ else
   exit 1
 fi
 
+# Ask for the admin password once, up front, so cask installs that need
+# sudo don't prompt repeatedly later in the script.
+sudo -v
+# Keep the sudo timestamp fresh until this script exits.
+while true; do sudo -n true; sleep 60; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
+
 # Update DEVBOXD based on where setup is being run from
 ./bin/create-devbox-env
 
@@ -108,7 +114,7 @@ echo_header "Setting up homebrew"
 # Install Homebrew if not already installed
 if ! command -v brew &> /dev/null; then
   echo "Homebrew not found. Installing..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   # Add brew to PATH for the rest of this script
   if [ -f /opt/homebrew/bin/brew ]; then
