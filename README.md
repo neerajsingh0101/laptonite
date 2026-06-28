@@ -102,9 +102,13 @@ application in the other direction.
 Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm application.
 **Ctrl + Option** governs wezterm configuration.
 
+Splitting the window
+
 * `Ctrl + Option + |` -> split in two left hand side and right hand side
 * `Ctrl + Option + -` -> split in two top side and bottom side
-  
+ 
+Switching between the panes
+
 * `Ctrl + Option + h` -> navigate to left pane
 * `Ctrl + Option + j` -> navigate to the bottom pane
 * `Ctrl + Option + k` -> navigate to the top pane
