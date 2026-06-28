@@ -103,22 +103,22 @@ Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm applic
 **Ctrl + Option** governs wezterm configuration.
 
 * `Ctrl + Option + |` -> split in two left hand side and right hand side
-* Ctrl + Option + - -> split in two top side and bottom side
+* `Ctrl + Option + -` -> split in two top side and bottom side
   
-* Ctrl + Option + h -> navigate to left pane
-* Ctrl + Option + j -> navigate to the bottom pane
-* Ctrl + Option + k -> navigate to the top pane
-* Ctrl + Option + l -> navigate to right pane
+* `Ctrl + Option + h` -> navigate to left pane
+* `Ctrl + Option + j` -> navigate to the bottom pane
+* `Ctrl + Option + k` -> navigate to the top pane
+* `Ctrl + Option + l` -> navigate to right pane
 
-* Ctrl + Option + m -> to maximize the current pane and then bring it back to
+* `Ctrl + Option + m` -> to maximize the current pane and then bring it back to
   the original state
 
-* Ctrl + Option + r to rename the tab. By default the tab name is the name of
+* `Ctrl + Option + r` to rename the tab. By default the tab name is the name of
   the running process.
 
-* Ctrl + Option + 9 -> move to the tab on the right
-* Ctrl + Option + 8 -> move to the tab on the left
-* Command + 1 opens tab 1, Command + 2 opens tab 2, and so on. This will work
+* `Ctrl + Option + 9` -> move to the tab on the right
+* `Ctrl + Option + 8` -> move to the tab on the left
+* `Command + 1` opens tab 1, `Command + 2` opens tab 2, and so on. This will work
   till tab 9.
 
 # These two commands are useful when you are using multiple monitors
