@@ -128,16 +128,16 @@ Misc functions
 Resizing the panes. _The Kinesis Advantage keybard sends comma/period for Ctrl + Option + left/right
 arrow. Hence we can't use Ctrl + Option + left/rigth arrow for anything._
 
-* Ctrl + Option + left arrow -> resize the pane and move left
-* Ctrl + Option + down arrow -> resize the pane and move down
-* Ctrl + Option + up arrow -> resize the pane and move up
-* Ctrl + Option + right arrow -> resize the pane and move right
+* `Ctrl + Option + left arrow` -> resize the pane and move left
+* `Ctrl + Option + down arrow` -> resize the pane and move down
+* `Ctrl + Option + up arrow` -> resize the pane and move up
+* `Ctrl + Option + right arrow` -> resize the pane and move right
 
 Moving an application to another monitor. Useful when you are using 
 multiple monitors.
 
-* Ctrl + Option + ] -> move the application to the monitor on the right.
-* Ctrl + Option + [ -> move the application to the monitor on the left.
+* `Ctrl + Option + ]` -> move the application to the monitor on the right.
+* `Ctrl + Option + [` -> move the application to the monitor on the left.
 
 # z command
 
