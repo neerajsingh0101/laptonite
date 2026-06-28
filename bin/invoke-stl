@@ -18,8 +18,17 @@ if current_dir.include?("/.#{agent}")
   Dir.chdir(current_dir.split("/.#{agent}").first)
 end
 
+# Create the worktree from the branch the user is currently on
+base_branch = `git branch --show-current`.strip
+
+# Abort if there is uncommitted work, since it would not be carried into the
+# new worktree (worktrees are created from the committed tip of the branch)
+unless `git status --porcelain`.strip.empty?
+  abort("ERROR: You have uncommitted changes. Commit or stash them before creating a worktree.")
+end
+
 # Pull the latest changes if the branch is main
-if `git branch --show-current`.strip == "main"
+if base_branch == "main"
   system("git pull") || abort("git pull failed")
 end
 
@@ -27,7 +36,7 @@ slug = ARGV.join("-")[0, 50]
 worktree_path = "#{Dir.pwd}/.#{agent}/worktrees/#{slug}"
 FileUtils.mkdir_p(worktree_path)
 
-system("git", "worktree", "add", "-b", slug, worktree_path, "main") || abort("git worktree add failed")
+system("git", "worktree", "add", "-b", slug, worktree_path, base_branch) || abort("git worktree add failed")
 Dir.chdir(worktree_path) do
   system("mise", "trust") || abort("mise trust failed")
 end

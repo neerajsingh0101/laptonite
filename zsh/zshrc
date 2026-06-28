@@ -114,9 +114,14 @@ fi
 alias cld='claude'
 alias cldd='claude --dangerously-skip-permissions'
 alias claudew='cldw'
+alias c1='cldd'
+alias c1w='cldw'
+
 alias cdx='codex'
 alias cdxd='codex --dangerously-bypass-approvals-and-sandbox -C .'
 alias codexw='cdxw'
+alias c2='cdxd'
+alias c2w='cdxw'
 
 # Easier navigation
 alias cd..='cd ..'
