@@ -141,23 +141,37 @@ multiple monitors.
 
 # Helper commands in laptonite
 
+### Shortcuts
+
+```
+cd
+dobule and triple dots `..` and `...`
+lsa
+gap
+gs
+gpl
+neetozone
+cald, formd
+calw, formw
+calrn, formrn
+```
 ### z command
 
-`z` is a smarter `cd` command. It comes from
-[zoxide](https://github.com/ajeetdsouza/zoxide).
-[Demo](https://neerajsingh0909.neetorecord.com/watch/c75ffff803ac46963f7d).
-
-### rg command
+`z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
 
 ### aic
 
-### rga command
+### rg command
 
-`rga` means "ripgrep all". It searches both file contents and filenames.
+[ripgrep](https://github.com/burntsushi/ripgrep) recursively searches in directories.
+
+### rga command
 
 Plain `rg` searches file contents by default. For example, `rg fkill` will not
 find a script named `fkill` if the script file does not contain the text
-`fkill` inside it. `rga fkill` solves this by running a normal content search
+`fkill` inside it. 
+
+`rga fkill` solves this by running a normal content search
 and then searching the file path list too, so it will find README mentions and
 the `utils/fkill` filename.
 
@@ -168,9 +182,10 @@ the `utils/fkill` filename.
 the selected process ids with `kill -9`. Press TAB in the `fzf` list to select
 multiple processes before hitting Enter.
 
-[Demo](https://neerajsingh0909.neetorecord.com/watch/d958a719c843d692e732)
-
 ### c1 and c1w
+
+* red for permission
+* green done
 
 ### c2 and c2w
 
