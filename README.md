@@ -151,6 +151,7 @@ lsa
 gap
 gs
 gpl
+history by using up and down arrow
 ```
 
 ### Neeto specific shortcuts
@@ -196,12 +197,19 @@ multiple processes before hitting Enter.
 Use `c1` if you are using Claude.
 Use `c2` if you are using Codex.
 
-Use `c1` when 
+Use `c1` when you want to work on an existing branch
+and you don't need a worktree. Say you want to ask
+Claude how "permission" is handled for a particular case.
+In such case use `c1`.
 
-* red for permission
-* green done
+Use `c1w` when you want to create a new worktree.
+Typically you use `c1w` when you are working on a new features
+or you are fixing a bug.
 
 ### c2 and c2w
+
+Everything that works for `c1` and `c1w` works same for
+`c2` and `c2w`. `c2` and `c2w` use Codex instead of Claude.
 
 # Mac application
 
@@ -227,5 +235,3 @@ Every day, when you open a new terminal, the laptonite script checks if there
 is a newer version available on GitHub. If an update is found, it automatically
 pulls the latest changes. In any given 24 hours only one update will happen.
 
-
-history by going up and down the arrow
