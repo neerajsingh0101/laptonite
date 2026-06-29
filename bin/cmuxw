@@ -1,0 +1,139 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+require "json"
+
+# Usage
+# cmuxw [agent] <task description>
+# e.g. cmuxw claude feature paypal
+# e.g. cmuxw fix login
+
+def run!(*command)
+  return if system(*command)
+
+  location = caller_locations(1, 1).first
+  abort "#{command.join(" ")} failed at #{location.path}:#{location.lineno}"
+end
+
+def command_path(command)
+  ENV.fetch("PATH", "").split(File::PATH_SEPARATOR).each do |directory|
+    path = File.join(directory, command)
+    return path if File.executable?(path) && !File.directory?(path)
+  end
+
+  nil
+end
+
+def cmux_ready?(cmux_bin)
+  system({ "CMUX_QUIET" => "1" }, cmux_bin, "ping", out: File::NULL, err: File::NULL)
+end
+
+def ensure_cmux_ready!(cmux_bin)
+  return if cmux_ready?(cmux_bin)
+
+  system("open", "-a", "cmux") || abort("ERROR: failed to launch cmux.")
+
+  40.times do
+    sleep 0.25
+    return if cmux_ready?(cmux_bin)
+  end
+
+  abort "ERROR: cmux control socket is not ready. Open cmux and confirm Settings > Automation allows external automation."
+end
+
+cmux_bin = command_path("cmux") || "/Applications/cmux.app/Contents/Resources/bin/cmux"
+abort "ERROR: cmux executable not found." unless File.executable?(cmux_bin)
+
+if ARGV.length < 1
+  abort "ERROR: cmuxw expects a task description."
+end
+
+known_agents = %w[claude codex pi]
+agent = known_agents.include?(ARGV.first) ? ARGV.shift : "codex"
+
+# If inside a .claude, .codex or .pi subdirectory, navigate to just above it
+current_dir = Dir.pwd
+if current_dir.include?("/.#{agent}")
+  Dir.chdir(current_dir.split("/.#{agent}").first)
+end
+
+# Pull the latest changes if the branch is main
+if `git branch --show-current`.strip == "main"
+  #system("git pull") || abort("git pull failed")
+end
+
+slug = ARGV.join("-").downcase.gsub(/[^a-z0-9._-]+/, "-").gsub(/\A[-.]+|[-.]+\z/, "")[0, 50]
+abort "ERROR: cmuxw expects a non-empty task description." if slug.empty?
+
+worktree_path = "#{Dir.pwd}/.#{agent}/worktrees/#{slug}"
+FileUtils.mkdir_p(File.dirname(worktree_path))
+
+if File.exist?(File.join(worktree_path, ".git"))
+  warn "***"
+  warn "* Worktree already exists. Attaching to existing worktree:"
+  warn "* #{worktree_path}"
+  warn "***"
+elsif system("git", "rev-parse", "--verify", "--quiet", "refs/heads/#{slug}", out: File::NULL)
+  run!("git", "worktree", "add", worktree_path, slug)
+else
+  run!("git", "worktree", "add", "-b", slug, worktree_path, "main")
+end
+Dir.chdir(worktree_path) do
+  run!("mise", "trust", out: File::NULL, err: File::NULL)
+end
+sleep 1
+
+repo_name = File.basename(Dir.pwd)
+display_repo_name = repo_name
+workspace_title = slug.split(/[-_]+/).map(&:capitalize).join(" ")
+ensure_cmux_ready!(cmux_bin)
+
+agent_surface = case agent
+when "claude"
+  {
+    type: "terminal",
+    name: "Claude",
+    command: "claude --dangerously-skip-permissions --worktree #{slug}",
+    focus: true
+  }
+else
+  {
+    type: "terminal",
+    name: "Codex",
+    command: "codex",
+    focus: true
+  }
+end
+
+layout = {
+  direction: "horizontal",
+  split: 0.6,
+  children: [
+    {
+      pane: {
+        surfaces: [agent_surface]
+      }
+    },
+    {
+      pane: {
+        surfaces: [
+          {
+            type: "terminal",
+            name: "stl",
+            command: "stl --cmux"
+          }
+        ]
+      }
+    }
+  ]
+}
+
+if agent == "claude"
+  run!({ "CMUX_QUIET" => "1" }, cmux_bin, "new-workspace", "--name", workspace_title, "--description", display_repo_name, "--cwd", worktree_path, "--layout", JSON.dump(layout), out: File::NULL)
+  exit
+end
+
+if agent == "codex"
+  run!({ "CMUX_QUIET" => "1" }, cmux_bin, "new-workspace", "--name", workspace_title, "--description", display_repo_name, "--cwd", worktree_path, "--layout", JSON.dump(layout), out: File::NULL)
+  exit
+end

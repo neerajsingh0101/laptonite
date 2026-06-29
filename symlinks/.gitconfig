@@ -10,8 +10,7 @@
   # list all branches
   br = branch
 
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=iso --all --decorate
-  lg2 = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit
 
   # show all the commits made in the last n days. Usage: git ld 5
   ld = "!f() { days=${1:-1}; email=$(git config user.email); git log --since=\"$days days ago\" --oneline --author=\"$email\"; }; f"

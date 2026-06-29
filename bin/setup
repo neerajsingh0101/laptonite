@@ -21,6 +21,12 @@ else
   exit 1
 fi
 
+# Ask for the admin password once, up front, so cask installs that need
+# sudo don't prompt repeatedly later in the script.
+sudo -v
+# Keep the sudo timestamp fresh until this script exits.
+while true; do sudo -n true; sleep 60; kill -0 "$$" 2>/dev/null || exit; done 2>/dev/null &
+
 # Update DEVBOXD based on where setup is being run from
 ./bin/create-devbox-env
 
@@ -73,8 +79,9 @@ link_force() {
   ln -s -- "$src" "$dst"
 }
 
-echo_header "Setting up soft links for zshrc, gemrc, gitconfig, gitignore, irbrc, psqlrc & wezterm"
+echo_header "Setting up soft links for zshrc, zprofile, gemrc, gitconfig, gitignore, irbrc, psqlrc & wezterm"
 link_force "$LAPTONITED/zsh/zshrc"          "$HOME/.zshrc"
+link_force "$LAPTONITED/zsh/zprofile"       "$HOME/.zprofile"
 link_force "$LAPTONITED/zsh/.devbox"         "$HOME/.devbox"
 
 link_force "$LAPTONITED/symlinks/.gemrc"    "$HOME/.gemrc"
@@ -107,7 +114,7 @@ echo_header "Setting up homebrew"
 # Install Homebrew if not already installed
 if ! command -v brew &> /dev/null; then
   echo "Homebrew not found. Installing..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   # Add brew to PATH for the rest of this script
   if [ -f /opt/homebrew/bin/brew ]; then
@@ -155,17 +162,21 @@ brew_install redis
 brew_install tree
 brew_install neovim
 brew_install font-hack-nerd-font
-brew_install jnsahaj/lumen/lumen
-brew_install modem-dev/tap/hunk
 
-brew_install opensearch # elastic search alternative
-#arch -arm64 brew install openjdk@17
-#export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
-#arch -arm64 brew tap elastic/tap
-#arch -arm64 brew install elastic/tap/elasticsearch-full
+echo_header "Installing Node via mise (needed for npm)"
+# mise is installed above but isn't activated in this script's shell, and the
+# global config's node version isn't installed yet. Install it and put mise's
+# shims on PATH so `npm` (and later `oco`) resolve in this run.
+mise install node
+export PATH="$HOME/.local/share/mise/shims:$PATH"
+echo_header_done
 
+# opencommit auto generates meaningful commits in a second
+# later the script "aic" is added which stands for "AI commit"
+# The only wayt o install it is using npm.
 npm install -g opencommit
-npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+# Expose newly installed global bins (e.g. `oco`) as mise shims.
+mise reshim
 oco config set OCO_GITPUSH=false
 
 # try install; if it fails due to an existing app, adopt; if adopt fails, force.
@@ -298,13 +309,6 @@ DOTFILESD="$DEVBOXD/dotfiles"
 if [ -d "$DOTFILESD" ] && [ -f "$DOTFILESD/setup" ]; then
   "$DOTFILESD/setup"
 fi
-
-echo_header "Ensuring ~/.zshenv has mise shims on PATH"
-MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
-if [ ! -f "$HOME/.zshenv" ] || ! grep -Fqx "$MISE_SHIMS_LINE" "$HOME/.zshenv"; then
-  echo "$MISE_SHIMS_LINE" >> "$HOME/.zshenv"
-fi
-echo_header_done
 
 echo ""
 echo "Reloading shell..."

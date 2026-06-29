@@ -119,6 +119,17 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = wezterm.action.TogglePaneZoomState,
     },
+    -- Navigate between tabs (8 = left, 9 = right)
+    {
+      key = '8',
+      mods = 'CTRL|OPT',
+      action = wezterm.action.ActivateTabRelative(-1),
+    },
+    {
+      key = '9',
+      mods = 'CTRL|OPT',
+      action = wezterm.action.ActivateTabRelative(1),
+    },
     -- Resize panes with Ctrl+Opt+Arrow
     {
       key = 'LeftArrow',
@@ -160,78 +171,11 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = move_vertical_divider('Right', 5),
     },
-    -- Resize panes
-    {
-      key = 'LeftArrow',
-      mods = 'SUPER|OPT',
-      action = wezterm.action.AdjustPaneSize { 'Left', 5 },
-    },
-    {
-      key = 'DownArrow',
-      mods = 'SUPER|OPT',
-      action = wezterm.action.AdjustPaneSize { 'Down', 5 },
-    },
-    {
-      key = 'UpArrow',
-      mods = 'SUPER|OPT',
-      action = wezterm.action.AdjustPaneSize { 'Up', 5 },
-    },
-    {
-      key = 'RightArrow',
-      mods = 'SUPER|OPT',
-      action = wezterm.action.AdjustPaneSize { 'Right', 5 },
-    },
     -- Clear terminal (Cmd+K)
     {
       key = 'k',
       mods = 'SUPER',
       action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
-    },
-    -- 2x2 grid and run commands in each pane (Ctrl+Opt+4)
-    {
-      key = '4',
-      mods = 'CTRL|OPT',
-      action = wezterm.action_callback(function(window, pane)
-        local act = wezterm.action
-
-        -- 1) Top-left (current)
-        pane:send_text("start_server\n")
-
-        -- 2) Split right -> top-right becomes active
-        window:perform_action(act.SplitHorizontal { domain = 'CurrentPaneDomain' }, pane)
-        local top_right = window:active_pane()
-        top_right:send_text("start_ui\n")
-
-        -- 3) Go back to left pane, split down -> bottom-left becomes active
-        window:perform_action(act.ActivatePaneDirection 'Left', top_right)
-        local top_left = window:active_pane()
-        window:perform_action(act.SplitVertical { domain = 'CurrentPaneDomain' }, top_left)
-        local bottom_left = window:active_pane()
-        bottom_left:send_text("start_bg\n")
-
-        -- 4) Go to top-right pane, split down -> bottom-right becomes active
-        window:perform_action(act.ActivatePaneDirection 'Right', bottom_left)
-        local top_right_again = window:active_pane()
-        window:perform_action(act.SplitVertical { domain = 'CurrentPaneDomain' }, top_right_again)
-        local bottom_right = window:active_pane()
-        bottom_right:send_text("tunnel2\n")
-
-        -- Optional: focus top-left at the end
-        window:perform_action(act.ActivatePaneDirection 'Left', bottom_right)
-        window:perform_action(act.ActivatePaneDirection 'Up', window:active_pane())
-      end),
-    },
-    -- Kinesis Advantage sends comma/period for Ctrl+Opt+Left/Right.
-    -- Keep this after the tab-switch bindings so the Kinesis arrow chord resizes panes.
-    {
-      key = '.',
-      mods = 'CTRL|OPT',
-      action = move_vertical_divider('Right', 5),
-    },
-    {
-      key = ',',
-      mods = 'CTRL|OPT',
-      action = move_vertical_divider('Left', 5),
     },
     -- Rename tab
     {

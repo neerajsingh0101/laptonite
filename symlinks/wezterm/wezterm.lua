@@ -13,6 +13,15 @@ config.font = wezterm.font_with_fallback({
 })
 config.font_size = 18.0
 config.line_height = 1.1
+
+-- Cursor shape. Options: SteadyBlock, BlinkingBlock, SteadyUnderline, 
+-- BlinkingUnderline, SteadyBar, BlinkingBar
+config.default_cursor_style = 'BlinkingBar'
+
+-- Cursor blink interval in milliseconds; 
+-- 0 disables blinking (only applies to Blinking* styles)
+config.cursor_blink_rate = 900
+
 config.color_scheme = 'Catppuccin Mocha'
 config.window_decorations = "TITLE | RESIZE"
 config.hide_tab_bar_if_only_one_tab = true
@@ -49,10 +58,9 @@ config.enable_scroll_bar = true
 
 -- Dim the inactive pane so that we can detect the active pane
 config.inactive_pane_hsb = {
-  saturation = .2,
+  saturation = .6,
   brightness = 0.9,
 }
-
 
 -- Set up key bindings
 keys.setup(config)
@@ -107,8 +115,12 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		end
 	end
 
-	-- Clear status when user switches to this tab
-	if tab.is_active and (claude_status == "done" or claude_status == "permission_prompt") then
+	-- Clear "done" (green) when the user switches to this tab -- once seen, no
+	-- need to keep flagging it. Keep "permission_prompt" (red) even on the active
+	-- tab so it still draws attention when WezTerm is on another monitor; that
+	-- state is cleared instead by the PostToolUse hook once the user responds and
+	-- Claude resumes work (see symlinks/claude/settings.json).
+	if tab.is_active and claude_status == "done" then
 		for _, p in ipairs(tab.panes) do
 			os.remove("/tmp/claude-wezterm-" .. tostring(p.pane_id))
 		end

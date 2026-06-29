@@ -90,7 +90,6 @@ alias gap='git add -p'
 alias gc='git commit'
 alias gco='git checkout'
 alias glg='git lg'
-alias glg2='git lg2'
 alias gwip='git add . && git commit -m "wip"'
 alias gitb='git branch'
 
@@ -115,9 +114,14 @@ fi
 alias cld='claude'
 alias cldd='claude --dangerously-skip-permissions'
 alias claudew='cldw'
+alias c1='cldd'
+alias c1w='cldw'
+
 alias cdx='codex'
 alias cdxd='codex --dangerously-bypass-approvals-and-sandbox -C .'
 alias codexw='cdxw'
+alias c2='cdxd'
+alias c2w='cdxw'
 
 # Easier navigation
 alias cd..='cd ..'
@@ -218,15 +222,10 @@ eval "$(mise activate zsh)"
 
 export MISE_YES=1 # Just do not ask about trusting anything anywhere
 
-MISE_SHIMS_LINE='export PATH="$HOME/.local/share/mise/shims:$PATH"'
-if [ ! -f "$HOME/.zshenv" ] || ! grep -Fqx "$MISE_SHIMS_LINE" "$HOME/.zshenv"; then
-  echo "$MISE_SHIMS_LINE" >> "$HOME/.zshenv"
-fi
-
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
-source "$LAPTONITED/zsh/.neto.zshrc"
+source "$LAPTONITED/zsh/.neeto.zshrc"
 
 # Ensure ~/.bashrc has mise activation so LLM-spawned bash shells get mise too
 if [ ! -f "$HOME/.bashrc" ] || ! grep -q 'mise activate bash' "$HOME/.bashrc"; then

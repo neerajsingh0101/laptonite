@@ -119,6 +119,16 @@
   //     ]
   //   },
 
+  "automation": {
+    "socketControlMode": "automation"
+  },
+
+  "sidebar": {
+    "showWorkspaceDescription": true,
+    "showBranchDirectory": false,
+    "showPorts": false
+  },
+
   "browser": {
     // *.lvh.me opens inside the cmux embedded browser without prompting for
     // the default browser. Plain http is intentional and safe: lvh.me
