@@ -140,6 +140,38 @@ multiple monitors.
 * `Ctrl + Option + ]` -> move the application to the monitor on the right.
 * `Ctrl + Option + [` -> move the application to the monitor on the left.
 
+# Claude Code settings
+
+laptonite shares Claude Code settings with the whole team by symlinking
+`~/.claude/settings.json` to `symlinks/claude/settings.json` in this repo.
+`./bin/setup` creates that symlink, so everyone gets the same hooks,
+permissions and theme, and picks up changes on the next `git pull`.
+
+**The catch.** Claude Code rewrites its settings file atomically (write a temp
+file, then rename it into place) whenever you change a setting through its own
+UI -- `/plugin install`, "always allow" on a permission prompt, `/model`,
+`/effort`, `/config`. That rename replaces the symlink with a detached regular
+file. Once detached you no longer receive shared updates and your machine no
+longer shares anything back, which is easy to miss.
+
+To make this visible, laptonite ships two git hooks (activated by `./bin/setup`,
+which points `core.hooksPath` at the `githooks` directory):
+
+* `post-commit` warns you, right after you commit in laptonite, if your
+  `~/.claude/settings.json` symlink has detached.
+* `post-merge` warns after a `git pull` -- including the daily auto-update --
+  that you won't receive the settings you just fetched until the link is
+  restored.
+
+Both hooks only print a warning; they never block the git operation. To restore
+a detached link, run `./bin/setup` again -- it backs up the detached file to
+`~/.claude/settings.json-bkp-<timestamp>` and re-creates the symlink.
+
+**Rule of thumb:** change shared Claude settings by editing
+`symlinks/claude/settings.json` in this repo and committing it -- not through
+Claude's UI, which detaches the link. Anything you set through the UI lives only
+on your machine and breaks the symlink.
+
 # Helper commands in laptonite
 
 ### Shortcuts
