@@ -127,7 +127,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		claude_status = nil
 	end
 
-	local bg_color = "#0f1419"
+	local bg_color = "#11111b"
 	local fg_color = "white"
 	if claude_status == "permission_prompt" then
 		bg_color = "#cc3333"
@@ -135,7 +135,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 		bg_color = "#33cc33"
 		fg_color = "black"
 	elseif tab.is_active then
-		bg_color = "darkblue"
+		bg_color = "#89b4fa"
+		fg_color = "#11111b"
 	end
 	return {
 		{ Background = { Color = bg_color } },
