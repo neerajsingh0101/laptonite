@@ -215,6 +215,16 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "[ -n \"$WEZTERM_PANE\" ] && rm -f /tmp/claude-wezterm-$WEZTERM_PANE"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
