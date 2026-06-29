@@ -215,8 +215,9 @@
         ]
       }
     ],
-    "PostToolUse": [
+    "PreToolUse": [
       {
+        "matcher": "*",
         "hooks": [
           {
             "type": "command",
