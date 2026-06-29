@@ -196,6 +196,7 @@ multiple processes before hitting Enter.
 Use `c1` if you are using Claude.
 Use `c2` if you are using Codex.
 
+Use `c1` when 
 
 * red for permission
 * green done
