@@ -161,6 +161,8 @@ calrn, formrn
 
 ### aic
 
+[opencommit](https://github.com/di-sukharev/opencommit) allows you to generate commit message.
+
 ### rg command
 
 [ripgrep](https://github.com/burntsushi/ripgrep) recursively searches in directories.
