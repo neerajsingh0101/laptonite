@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
+abort "Please provide the task name." if ARGV.empty?
+
 system("split-pane", "codex", *ARGV)

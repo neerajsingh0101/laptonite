@@ -16,33 +16,34 @@ cd laptonite
 ./bin/setup
 ```
 Command `./bin/setup` backs up your existing ~/.zshrc file as
-.zshrc-bkp-YYYYMMDDSSSS. So If you don't want to use the dotfiles, you can
-revert to the backed-up .zshrc file.
+.zshrc-bkp-YYYYMMDDSSSS. At anytime you want to backout and continue
+using your existing `.zshrc` then you can do that.
 
 You can run `./bin/setup` any number of times and it won't have any adverse
 effect.
 
 ## Local small overrides
 
-At the very top of `~/.zshrc` the scripts looks for file
+At the very top of `~/.zshrc` the script looks for file
 `~/.devbox-zshrc.local`. If this file is present then it's loaded. This is a
-good place to put private Environment varibles etc which should not be checked
-in.
+good place to put private environment varibles etc which should not be checked
+into Git.
 
 ## Overriding the dotfiles and other things create by laptonite
 
-At the end of `./bin/setup` there is a provision to execute a custom script
-file. Create a directory called `dotfiles` as a sibling to the `laptonite`
-directory. This directoty should have a file called `setup` and it should be
-executable. At the end of the `./bin/setup` the `setup` of the "dotfiles" is
-executed. You can see
-https://github.com/neerajsingh0101/dotfiles/blob/main/setup as a real world
-example.
+At the end of `./bin/setup` there is a provision to execute a custom script. 
+Create a directory called `dotfiles` as a sibling to the `laptonite`
+directory. 
 
-At the every end of the `~/.zshrc` the script looks for folder `dotfiles` as a
-sibling to `laptopnite` directory. For example if the path to `laptonite`
-directory is `~/work/devbox/laptonite` then dotfiles is expected at
-`~/work/devbox/dotfiles`. If `dotfiles` directory is present and if this
+For example if the path to `laptonite` directory is `~/work/devbox/laptonite` 
+then dotfiles is expected at `~/work/devbox/dotfiles`. 
+
+This directoty should have a file called `setup` and it should be
+executable. At the end of the `./bin/setup` the `setup` of the "dotfiles" is
+executed. You can see [this](https://github.com/neerajsingh0101/dotfiles/blob/main/setup)
+as a real world example.
+
+If `dotfiles` directory is present and if this
 direcotry has a file named `.zshrc` then that `.zshrc` is loaded.
 
 Since this `.zshrc` is loaded at the very end you can override anything you want
@@ -84,10 +85,10 @@ nice feature.
 
 ### Clipboard history
 
-After copying, typically we do Command + v to paste. If you add Shift to it,
+After copying, typically we do `Command + v` to paste. If you add Shift to it,
 then you would see the history of all previously copied values. 
 
-`Command + Shift + V` lets you view past clipboards. You can even search 
+`Command + Shift + v` lets you view past clipboards. You can even search 
 to find the right value.
 
 ### Multiple monitor
@@ -104,8 +105,8 @@ Open [wezterm](https://wezterm.org/) instead of opening terminal or iterm applic
 
 Splitting the window
 
-* `Ctrl + Option + |` -> split in two left hand side and right hand side
-* `Ctrl + Option + -` -> split in two top side and bottom side
+* `Ctrl + Option + |` -> split in left hand side and right hand side
+* `Ctrl + Option + -` -> split in top side and bottom side
  
 Switching between the panes
 
@@ -150,11 +151,17 @@ lsa
 gap
 gs
 gpl
+```
+
+### Neeto specific shortcuts
+
+```
 neetozone
 cald, formd
 calw, formw
 calrn, formrn
 ```
+
 ### z command
 
 `z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
@@ -185,6 +192,10 @@ the selected process ids with `kill -9`. Press TAB in the `fzf` list to select
 multiple processes before hitting Enter.
 
 ### c1 and c1w
+
+Use `c1` if you are using Claude.
+Use `c2` if you are using Codex.
+
 
 * red for permission
 * green done
