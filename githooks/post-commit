@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#
+# After every commit in laptonite, remind the author if their Claude settings
+# symlink has been detached (so they notice before relying on stale config).
+# Warn-only: a post-commit hook cannot and should not block the commit.
+DIR="$(cd "$(dirname "$0")" && pwd)"
+"$DIR/lib/check-claude-symlink.sh" commit || true
