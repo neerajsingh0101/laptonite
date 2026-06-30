@@ -110,6 +110,28 @@ if command -v eza >/dev/null; then
   alias laf='eza --classify=auto --color -a -l --icons=always'
 fi
 
+# Claude Code: restore native terminal mouse behavior (e.g. in WezTerm).
+# Starting in Claude Code v2.1.150, the CLI turns on terminal mouse tracking
+# (xterm mouse reporting) so it can support scrolling and clickable UI elements
+# inside its TUI. The side effect is that Claude Code intercepts mouse events
+# (clicks, drags, hovers) before the terminal ever sees them. On macOS that
+# broke the familiar workflow: click-to-select + Cmd+C copy and plain
+# click-to-open-link stopped working, forcing you to hold Shift/Ctrl to bypass
+# mouse reporting for every selection or link click.
+#
+# CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1 tells Claude Code to stop grabbing
+# clicks/drags/hovers (so the terminal handles them again -> native text
+# selection, Cmd+C copy, and direct link clicks) while KEEPING mouse-wheel
+# scrolling inside Claude Code. Requires Claude Code v2.1.195+.
+# To disable mouse tracking entirely instead (this also turns off wheel
+# scrolling -- use PgUp/PgDn), use CLAUDE_CODE_DISABLE_MOUSE=1.
+#
+# This lives here in laptonite (not ~/.claude/settings.json) so the whole team
+# gets it, and because settings.json is strict JSON whose validator rejects
+# unknown "comment" keys -- a documented note like this can't live there.
+# Ref: https://github.com/anthropics/claude-code/issues/61936
+export CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1
+
 # Claude aliases
 alias cld='claude'
 alias cldd='claude --dangerously-skip-permissions'
