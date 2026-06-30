@@ -49,6 +49,15 @@ direcotry has a file named `.zshrc` then that `.zshrc` is loaded.
 Since this `.zshrc` is loaded at the very end you can override anything you want
 from the values set by dotfiles created by laptonite.
 
+## Mouse tracking in terminals
+
+As mentioned in this commit
+https://github.com/neerajsingh0101/laptonite/commit/7377a00b082058884d04383fd4ffa9d2ac5acbff
+
+Claude code changed the way terminals work.
+
+
+
 ## Raycast
 
 [Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the

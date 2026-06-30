@@ -130,7 +130,7 @@ fi
 # gets it, and because settings.json is strict JSON whose validator rejects
 # unknown "comment" keys -- a documented note like this can't live there.
 # Ref: https://github.com/anthropics/claude-code/issues/61936
-export CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1
+# export CLAUDE_CODE_DISABLE_MOUSE_CLICKS=1
 
 # Claude aliases
 alias cld='claude'
