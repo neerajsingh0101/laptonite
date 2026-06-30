@@ -267,3 +267,4 @@ Every day, when you open a new terminal, the laptonite script checks if there
 is a newer version available on GitHub. If an update is found, it automatically
 pulls the latest changes. In any given 24 hours only one update will happen.
 
+If you want to manually uptodate then execute `uptodate_laptonite` or `uptodate-laptonite`.
