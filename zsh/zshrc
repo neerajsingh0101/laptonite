@@ -84,7 +84,7 @@ gr() {
 alias reload!='. ~/.zshrc'
 
 # Git aliases
-alias gps='git push origin HEAD'
+alias gps='git push -u origin HEAD'
 alias gs='git status'
 alias gap='git add -p'
 alias gc='git commit'
