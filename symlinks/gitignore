@@ -43,3 +43,5 @@ yarn-error.log*
 pnpm-debug.log*
 
 symlinks/wezterm_local.lua
+
+**/.claude/settings.local.json

@@ -244,6 +244,14 @@ eval "$(mise activate zsh)"
 
 export MISE_YES=1 # Just do not ask about trusting anything anywhere
 
+# Corepack ships with Node, and mise's Node installs expose `yarn` as a
+# Corepack shim. By default Corepack (< 0.32) "auto-pins": the first time a
+# yarn command runs in a project whose package.json has no "packageManager"
+# field, it silently writes one (e.g. "yarn@1.22.22+sha512...."), leaving the
+# repo dirty. Disable that. Projects that deliberately commit a
+# "packageManager" field still get their pinned version enforced.
+export COREPACK_ENABLE_AUTO_PIN=0
+
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 
