@@ -181,6 +181,7 @@
       "Bash(chmod -R 777 *)"
     ]
   },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Notification": [
       {
@@ -213,15 +214,6 @@
             "command": "[ -n \"$NEETLY_SOCKET\" ] && neetly notify clear || true"
           }
         ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/log-prompt.sh",
-            "timeout": 30
-          }
-        ]
       }
     ],
     "PreToolUse": [
@@ -249,16 +241,6 @@
           {
             "type": "command",
             "command": "[ -n \"$NEETLY_SOCKET\" ] && neetly notify green || true"
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/session-start.sh"
           }
         ]
       }
