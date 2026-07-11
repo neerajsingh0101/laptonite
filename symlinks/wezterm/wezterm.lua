@@ -145,4 +145,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 	}
 end)
 
+local session_restore = wezterm.plugin.require 'https://github.com/neerajsingh0101/wezterm-session-restore'
+session_restore.setup(config)
+
 return config

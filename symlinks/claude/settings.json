@@ -243,6 +243,16 @@
           }
         ]
       }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash $HOME/.claude/hooks/wezterm-session-restore.sh"
+          }
+        ]
+      }
     ]
   },
   "enabledPlugins": {
