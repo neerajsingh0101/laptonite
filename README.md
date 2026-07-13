@@ -3,6 +3,10 @@
 Build your laptop in minutes. A script to setup a Mac laptop with sensible
 defaults for working on [Neeto](https://neeto.com) products.
 
+# Video walkthrough
+
+https://neerajsingh0909.neetorecord.com/watch/619576cfd0fe3c86ba19
+
 # Installation
 
 Open terminal application and paste following lines.
