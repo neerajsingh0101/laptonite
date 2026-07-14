@@ -86,6 +86,10 @@ if [ "$(uname -s)" = "Darwin" ]; then
   killall PowerChime 2>/dev/null || true
 fi
 
+# Pressing Fn/Globe alone does nothing.
+# Fn + E continues to open the emoji picker.
+defaults write com.apple.HIToolbox AppleFnUsageType -int 0
+
 # Set computer name (prompts for confirmation because this is user-specific)
 set_computer_name() {
   current_cn="$(scutil --get ComputerName 2>/dev/null || echo "")"
