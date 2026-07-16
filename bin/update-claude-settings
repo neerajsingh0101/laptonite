@@ -20,6 +20,12 @@
 # from the shared file gets removed. An entry you added yourself was never in
 # that record, so it is left alone.
 #
+# The first run on a machine is different: with no applied record yet, it resets
+# permissions and hooks and rebuilds them from the shared file. That clears out
+# whatever the old symlinked settings.json left behind, so everyone lands in the
+# same clean state whether they arrive with no settings.json, a live symlink, or
+# a symlink that broke months ago.
+#
 # Runs from githooks/post-merge on every pull, and from bin/setup. When nothing
 # has changed it writes nothing at all -- and when something has changed, your
 # previous settings.json is copied to settings.json-bkp-<timestamp> first, so
@@ -100,9 +106,29 @@ if [ -e "$DST" ]; then
   fi
 fi
 
+# Keep hold of what is actually on disk. Everything below works on $live, which
+# the first-run reset may rewrite, but "did anything change?" must compare
+# against the real file or we would rewrite an already-correct settings.json.
+on_disk="$live"
+
 applied='{}'
+first_run=true
 if [ -f "$APPLIED" ] && jq -e . "$APPLIED" >/dev/null 2>&1; then
   applied="$(cat "$APPLIED")"
+  first_run=false
+fi
+
+# First run on this machine: laptonite has never merged into this file, so
+# whatever sits under permissions/hooks arrived from the old symlinked
+# settings.json -- including entries and hooks laptonite has since dropped, like
+# the afplay sounds removed in 8b551bf. With no applied record yet there is no
+# way to tell those from something you added yourself, so reset both keys and
+# rebuild them from the shared file. Your permissions.allow additions go too;
+# re-approve them as they come up, or lift them out of the backup taken below.
+# Everything outside permissions/hooks is untouched. From the second run on, the
+# applied record makes removals surgical and this never happens again.
+if [ "$first_run" = true ]; then
+  live="$(printf '%s' "$live" | jq 'del(.permissions, .hooks)')"
 fi
 
 merged="$(jq -n \
@@ -152,7 +178,7 @@ have_applied="$(printf '%s' "$applied" | jq -S -c '{
 }')"
 
 # Sorted keys so a pure reordering by Claude Code does not read as a change.
-current="$(printf '%s' "$live" | jq -S -c .)"
+current="$(printf '%s' "$on_disk" | jq -S -c .)"
 next="$(printf '%s' "$merged" | jq -S -c .)"
 
 if [ "$current" = "$next" ] && [ "$want_applied" = "$have_applied" ]; then

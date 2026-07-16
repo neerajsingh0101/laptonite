@@ -190,6 +190,16 @@ hand-delete a permission that is still shared, the next pull puts it back. To op
 out of a shared default for good, subtract it in your own `dotfiles/setup`, which
 `bin/setup` runs at the end.
 
+**The first run is a reset.** Before there is an applied record, the updater
+cannot tell laptonite's leftovers from your own additions -- so the first time it
+runs on a machine it clears `permissions` and `hooks` and rebuilds them from
+`claude_settings.json`. That is what stops hooks laptonite dropped long ago from
+living on forever in a settings.json whose symlink broke months back. It means
+any `permissions.allow` entries you had accumulated are reset too; re-approve
+them as they come up, or lift them out of the backup taken just before. Keys
+outside `permissions` and `hooks` are never touched. Every later run is
+surgical, so this happens exactly once.
+
 **To change shared settings:** edit `data/claude_settings.json` and commit. Do not
 add personal preferences there -- only permissions and hooks belong in it.
 
