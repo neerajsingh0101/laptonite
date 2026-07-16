@@ -174,6 +174,14 @@ daily auto-update. Nearly every run is a no-op that writes nothing. There is no
 command to remember, but `./bin/update-claude-settings` is safe to run by hand
 any time.
 
+**Every change is backed up.** Before the updater edits your settings.json it
+copies the current one to `~/.claude/settings.json-bkp-<timestamp>`, so whatever
+you had before any edit it made is always still on disk. Backups are only taken
+when something actually changes -- the no-op runs on every pull leave nothing
+behind. Two updates in the same second get separate backups (`...-bkp-<ts>-2`),
+so nothing is ever silently overwritten. Nothing prunes these, so delete old ones
+yourself whenever you like.
+
 **Removals reach you too.** `~/.claude/.laptonite-applied.json` records what the
 updater last applied. Drop a permission or hook from `claude_settings.json` and
 it goes away on everyone's next pull. Anything *you* added yourself was never in

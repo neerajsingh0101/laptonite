@@ -21,7 +21,9 @@
 # that record, so it is left alone.
 #
 # Runs from githooks/post-merge on every pull, and from bin/setup. When nothing
-# has changed it writes nothing at all.
+# has changed it writes nothing at all -- and when something has changed, your
+# previous settings.json is copied to settings.json-bkp-<timestamp> first, so
+# there is always a copy of what you had before any edit this script made.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -34,6 +36,29 @@ APPLIED="$CLAUDE_DIR/.laptonite-applied.json"
 skip() {
   echo "[laptonite] $1" >&2
   exit 0
+}
+
+# Pick <file>-bkp-<timestamp>, matching the convention bin/setup already uses.
+# Two updates inside the same second must not land on the same name and quietly
+# overwrite each other's backup, so fall back to a -2, -3 ... suffix.
+backup_path() {
+  local base="$1-bkp-$(date +%Y%m%d%H%M%S)"
+  local candidate="$base"
+  local n=2
+  while [ -e "$candidate" ]; do
+    candidate="$base-$n"
+    n=$((n + 1))
+  done
+  printf '%s' "$candidate"
+}
+
+# Copy the current settings aside before we touch them. Only ever called when
+# something is actually about to change.
+backup_now() {
+  local backup
+  backup="$(backup_path "$DST")"
+  cp -p -- "$DST" "$backup"
+  echo "[laptonite] Backed up previous settings to $backup"
 }
 
 command -v jq >/dev/null 2>&1 ||
@@ -69,9 +94,9 @@ if [ -e "$DST" ]; then
   if jq -e . "$DST" >/dev/null 2>&1; then
     live="$(cat "$DST")"
   else
-    backup="$DST-bkp-$(date +%Y%m%d%H%M%S)"
-    echo "[laptonite] $DST is not valid JSON. Backing it up to $backup"
-    mv -- "$DST" "$backup"
+    echo "[laptonite] $DST is not valid JSON, starting from scratch."
+    backup_now
+    rm -f -- "$DST"
   fi
 fi
 
@@ -135,6 +160,10 @@ if [ "$current" = "$next" ] && [ "$want_applied" = "$have_applied" ]; then
 fi
 
 if [ "$current" != "$next" ]; then
+  # Keep a copy of what you had before this edit. Only on a real change, so the
+  # no-op runs that happen on every pull do not litter ~/.claude with backups.
+  [ -e "$DST" ] && backup_now
+
   # Write the same way Claude Code does, so a concurrent write is a clean
   # last-one-wins rather than a torn file.
   tmp="$(mktemp "$DST.laptonite.XXXXXX")"
