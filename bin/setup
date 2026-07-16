@@ -96,8 +96,10 @@ link_force "$LAPTONITED/symlinks/mise"      "$HOME/.config/mise"
 
 mkdir -p "$HOME/.claude"
 mkdir -p "$LAPTONITED/symlinks/skills"
-link_force "$LAPTONITED/symlinks/claude/settings.json"    "$HOME/.claude/settings.json"
 link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"
+# Claude settings are deliberately NOT symlinked -- Claude Code rewrites that
+# file atomically and the rename would eat the link. bin/update-claude-settings
+# merges them into the real file instead; it runs further down, once jq exists.
 
 mkdir -p "$HOME/.pi/agent"
 mkdir -p "$HOME/.pi/agent/extensions"
@@ -108,10 +110,9 @@ link_force "$LAPTONITED/symlinks/pi/agent/extensions/wezterm-tab-color.ts"    "$
 mkdir -p "$HOME/.config/cmux"
 link_force "$LAPTONITED/symlinks/cmux/cmux.json"    "$HOME/.config/cmux/cmux.json"
 
-# Activate laptonite's git hooks for this repo. They warn (never block) when a
-# managed symlink -- e.g. ~/.claude/settings.json -- has been detached, which
-# happens when Claude Code rewrites its settings file over the symlink. See
-# githooks/post-commit and githooks/post-merge.
+# Activate laptonite's git hooks for this repo. post-merge re-runs
+# bin/update-claude-settings after every pull, so shared Claude settings reach
+# you without anyone having to remember a command.
 git -C "$LAPTONITED" config --local core.hooksPath "$LAPTONITED/githooks"
 
 echo_header_done
@@ -238,6 +239,11 @@ echo_header_done
 
 echo_header "Installing Claude Code"
 /bin/bash -c "$(curl -fsSL https://claude.ai/install.sh)"
+echo_header_done
+
+# Needs jq, so it has to come after the Homebrew block above.
+echo_header "Applying shared Claude settings"
+./bin/update-claude-settings
 echo_header_done
 
 echo_header "Setting up gitconfig-local"

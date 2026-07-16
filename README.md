@@ -155,35 +155,43 @@ multiple monitors.
 
 # Claude Code settings
 
-laptonite shares Claude Code settings with the whole team by symlinking
-`~/.claude/settings.json` to `symlinks/claude/settings.json` in this repo.
-`./bin/setup` creates that symlink, so everyone gets the same hooks,
-permissions and theme, and picks up changes on the next `git pull`.
+laptonite shares two things with the whole team: Claude Code **permissions** and
+**hooks**. They live in `data/claude_settings.json`.
 
-**The catch.** Claude Code rewrites its settings file atomically (write a temp
-file, then rename it into place) whenever you change a setting through its own
-UI -- `/plugin install`, "always allow" on a permission prompt, `/model`,
-`/effort`, `/config`. That rename replaces the symlink with a detached regular
-file. Once detached you no longer receive shared updates and your machine no
-longer shares anything back, which is easy to miss.
+Your `~/.claude/settings.json` is a **normal file that belongs to you**. laptonite
+does not symlink it and never replaces it. `bin/update-claude-settings` merges
+the shared bits in and leaves everything else alone, so use Claude's UI freely --
+`/model`, `/effort`, `/plugin`, "always allow" -- none of it fights with laptonite.
 
-To make this visible, laptonite ships two git hooks (activated by `./bin/setup`,
-which points `core.hooksPath` at the `githooks` directory):
+**Everything else is personal and is not shared.** `theme`, `effortLevel`,
+`model`, `enabledPlugins`, `alwaysThinkingEnabled` and friends are yours. Nobody
+gets Neeraj's `effortLevel: xhigh` or his Ruby/Swift LSP plugins by accident. Set
+them however you like; the updater never reads or writes those keys.
 
-* `post-commit` warns you, right after you commit in laptonite, if your
-  `~/.claude/settings.json` symlink has detached.
-* `post-merge` warns after a `git pull` -- including the daily auto-update --
-  that you won't receive the settings you just fetched until the link is
-  restored.
+**It runs by itself.** `post-merge` (activated by `./bin/setup`, which points
+`core.hooksPath` at `githooks`) calls the updater after every pull, including the
+daily auto-update. Nearly every run is a no-op that writes nothing. There is no
+command to remember, but `./bin/update-claude-settings` is safe to run by hand
+any time.
 
-Both hooks only print a warning; they never block the git operation. To restore
-a detached link, run `./bin/setup` again -- it backs up the detached file to
-`~/.claude/settings.json-bkp-<timestamp>` and re-creates the symlink.
+**Removals reach you too.** `~/.claude/.laptonite-applied.json` records what the
+updater last applied. Drop a permission or hook from `claude_settings.json` and
+it goes away on everyone's next pull. Anything *you* added yourself was never in
+that record, so it is left alone. The one asymmetry worth knowing: if you
+hand-delete a permission that is still shared, the next pull puts it back. To opt
+out of a shared default for good, subtract it in your own `dotfiles/setup`, which
+`bin/setup` runs at the end.
 
-**Rule of thumb:** change shared Claude settings by editing
-`symlinks/claude/settings.json` in this repo and committing it -- not through
-Claude's UI, which detaches the link. Anything you set through the UI lives only
-on your machine and breaks the symlink.
+**To change shared settings:** edit `data/claude_settings.json` and commit. Do not
+add personal preferences there -- only permissions and hooks belong in it.
+
+**Why not a symlink?** laptonite used to symlink `~/.claude/settings.json` into
+the repo. Claude Code writes that file atomically (write a temp file, then rename
+it into place) whenever you change a setting through its UI, and the rename
+silently replaced the symlink with a detached regular file. After that you
+stopped receiving shared updates and stopped sharing anything back. Merging into
+the real file survives that, which is why the old rule of "never change Claude
+settings through Claude's own UI" is gone.
 
 # Helper commands in laptonite
 

@@ -1,0 +1,150 @@
+#!/usr/bin/env bash
+#
+# Merge laptonite's shared Claude Code settings into the real
+# ~/.claude/settings.json.
+#
+# Why a merge instead of a symlink: Claude Code rewrites its settings file
+# atomically (write a temp file, then rename it into place) whenever you change
+# something through its own UI -- /model, /effort, /plugin, "always allow" on a
+# permission prompt. That rename replaces a symlink with a detached regular
+# file, so the old symlink approach silently stopped sharing after the first UI
+# change. Merging into the real file survives all of it.
+#
+# What laptonite owns: permissions.allow, permissions.deny and hooks, all read
+# from data/claude_settings.json. Everything else in your settings.json --
+# theme, effortLevel, model, enabledPlugins -- is personal. This script never
+# reads or writes those keys, so set them however you like.
+#
+# How removals reach you: ~/.claude/.laptonite-applied.json records what this
+# script last applied. An entry laptonite applied before and has since dropped
+# from the shared file gets removed. An entry you added yourself was never in
+# that record, so it is left alone.
+#
+# Runs from githooks/post-merge on every pull, and from bin/setup. When nothing
+# has changed it writes nothing at all.
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DATA="$REPO_ROOT/data/claude_settings.json"
+CLAUDE_DIR="$HOME/.claude"
+DST="$CLAUDE_DIR/settings.json"
+APPLIED="$CLAUDE_DIR/.laptonite-applied.json"
+
+# This runs from a git hook. Never block a pull: complain and leave.
+skip() {
+  echo "[laptonite] $1" >&2
+  exit 0
+}
+
+command -v jq >/dev/null 2>&1 ||
+  skip "jq not found, skipping Claude settings update. Run bin/setup to install it."
+[ -f "$DATA" ] || skip "missing $DATA, skipping Claude settings update."
+jq -e . "$DATA" >/dev/null 2>&1 || skip "$DATA is not valid JSON, skipping."
+
+mkdir -p "$CLAUDE_DIR"
+
+# Migration: laptonite used to symlink settings.json into the repo. The repo
+# file is gone now, so that link is dangling. Everything it held was laptonite's
+# rather than yours, so drop it and rebuild from the shared file.
+if [ -L "$DST" ]; then
+  case "$(readlink "$DST")" in
+    */symlinks/claude/settings.json)
+      echo "[laptonite] Replacing the old Claude settings symlink with a real file."
+      rm -f "$DST"
+      ;;
+  esac
+fi
+
+# Still a symlink? Then it is one you made, pointing somewhere of your own.
+# Follow it and write the real file so our rename does not eat your link.
+if [ -L "$DST" ]; then
+  resolved="$(readlink -f "$DST" 2>/dev/null || true)"
+  [ -n "$resolved" ] && DST="$resolved"
+fi
+
+# Read the current settings. Anything unreadable gets backed up rather than
+# silently overwritten.
+live='{}'
+if [ -e "$DST" ]; then
+  if jq -e . "$DST" >/dev/null 2>&1; then
+    live="$(cat "$DST")"
+  else
+    backup="$DST-bkp-$(date +%Y%m%d%H%M%S)"
+    echo "[laptonite] $DST is not valid JSON. Backing it up to $backup"
+    mv -- "$DST" "$backup"
+  fi
+fi
+
+applied='{}'
+if [ -f "$APPLIED" ] && jq -e . "$APPLIED" >/dev/null 2>&1; then
+  applied="$(cat "$APPLIED")"
+fi
+
+merged="$(jq -n \
+  --argjson live "$live" \
+  --argjson applied "$applied" \
+  --argjson data "$(cat "$DATA")" '
+  # Compare by value, not by text: key order must not make two identical hooks
+  # look different.
+  def canon: walk(if type == "object" then to_entries | sort_by(.key) | from_entries else . end);
+  def ckey: canon | tojson;
+  def dedupe: reduce .[] as $x ([]; if (map(ckey) | index($x | ckey)) then . else . + [$x] end);
+
+  # Keep what is live, minus anything laptonite applied before and has since
+  # dropped, plus anything in the shared file not already present.
+  def merge_items($l; $a; $d):
+    ($d | map(ckey)) as $dk
+    | [ $a[] | ckey ] as $ak
+    | [ $ak[] | select(. as $k | $dk | index($k) | not) ] as $retired
+    | [ $l[] | (ckey) as $k | select($retired | index($k) | not) ] as $kept
+    | ($kept | map(ckey)) as $kk
+    | ($kept + [ $d[] | (ckey) as $k | select($kk | index($k) | not) ]) | dedupe;
+
+  def merge_hooks($l; $a; $d):
+    (($l | keys) + ($a | keys) + ($d | keys) | unique) as $events
+    | reduce $events[] as $e ({};
+        merge_items($l[$e] // []; $a[$e] // []; $d[$e] // []) as $m
+        | if ($m | length) > 0 then . + {($e): $m} else . end
+      );
+
+  $live
+  | .permissions.allow = merge_items(
+      $live.permissions.allow // []; $applied.permissions.allow // []; $data.permissions.allow // [])
+  | .permissions.deny = merge_items(
+      $live.permissions.deny // []; $applied.permissions.deny // []; $data.permissions.deny // [])
+  | merge_hooks($live.hooks // {}; $applied.hooks // {}; $data.hooks // {}) as $h
+  | if ($h | length) > 0 then .hooks = $h else del(.hooks) end
+')"
+
+# What we are about to record as ours.
+want_applied="$(jq -S -c '{
+  permissions: { allow: (.permissions.allow // []), deny: (.permissions.deny // []) },
+  hooks: (.hooks // {})
+}' "$DATA")"
+have_applied="$(printf '%s' "$applied" | jq -S -c '{
+  permissions: { allow: (.permissions.allow // []), deny: (.permissions.deny // []) },
+  hooks: (.hooks // {})
+}')"
+
+# Sorted keys so a pure reordering by Claude Code does not read as a change.
+current="$(printf '%s' "$live" | jq -S -c .)"
+next="$(printf '%s' "$merged" | jq -S -c .)"
+
+if [ "$current" = "$next" ] && [ "$want_applied" = "$have_applied" ]; then
+  exit 0
+fi
+
+if [ "$current" != "$next" ]; then
+  # Write the same way Claude Code does, so a concurrent write is a clean
+  # last-one-wins rather than a torn file.
+  tmp="$(mktemp "$DST.laptonite.XXXXXX")"
+  printf '%s\n' "$merged" | jq . >"$tmp"
+  chmod 644 "$tmp"
+  mv -f -- "$tmp" "$DST"
+  echo "[laptonite] Updated Claude settings in $DST"
+fi
+
+tmp_applied="$(mktemp "$APPLIED.XXXXXX")"
+printf '%s\n' "$want_applied" | jq . >"$tmp_applied"
+chmod 644 "$tmp_applied"
+mv -f -- "$tmp_applied" "$APPLIED"
