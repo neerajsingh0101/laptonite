@@ -60,8 +60,6 @@ https://github.com/neerajsingh0101/laptonite/commit/7377a00b082058884d04383fd4ff
 
 Claude code changed the way terminals work.
 
-
-
 ## Raycast
 
 [Raycast](https://raycast.com) is a wonderful Mac app. Here are some of the
@@ -224,7 +222,6 @@ gs
 gpl
 history by using up and down arrow
 ```
-
 ### Neeto specific shortcuts
 
 ```
@@ -233,7 +230,6 @@ cald, formd
 calw, formw
 calrn, formrn
 ```
-
 ### z command
 
 `z` is a smarter `cd` command. It comes from [zoxide](https://github.com/ajeetdsouza/zoxide).
