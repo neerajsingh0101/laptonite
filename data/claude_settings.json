@@ -151,6 +151,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff"
+          },
+          {
+            "type": "command",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo permission_prompt > /tmp/claude-wezterm-$WEZTERM_PANE"
           }
         ]
@@ -180,6 +184,10 @@
     "Stop": [
       {
         "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Hero.aiff"
+          },
           {
             "type": "command",
             "command": "[ -n \"$WEZTERM_PANE\" ] && echo done > /tmp/claude-wezterm-$WEZTERM_PANE"
