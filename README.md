@@ -167,8 +167,10 @@ gets Neeraj's `effortLevel: xhigh` or his Ruby/Swift LSP plugins by accident. Se
 them however you like; the updater never reads or writes those keys.
 
 **It runs by itself.** `post-merge` (activated by `./bin/setup`, which points
-`core.hooksPath` at `githooks`) calls the updater after every pull, including the
-daily auto-update. Nearly every run is a no-op that writes nothing. There is no
+`core.hooksPath` at `githooks`) calls the updater after every pull. The daily
+auto-update also calls the updater directly and re-asserts `core.hooksPath`, so
+a clone that missed the hook wiring (set up before it existed) heals itself
+within a day. Nearly every run is a no-op that writes nothing. There is no
 command to remember, but `./bin/update-claude-settings` is safe to run by hand
 any time.
 

@@ -26,7 +26,8 @@
 # same clean state whether they arrive with no settings.json, a live symlink, or
 # a symlink that broke months ago.
 #
-# Runs from githooks/post-merge on every pull, and from bin/setup. When nothing
+# Runs from githooks/post-merge on every pull, from the daily auto-update in
+# zsh/auto_update.zshrc, and from bin/setup. When nothing
 # has changed it writes nothing at all -- and when something has changed, your
 # previous settings.json is copied to settings.json-bkp-<timestamp> first, so
 # there is always a copy of what you had before any edit this script made.

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
 # After a pull in laptonite, merge any new shared Claude settings into
-# ~/.claude/settings.json. This is how a data/claude_settings.json change
-# actually reaches everyone: the daily auto-update in zsh/auto_update.zshrc
-# pulls fast-forward, and a fast-forward pull runs this hook.
+# ~/.claude/settings.json. This covers manual pulls; the daily auto-update in
+# zsh/auto_update.zshrc also calls bin/update-claude-settings directly, so a
+# clone whose core.hooksPath was never wired up still syncs within a day.
 #
 # Almost every run is a no-op that writes nothing. Never block the pull.
 DIR="$(cd "$(dirname "$0")" && pwd)"
