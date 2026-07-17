@@ -12,6 +12,13 @@ _laptonite_auto_update() {
   if (( (now - last) >= (days * 86400) )); then
     if (
       cd "$LAPTONITED" &&
+      # bin/setup points core.hooksPath at githooks, but that is a one-time
+      # step: a clone set up before that line existed (or never set up) has no
+      # hook wiring, so pulls succeed while post-merge -- and the Claude
+      # settings sync it drives -- silently never runs. Re-assert it on every
+      # daily tick so any such clone heals itself, which also fixes manual
+      # `git pull` / uptodate_laptonite on that machine. Idempotent and cheap.
+      git config --local core.hooksPath "$LAPTONITED/githooks" &&
       # Only auto-update when sitting on main. Being on any other branch means
       # the developer is working on changes, and pulling origin/main into that
       # branch would clobber their work. (A working branch like `next` also has
@@ -30,6 +37,11 @@ _laptonite_auto_update() {
         # --ff-only avoids surprise merge commits / a half-merged repo if the
         # local history has diverged from origin/main.
         git pull --ff-only --quiet origin main &&
+        # The pull's post-merge hook normally syncs shared Claude settings, but
+        # call the sync directly too so it does not depend on hook wiring at
+        # all. It writes nothing when nothing changed. || true: a sync hiccup
+        # must not mark the update failed and retrigger it every shell.
+        { ./bin/update-claude-settings || true; } &&
         echo "[laptonite] Done! Laptonite script is now up to date."
       fi
     ); then
