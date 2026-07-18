@@ -153,8 +153,9 @@ multiple monitors.
 
 # Claude Code settings
 
-laptonite shares two things with the whole team: Claude Code **permissions** and
-**hooks**. They live in `data/claude_settings.json`.
+laptonite shares three things with the whole team: Claude Code **permissions**,
+**hooks**, and the **hook scripts** those hooks run. The first two live in
+`data/claude_settings.json`, the scripts in `data/hooks`.
 
 Your `~/.claude/settings.json` is a **normal file that belongs to you**. laptonite
 does not symlink it and never replaces it. `bin/update-claude-settings` merges
@@ -165,6 +166,17 @@ the shared bits in and leaves everything else alone, so use Claude's UI freely -
 `model`, `enabledPlugins`, `alwaysThinkingEnabled` and friends are yours. Nobody
 gets Neeraj's `effortLevel: xhigh` or his Ruby/Swift LSP plugins by accident. Set
 them however you like; the updater never reads or writes those keys.
+
+**Hook scripts come with their hooks.** A hook in `claude_settings.json` names a
+script by path, but naming one does not create it. Anything in `data/hooks` is
+copied to `~/.claude/hooks` on every run, so a registration and the script it
+runs always arrive together. Before this, the script showed up only if you had
+followed the plugin README by hand, and a machine that skipped that one-time step
+opened every Claude session with a `SessionStart:startup hook error` pointing at
+a file that was never there. The copy is content-based: matching files are left
+alone, so the usual no-op pull still writes nothing. To share a new hook script,
+drop it in `data/hooks` and register it in `claude_settings.json` in the same
+commit.
 
 **It runs by itself.** `post-merge` (activated by `./bin/setup`, which points
 `core.hooksPath` at `githooks`) calls the updater after every pull. The daily

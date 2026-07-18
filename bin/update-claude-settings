@@ -11,9 +11,10 @@
 # change. Merging into the real file survives all of it.
 #
 # What laptonite owns: permissions.allow, permissions.deny and hooks, all read
-# from data/claude_settings.json. Everything else in your settings.json --
-# theme, effortLevel, model, enabledPlugins -- is personal. This script never
-# reads or writes those keys, so set them however you like.
+# from data/claude_settings.json, plus the hook scripts in data/hooks that those
+# hooks run. Everything else in your settings.json -- theme, effortLevel, model,
+# enabledPlugins -- is personal. This script never reads or writes those keys, so
+# set them however you like.
 #
 # How removals reach you: ~/.claude/.laptonite-applied.json records what this
 # script last applied. An entry laptonite applied before and has since dropped
@@ -35,8 +36,10 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DATA="$REPO_ROOT/data/claude_settings.json"
+HOOKS_SRC="$REPO_ROOT/data/hooks"
 CLAUDE_DIR="$HOME/.claude"
 DST="$CLAUDE_DIR/settings.json"
+HOOKS_DIR="$CLAUDE_DIR/hooks"
 APPLIED="$CLAUDE_DIR/.laptonite-applied.json"
 
 # This runs from a git hook. Never block a pull: complain and leave.
@@ -68,12 +71,60 @@ backup_now() {
   echo "[laptonite] Backed up previous settings to $backup"
 }
 
+# Put laptonite's hook scripts where the shared settings say they live.
+#
+# claude_settings.json registers hooks by path -- "bash
+# $HOME/.claude/hooks/wezterm-session-restore.sh" -- but registering a hook does
+# not create the script it runs. Ship the registration on its own and Claude Code
+# opens every session with
+#
+#   SessionStart:startup hook error
+#   bash: ~/.claude/hooks/wezterm-session-restore.sh: No such file or directory
+#
+# and the hook silently never does its job. Until now the script arrived only if
+# you had followed the plugin README by hand, so machines that never ran that
+# one-time step carried a registration pointing at nothing.
+install_hook_scripts() {
+  [ -d "$HOOKS_SRC" ] || return 0
+
+  local src name dst tmp
+  for src in "$HOOKS_SRC"/*.sh; do
+    # Nothing matched: the glob arrives unexpanded.
+    [ -e "$src" ] || continue
+
+    name="$(basename "$src")"
+    dst="$HOOKS_DIR/$name"
+
+    # Already byte-identical, so the pull that changed nothing writes nothing,
+    # matching how the settings merge below stays quiet.
+    if [ -f "$dst" ] && cmp -s -- "$src" "$dst"; then
+      continue
+    fi
+
+    mkdir -p "$HOOKS_DIR"
+    # Written the way settings.json is: a session starting mid-copy must never
+    # run a half-written hook.
+    tmp="$(mktemp "$dst.laptonite.XXXXXX")"
+    cat -- "$src" >"$tmp"
+    chmod 755 "$tmp"
+    mv -f -- "$tmp" "$dst"
+    echo "[laptonite] Installed Claude hook script $dst"
+  done
+}
+
 command -v jq >/dev/null 2>&1 ||
   skip "jq not found, skipping Claude settings update. Run bin/setup to install it."
 [ -f "$DATA" ] || skip "missing $DATA, skipping Claude settings update."
 jq -e . "$DATA" >/dev/null 2>&1 || skip "$DATA is not valid JSON, skipping."
 
 mkdir -p "$CLAUDE_DIR"
+
+# Deliberately above the "did anything change?" exit further down. A machine
+# whose settings.json already carries the hook registration is exactly the one
+# that still needs the script, and it is also the one that finds nothing to
+# change and leaves early -- so anything placed below that exit would never
+# reach it.
+install_hook_scripts
 
 # Migration: laptonite used to symlink settings.json into the repo. The repo
 # file is gone now, so that link is dangling. Everything it held was laptonite's
