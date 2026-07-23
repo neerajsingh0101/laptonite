@@ -1,5 +1,6 @@
 {
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Read(**)",
       "Read(~/code/neetozone/**)",
@@ -60,6 +61,7 @@
       "Bash(echo *)",
       "Bash(sleep *)",
       "Bash(mkdir *)",
+      "Bash(rmdir *)",
       "Bash(cp *)",
       "Bash(mv *)",
       "Bash(touch *)",
