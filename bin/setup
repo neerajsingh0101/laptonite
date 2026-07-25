@@ -262,6 +262,38 @@ if [ "$CAN_WRITE_TO_BREW" = true ]; then
   echo_header "Installing JetBrains Mono Nerd Font"
   brew install --cask font-jetbrains-mono-nerd-font
   echo_header_done
+
+  # Homebrew installs fonts into ~/Library/Fonts, which only this account can
+  # see. A second account on the same Mac skips the entire Homebrew block above,
+  # so it never gets the fonts: WezTerm there falls back to a default face and
+  # warns about it on every launch. Copy them to /Library/Fonts, which every
+  # account can read. That directory is root:admin with group write, so an admin
+  # account can stock it without sudo, and accounts added later are covered too.
+  echo_header "Installing fonts system-wide for all accounts"
+  if [ -w /Library/Fonts ]; then
+    # nullglob so a family that isn't installed expands to nothing rather than a
+    # literal glob, which would fail cp and trip the ERR trap at the top.
+    shopt -s nullglob
+    FONT_FILES=(
+      "$HOME"/Library/Fonts/JetBrainsMonoNerdFont*.ttf
+      "$HOME"/Library/Fonts/HackNerdFont*.ttf
+    )
+    shopt -u nullglob
+
+    if [ ${#FONT_FILES[@]} -gt 0 ]; then
+      cp "${FONT_FILES[@]}" /Library/Fonts/
+      echo "Copied ${#FONT_FILES[@]} font files to /Library/Fonts."
+      echo "Any other account on this Mac can use them now, including accounts"
+      echo "that skip Homebrew because it belongs to a different user."
+    else
+      echo "No Nerd Fonts found in $HOME/Library/Fonts, so there is nothing to"
+      echo "copy. This is unexpected right after the cask installs above."
+    fi
+  else
+    echo "Skipping: this account cannot write to /Library/Fonts."
+    echo "The fonts are still installed for $(whoami) in ~/Library/Fonts."
+  fi
+  echo_header_done
 fi
 
 echo_header "Installing Claude Code"
