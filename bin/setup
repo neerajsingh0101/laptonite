@@ -140,35 +140,59 @@ brew_install() {
   abrew install --verbose "$1"
 }
 
-echo_header "Upgrade homebrew"
-abrew update --verbose
-echo_header_done
+# A Mac can only have one Homebrew, and it belongs to whichever account ran the
+# installer. If you log in as a second account on the same Mac, you can still
+# *use* everything Homebrew installed, but you cannot update or install
+# packages. Detect that here so the script skips the Homebrew steps instead of
+# failing. Almost nobody will see this; a single user account is the norm.
+BREW_PREFIX="$(brew --prefix)"
+CAN_WRITE_TO_BREW=true
+if [ ! -w "$BREW_PREFIX" ] || [ ! -w "$BREW_PREFIX/Library" ]; then
+  CAN_WRITE_TO_BREW=false
 
-echo_header "Upgrade any already-installed formulae"
-abrew upgrade --verbose
-echo_header_done
+  echo_header "Skipping Homebrew: this account cannot write to it"
+  echo "Homebrew lives in $BREW_PREFIX and belongs to $(stat -f '%Su' "$BREW_PREFIX")."
+  echo "You are logged in as $(whoami), so this account cannot update or install"
+  echo "Homebrew packages. Everything already installed still works, and the rest"
+  echo "of this setup will continue normally."
+  echo ""
+  echo "Do NOT run the 'sudo chown' command Homebrew suggests. That would take"
+  echo "Homebrew away from the other account and break setup there instead."
+  echo_header_done
+fi
 
-echo_header "Installing various applications"
-brew_install zoxide    # for jumping around
-brew_install fzf
-brew_install eza       # this is replacement for ls
-brew_install git
-brew_install git-delta # Used in pager
-brew_install httpd     # ab(apache bench) comes with this
-brew_install k6        # see bin/simulate-traffic-k6
-brew_install gh        # GitHub CLI
-brew_install jq
-brew_install zsh-autosuggestions
-brew_install zsh-syntax-highlighting
-brew_install mise
-brew_install curl # curl that comes with Mac is highly outdated
-brew_install ripgrep
-brew_install libyaml #mise needs it
-brew_install postgresql@18
-brew_install redis
-brew_install tree
-brew_install neovim
-brew_install font-hack-nerd-font
+if [ "$CAN_WRITE_TO_BREW" = true ]; then
+  echo_header "Upgrade homebrew"
+  abrew update --verbose
+  echo_header_done
+
+  echo_header "Upgrade any already-installed formulae"
+  abrew upgrade --verbose
+  echo_header_done
+
+  echo_header "Installing various applications"
+  brew_install zoxide    # for jumping around
+  brew_install fzf
+  brew_install eza       # this is replacement for ls
+  brew_install git
+  brew_install git-delta # Used in pager
+  brew_install httpd     # ab(apache bench) comes with this
+  brew_install k6        # see bin/simulate-traffic-k6
+  brew_install gh        # GitHub CLI
+  brew_install jq
+  brew_install zsh-autosuggestions
+  brew_install zsh-syntax-highlighting
+  brew_install mise
+  brew_install curl # curl that comes with Mac is highly outdated
+  brew_install ripgrep
+  brew_install libyaml #mise needs it
+  brew_install postgresql@18
+  brew_install redis
+  brew_install tree
+  brew_install neovim
+  brew_install font-hack-nerd-font
+  echo_header_done
+fi
 
 echo_header "Installing Node via mise (needed for npm)"
 # mise is installed above but isn't activated in this script's shell, and the
@@ -217,25 +241,28 @@ cask_install() {
   abrew install --verbose --cask "$cask" --force
 }
 
-cask_install raycast
-cask_install whatsapp
-cask_install visual-studio-code
-cask_install wezterm
-cask_install meetingbar
-cask_install 1password
-cask_install dbeaver-community # client for database
-cask_install slack
-cask_install chatgpt
-cask_install google-chrome
-cask_install tolaria
-cask_install dropbox
-cask_install zoom
-cask_install codex
-echo_header_done
+if [ "$CAN_WRITE_TO_BREW" = true ]; then
+  echo_header "Installing desktop applications"
+  cask_install raycast
+  cask_install whatsapp
+  cask_install visual-studio-code
+  cask_install wezterm
+  cask_install meetingbar
+  cask_install 1password
+  cask_install dbeaver-community # client for database
+  cask_install slack
+  cask_install chatgpt
+  cask_install google-chrome
+  cask_install tolaria
+  cask_install dropbox
+  cask_install zoom
+  cask_install codex
+  echo_header_done
 
-echo_header "Installing JetBrains Mono Nerd Font"
-brew install --cask font-jetbrains-mono-nerd-font
-echo_header_done
+  echo_header "Installing JetBrains Mono Nerd Font"
+  brew install --cask font-jetbrains-mono-nerd-font
+  echo_header_done
+fi
 
 echo_header "Installing Claude Code"
 /bin/bash -c "$(curl -fsSL https://claude.ai/install.sh)"
