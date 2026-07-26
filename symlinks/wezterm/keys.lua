@@ -44,6 +44,21 @@ local function has_adjacent_pane(window, direction)
   return false
 end
 
+-- Neovim encodes Command-c as <D-c> when it receives this sequence. It is the
+-- CSI-u form of "c with the super modifier": 99 is the codepoint for "c" and 9
+-- is the modifier bitmask (1 + 8, where 8 means super).
+local SUPER_C = '\x1b[99;9u'
+
+local function is_neovim(pane)
+  local process = pane:get_foreground_process_name()
+  if not process then
+    return false
+  end
+
+  local name = process:match '[^/\\]+$' or process
+  return name == 'nvim' or name == 'vim'
+end
+
 local function move_vertical_divider(direction, amount)
   return wezterm.action_callback(function(window, pane)
     local act = wezterm.action
@@ -176,6 +191,29 @@ function M.setup(config)
       key = 'k',
       mods = 'SUPER',
       action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
+    },
+    -- Copy (Cmd+C)
+    --
+    -- Command-c normally copies whatever was selected in the terminal with the
+    -- mouse. A Neovim visual selection is invisible to WezTerm, so pressing
+    -- Command-c over one copied nothing at all.
+    --
+    -- So: if the terminal has a real selection, copy it as before. Otherwise, if
+    -- Neovim is the foreground process, hand the key to Neovim as <D-c> and let
+    -- it yank its own selection (see vim-keymaps.lua in the dotfiles repo).
+    {
+      key = 'c',
+      mods = 'SUPER',
+      action = wezterm.action_callback(function(window, pane)
+        local selection = window:get_selection_text_for_pane(pane)
+
+        if (not selection or selection == '') and is_neovim(pane) then
+          window:perform_action(wezterm.action.SendString(SUPER_C), pane)
+          return
+        end
+
+        window:perform_action(wezterm.action.CopyTo 'Clipboard', pane)
+      end),
     },
     -- Rename tab
     {
