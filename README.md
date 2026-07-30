@@ -128,6 +128,9 @@ Switching between the panes
 
 Misc functions
 
+* `Shift + Option + w` -> close the current pane without asking for
+  confirmation. This is the one binding that does not use `Ctrl + Option`.
+* `Command + w` -> close the current tab without asking for confirmation.
 * `Ctrl + Option + m` -> to maximize the current pane and then bring it back to
   the original state
 * `Ctrl + Option + r` to rename the tab. By default the tab name is the name of

@@ -134,6 +134,19 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = wezterm.action.TogglePaneZoomState,
     },
+    -- Close current pane
+    {
+      key = 'w',
+      mods = 'SHIFT|OPT',
+      action = wezterm.action.CloseCurrentPane { confirm = false },
+    },
+    -- Close current tab (Cmd+W) without confirmation. WezTerm's default binding
+    -- for this key prompts, so it has to be overridden rather than left alone.
+    {
+      key = 'w',
+      mods = 'SUPER',
+      action = wezterm.action.CloseCurrentTab { confirm = false },
+    },
     -- Navigate between tabs (8 = left, 9 = right)
     {
       key = '8',
