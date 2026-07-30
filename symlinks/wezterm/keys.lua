@@ -134,18 +134,32 @@ function M.setup(config)
       mods = 'CTRL|OPT',
       action = wezterm.action.TogglePaneZoomState,
     },
-    -- Close current pane
+    -- Close current pane (Ctrl+Opt+W)
     {
       key = 'w',
-      mods = 'SHIFT|OPT',
+      mods = 'CTRL|OPT',
       action = wezterm.action.CloseCurrentPane { confirm = false },
     },
-    -- Close current tab (Cmd+W) without confirmation. WezTerm's default binding
-    -- for this key prompts, so it has to be overridden rather than left alone.
+    -- Close current tab without confirmation (Ctrl+Opt+Cmd+W).
+    --
+    -- SUPER is WezTerm's name for the Command key, so 'CTRL|OPT|SUPER' is
+    -- Ctrl+Opt+Cmd. Closing a tab takes the extra Command modifier because it
+    -- discards every pane in the tab at once, not just the active one.
+    {
+      key = 'w',
+      mods = 'CTRL|OPT|SUPER',
+      action = wezterm.action.CloseCurrentTab { confirm = false },
+    },
+    -- Leave Command+W free for other uses.
+    --
+    -- WezTerm binds Command+W to "close tab, with a confirmation prompt" out of
+    -- the box, so dropping our own Command+W binding would not free the chord --
+    -- it would just fall back to that default. DisableDefaultAssignment is what
+    -- actually unbinds it.
     {
       key = 'w',
       mods = 'SUPER',
-      action = wezterm.action.CloseCurrentTab { confirm = false },
+      action = wezterm.action.DisableDefaultAssignment,
     },
     -- Navigate between tabs (8 = left, 9 = right)
     {
