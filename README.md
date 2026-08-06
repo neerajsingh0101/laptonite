@@ -266,6 +266,37 @@ the `utils/fkill` filename.
 the selected process ids with `kill -9`. Press TAB in the `fzf` list to select
 multiple processes before hitting Enter.
 
+### cloudflaret
+
+`cloudflared tunnel --url http://localhost:3000` works, but it prints a banner,
+a licence notice and a stream of connection logs, and the generated
+`https://....trycloudflare.com` URL ends up buried in the middle of all that. By
+the time the tunnel is ready you are scrolling back to hunt for the one line you
+actually wanted.
+
+`cloudflaret` runs the same tunnel and prints only the URL, on its own line
+after a blank line, so it is the last thing on screen and stays clickable.
+
+```
+cloudflaret http://localhost:3000
+cloudflaret 3000                    # a bare port means http://localhost:3000
+cloudflaret 3000 --loglevel debug   # extra flags are passed to cloudflared
+```
+
+Output is just this, and then the tunnel keeps running quietly until Ctrl-C:
+
+```
+Tunnel is up. Press Ctrl-C to stop it.
+
+https://brother-missions-kinda-tax.trycloudflare.com
+```
+
+Nothing is hidden when something goes wrong. If cloudflared fails, whether at
+startup or hours later, the entire captured log is printed before `cloudflaret`
+exits with cloudflared's status. If no URL shows up within 30 seconds,
+`cloudflaret` prints what it has so far and then streams cloudflared's output
+live, so a slow tunnel is never swallowed.
+
 ### c1 and c1w
 
 Use `c1` if you are using Claude.

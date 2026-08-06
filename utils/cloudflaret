@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+#
+# Run a Cloudflare quick tunnel and print only the public URL.
+#
+#   cloudflaret http://localhost:3000
+#   cloudflaret 3000                    # same thing, shorthand
+#   cloudflaret 3000 --loglevel debug   # extra flags go to cloudflared
+#
+# `cloudflared tunnel --url ...` prints a banner, a licence notice and a stream
+# of connection logs, and buries the generated https://....trycloudflare.com URL
+# somewhere in the middle. By the time the tunnel is up you have to scroll back
+# to find it.
+#
+# This wrapper captures that output instead of showing it, waits for the URL and
+# prints it on its own line after a blank line, so it is the last thing on screen
+# and stays clickable. The tunnel keeps running quietly until Ctrl-C.
+#
+# Nothing is hidden when something goes wrong: if cloudflared exits non-zero, at
+# startup or hours later, the whole captured log is printed before we exit. Same
+# if no URL shows up within the wait window -- we print what we have so far and
+# fall back to streaming cloudflared's output live.
+
+set -uo pipefail
+
+# How long to wait for the URL before giving up and streaming raw output.
+URL_TIMEOUT_SECONDS=30
+
+# How often to re-check the log while waiting for the URL.
+POLL_INTERVAL_SECONDS=0.2
+
+usage() {
+  echo "Usage: $(basename "$0") <url-or-port> [extra cloudflared flags]" >&2
+  echo "Example: $(basename "$0") http://localhost:3000" >&2
+  echo "Example: $(basename "$0") 3000" >&2
+}
+
+target="${1:-}"
+if [ -z "$target" ]; then
+  usage
+  exit 1
+fi
+shift
+
+case "$target" in
+  -h|--help)
+    usage
+    exit 0
+    ;;
+esac
+
+# A bare port number is the common case, so treat `cloudflaret 3000` as
+# `cloudflaret http://localhost:3000`.
+case "$target" in
+  *[!0-9]*) ;;
+  *) target="http://localhost:$target" ;;
+esac
+
+if ! command -v cloudflared >/dev/null 2>&1; then
+  echo "Error: cloudflared not found. Install it via: brew install cloudflared" >&2
+  exit 127
+fi
+
+log="$(mktemp -t cloudflaret)"
+
+cleanup() {
+  [ -n "${tail_pid:-}" ] && kill "$tail_pid" 2>/dev/null
+  rm -f "$log"
+}
+trap cleanup EXIT
+
+# Ctrl-C is how you stop a tunnel, so treat it as a normal exit and stay quiet.
+# The terminal delivers SIGINT to cloudflared too; killing it here covers SIGTERM
+# and anything else that does not reach the whole process group.
+stop() {
+  kill "$cloudflared_pid" 2>/dev/null
+  exit 130
+}
+trap stop INT TERM
+
+cloudflared tunnel --url "$target" "$@" >"$log" 2>&1 &
+cloudflared_pid=$!
+
+# The quick tunnel URL always ends in .trycloudflare.com. As a fallback, take the
+# https URL that follows the "Visit it at" line -- that is where cloudflared puts
+# it -- so a hostname change does not break this. Matching any https URL in the
+# log would be wrong: the banner links to developers.cloudflare.com.
+extract_url() {
+  local found
+  found="$(grep -oE 'https://[A-Za-z0-9._-]+\.trycloudflare\.com' "$log" | head -n 1)"
+  if [ -z "$found" ]; then
+    found="$(awk '/Visit it at/ {seen=1; next} seen && match($0, /https:\/\/[A-Za-z0-9._\/-]+/) {print substr($0, RSTART, RLENGTH); exit}' "$log")"
+  fi
+  printf '%s' "$found"
+}
+
+dump_log() {
+  echo "----- cloudflared output -----" >&2
+  cat "$log" >&2
+  echo "------------------------------" >&2
+}
+
+url=""
+attempts_left=$(awk -v total="$URL_TIMEOUT_SECONDS" -v step="$POLL_INTERVAL_SECONDS" 'BEGIN { printf "%d", total / step }')
+
+while [ "$attempts_left" -gt 0 ]; do
+  url="$(extract_url)"
+  [ -n "$url" ] && break
+
+  # cloudflared died before it ever printed a URL.
+  if ! kill -0 "$cloudflared_pid" 2>/dev/null; then
+    break
+  fi
+
+  sleep "$POLL_INTERVAL_SECONDS"
+  attempts_left=$((attempts_left - 1))
+done
+
+if [ -z "$url" ]; then
+  if kill -0 "$cloudflared_pid" 2>/dev/null; then
+    # Still alive but slow. Show everything so far and hand the terminal back to
+    # cloudflared, so a URL that arrives late is not swallowed.
+    echo "No tunnel URL after ${URL_TIMEOUT_SECONDS}s. Showing raw cloudflared output." >&2
+    dump_log
+    tail -n 0 -f "$log" >&2 &
+    tail_pid=$!
+    wait "$cloudflared_pid"
+    exit $?
+  fi
+
+  wait "$cloudflared_pid"
+  status=$?
+  echo "cloudflared exited (status $status) without printing a tunnel URL." >&2
+  dump_log
+  # cloudflared exits 0 on things like a bad flag, so do not let a "success"
+  # status hide the fact that no tunnel was ever created.
+  [ "$status" -eq 0 ] && status=1
+  exit "$status"
+fi
+
+echo "Tunnel is up. Press Ctrl-C to stop it."
+echo
+echo "$url"
+
+wait "$cloudflared_pid"
+status=$?
+
+# A tunnel that dies on its own is a failure worth debugging, so give back
+# everything cloudflared said instead of the URL we quietly hid it behind.
+if [ "$status" -ne 0 ]; then
+  echo >&2
+  echo "cloudflared exited with status $status." >&2
+  dump_log
+fi
+
+exit "$status"
