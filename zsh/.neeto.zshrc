@@ -3,6 +3,8 @@ alias neetozoned='cd ~/code/neetozone'
 alias neetob='cd ~/code/neetozone/neetob'
 alias neetobd='cd ~/code/neetozone/neetob'
 alias neetlyd='cd ~/code/neetozone/neetly'
+alias website='cd ~/code/neetozone/neeto-website'
+alias websited='cd ~/code/neetozone/neeto-website'
 unalias setup 2>/dev/null
 
 setup() {
