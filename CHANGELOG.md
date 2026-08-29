@@ -35,7 +35,7 @@ why, not which lines you edited -- `git log` already has that.
 
 ### `rg` is now case insensitive by default
 
-**Run `bin/setup`**
+**Automatic**
 
 Searching with `rg fkill` used to skip right past a file containing `FKILL`,
 because stock ripgrep is case sensitive. It now matches.
@@ -54,12 +54,11 @@ typing the capitals. To force it either way for a single search, use `rg -s`
 This also applies to `rga`, and to anything else that shells out to `rg`, such
 as fzf pickers and editor search integrations.
 
-Why `bin/setup` and not just a pull: the flag lives in
+You do not have to do anything. The flag lives in
 `symlinks/ripgrep/ripgreprc`, which `bin/setup` links to
-`~/.config/ripgrep/ripgreprc`. The pull gives you the `RIPGREP_CONFIG_PATH`
-export in `zsh/zshrc`, but ripgrep never looks for a config file on its own, so
-without that symlink in place the export points at nothing and `rg` stays case
-sensitive.
+`~/.config/ripgrep/ripgreprc`, and `zsh/zshrc` links it into place too if it
+finds it missing -- so a pull plus a new shell is enough. If you keep your own
+`~/.config/ripgrep/ripgreprc`, laptonite leaves it alone and uses yours.
 
 PR [#18](https://github.com/neerajsingh0101/laptonite/pull/18)
 

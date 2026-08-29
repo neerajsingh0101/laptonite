@@ -183,7 +183,47 @@ alias l='lazygit'
 #   * It is a shell export, so it only reaches processes started from a shell
 #     that sourced this file. GUI apps launched from the Dock, and other macOS
 #     user accounts, do not get it.
-export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/ripgreprc"
+#
+# The block below links the config into place if it is missing, rather than
+# leaving that to bin/setup alone. laptonite auto-updates by pulling main, and
+# that pull does NOT re-run bin/setup. So without this self-heal, everyone on
+# the team would get the export while the file it points at does not exist yet,
+# and ripgrep would print
+#
+#   rg: failed to read the file specified in RIPGREP_CONFIG_PATH: ...
+#
+# to stderr on every single search until they happened to re-run bin/setup.
+# Nothing would break -- results, exit codes and stdout all stay correct -- but
+# it is noise nobody asked for and nobody would know how to fix. Same idea as
+# the ~/.bashrc mise block near the bottom of this file: heal it here so a
+# plain `git pull` is enough.
+_laptonite_ripgreprc="$HOME/.config/ripgrep/ripgreprc"
+
+# A symlink that resolves to nothing is left over from a laptonite checkout
+# that moved or went away. Clear it so the next branch can relink it.
+if [ -L "$_laptonite_ripgreprc" ] && [ ! -e "$_laptonite_ripgreprc" ]; then
+  rm -f "$_laptonite_ripgreprc"
+fi
+
+# Only create when the path is completely free. If you keep your own
+# ripgreprc there, that is a deliberate choice and laptonite leaves it alone --
+# the export below then points at your file, which is what you want.
+if [ ! -e "$_laptonite_ripgreprc" ] && [ ! -L "$_laptonite_ripgreprc" ] &&
+   [ -f "$LAPTONITED/symlinks/ripgrep/ripgreprc" ]; then
+  mkdir -p "$HOME/.config/ripgrep" 2>/dev/null &&
+    ln -s "$LAPTONITED/symlinks/ripgrep/ripgreprc" "$_laptonite_ripgreprc" 2>/dev/null
+fi
+
+# Export only once the file is actually readable. This is the belt to the
+# braces above: if the link could not be created (read-only home, DEVBOXD
+# pointing somewhere unexpected, a half-finished clone), staying unset leaves
+# ripgrep on its stock case-sensitive behaviour instead of making it complain
+# on every search about a path that is not there.
+if [ -r "$_laptonite_ripgreprc" ]; then
+  export RIPGREP_CONFIG_PATH="$_laptonite_ripgreprc"
+fi
+
+unset _laptonite_ripgreprc
 
 # Ripgrep searches file contents by default. It does not search filenames.
 # This means a command like `rg fkill` can miss the exact thing you are trying

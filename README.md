@@ -271,6 +271,11 @@ The flag lives in `symlinks/ripgrep/ripgreprc`, which `bin/setup` links to
 own, so `zsh/zshrc` also exports `RIPGREP_CONFIG_PATH` pointing at that path.
 Both halves are required — the file alone does nothing.
 
+`zsh/zshrc` also creates that symlink itself when it is missing, so pulling
+laptonite is enough and you do not have to re-run `./bin/setup` for it. If you
+would rather keep your own `~/.config/ripgrep/ripgreprc`, put it there and
+laptonite will leave it alone and use yours.
+
 ### rga command
 
 Plain `rg` searches file contents by default. For example, `rg fkill` will not
