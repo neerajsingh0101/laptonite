@@ -225,21 +225,33 @@ function M.setup(config)
     -- mouse. A Neovim visual selection is invisible to WezTerm, so pressing
     -- Command-c over one copied nothing at all.
     --
-    -- So: if the terminal has a real selection, copy it as before. Otherwise, if
-    -- Neovim is the foreground process, hand the key to Neovim as <D-c> and let
-    -- it yank its own selection (see vim-keymaps.lua in the dotfiles repo).
+    -- So: if the terminal has a real selection, copy it. Otherwise, if Neovim is
+    -- the foreground process, hand the key to Neovim as <D-c> and let it yank
+    -- its own selection (see vim-keymaps.lua in the dotfiles repo).
+    --
+    -- With neither a selection nor Neovim, do nothing at all. CopyTo copies the
+    -- selection verbatim, so running it on an empty selection replaces the
+    -- clipboard with an empty string. That is what made Command-c look broken
+    -- inside a redrawing TUI such as Claude Code: dragging the mouse already
+    -- copies the text, the TUI's next repaint wipes the selection out from under
+    -- it, and the Command-c pressed out of habit a moment later then emptied the
+    -- clipboard rather than leaving the text in it.
     {
       key = 'c',
       mods = 'SUPER',
       action = wezterm.action_callback(function(window, pane)
         local selection = window:get_selection_text_for_pane(pane)
 
-        if (not selection or selection == '') and is_neovim(pane) then
-          window:perform_action(wezterm.action.SendString(SUPER_C), pane)
+        -- Test with %S rather than ~= '' so that a selection covering only blank
+        -- cells, which comes back as spaces, counts as no selection either.
+        if selection and selection:match '%S' then
+          window:perform_action(wezterm.action.CopyTo 'Clipboard', pane)
           return
         end
 
-        window:perform_action(wezterm.action.CopyTo 'Clipboard', pane)
+        if is_neovim(pane) then
+          window:perform_action(wezterm.action.SendString(SUPER_C), pane)
+        end
       end),
     },
     -- Rename tab
