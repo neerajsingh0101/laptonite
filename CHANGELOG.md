@@ -1,42 +1,5 @@
 # Changelog
 
-laptonite is shared across the team, so a change here lands on someone else's
-laptop without them asking for it. This file is where you find out what
-changed and whether you have to do anything about it.
-
-## How to read this file
-
-Newest entries are at the top. There are no version numbers -- laptonite has no
-releases, you just run whatever `main` is -- so entries are grouped by the date
-the change was merged.
-
-Every entry is tagged with how it reaches you:
-
-- **Automatic** -- a `git pull` is enough. The daily auto-update in
-  `zsh/auto_update.zshrc` does that pull for you, so the change arrives on its
-  own within a day. You may need to open a new shell for it to take effect.
-- **Run `bin/setup`** -- the change adds or moves a symlink, installs a
-  package, or touches something outside the repo. Pulling alone will NOT give
-  it to you. Re-running `bin/setup` is safe at any time; it is idempotent.
-
-Below those is an **Earlier history** section covering the eight months before
-this file existed, reconstructed from `git log`. It is deliberately terser: one
-line per change, grouped into date ranges rather than single dates, and with no
-delivery tag, since everyone already has all of it. Add new entries above that
-section, not into it.
-
-## How to add an entry
-
-Add one when you change something a teammate would notice: a new command or
-alias, changed behaviour of an existing one, a new symlink or installed
-package, or a keybinding that moved. Skip it for typo fixes, comment-only
-edits and internal refactors that nobody can observe.
-
-Write it for the person on the receiving end. Say what changed for them and
-why, not which lines you edited -- `git log` already has that.
-
----
-
 ## 2026-08-29
 
 ### `rg` is now case insensitive by default
@@ -91,17 +54,6 @@ panes into it, and only then hit that prompt -- leaving you with a half-built
 workspace waiting on a question. It now checks before setting anything up.
 
 PR [#17](https://github.com/neerajsingh0101/laptonite/pull/17)
-
----
-
-# Earlier history
-
-Everything below was reconstructed from `git log` on 2026-08-30, after the
-changelog was introduced. It is a condensed record of the changes worth
-knowing about, not a complete one -- 417 commits went into laptonite before
-this file existed. Entries are one line each, and they carry no delivery tag
-because everyone on the team already has all of them. Use `git log` when you
-need the full detail on any of these.
 
 ## 2026-08-19
 
