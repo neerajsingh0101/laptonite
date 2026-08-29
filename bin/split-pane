@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require "fileutils"
+require "json"
 
 # Usage
 # worktree <agent> <task description>
@@ -10,12 +11,40 @@ if ARGV.length < 2
   abort "ERROR: worktree expects an agent and a task description."
 end
 
+# Claude Code records folder trust in ~/.claude.json, under
+# projects["<directory>"]["hasTrustDialogAccepted"]. The dialog is per
+# directory, and a worktree inherits the trust of the repository it was created
+# from, so the only directory that matters here is the repository root.
+def claude_trusts?(directory)
+  config_path = File.join(Dir.home, ".claude.json")
+  return false unless File.exist?(config_path)
+
+  JSON.parse(File.read(config_path)).dig("projects", directory, "hasTrustDialogAccepted") == true
+rescue JSON::ParserError
+  false
+end
+
 agent = ARGV.shift
 
 # If inside a .claude, .codex or .pi subdirectory, navigate to just above it
 current_dir = Dir.pwd
 if current_dir.include?("/.#{agent}")
   Dir.chdir(current_dir.split("/.#{agent}").first)
+end
+
+# Check trust before anything is created or split. In an untrusted repository
+# `claude --worktree <slug>` stops on the "Do you trust the files in this
+# folder?" dialog, and answering it drops the --worktree flag, so Claude opens
+# in the repository root while the two panes on the right have already moved
+# into the worktree. Refusing to start is better than leaving the panes split
+# across two directories.
+if agent == "claude" && !claude_trusts?(Dir.pwd)
+  abort <<~MESSAGE
+    ERROR: Claude does not trust #{Dir.pwd} yet.
+
+    Run `claude` in this directory, answer "Yes, I trust this folder", and then
+    quit with /exit. After that `c1w` will work here.
+  MESSAGE
 end
 
 # Create the worktree from the branch the user is currently on

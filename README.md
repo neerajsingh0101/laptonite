@@ -311,6 +311,16 @@ Use `c1w` when you want to create a new worktree.
 Typically you use `c1w` when you are working on a new features
 or you are fixing a bug.
 
+`c1w` refuses to run in a repository that Claude has never been trusted in.
+Trust is asked once per directory, and the dialog cannot be answered from a
+script. If `c1w` started anyway, the two panes on the right would move into the
+worktree while the left pane sat on the trust dialog, and answering that dialog
+drops the `--worktree` flag, so Claude would open in the repository root
+instead. Rather than leave the panes split across two directories, `c1w` stops
+before it creates anything and asks you to run `claude` in the repository once,
+answer "Yes, I trust this folder" and quit with `/exit`. Every later `c1w` in
+that repository works normally.
+
 ### c2 and c2w
 
 Everything that works for `c1` and `c1w` works same for
