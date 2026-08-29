@@ -94,6 +94,18 @@ mkdir -p "$HOME/.config"
 link_force "$LAPTONITED/symlinks/wezterm"   "$HOME/.config/wezterm"
 link_force "$LAPTONITED/symlinks/mise"      "$HOME/.config/mise"
 
+# ripgrep config. This is what makes `rg fkill` also find FKILL.
+#
+# ripgrep never discovers a config file by itself -- it only reads the path in
+# RIPGREP_CONFIG_PATH, which zsh/zshrc exports as
+# ~/.config/ripgrep/ripgreprc. That is the path we create here.
+#
+# It is a symlink rather than a file this script writes out, so that editing
+# symlinks/ripgrep/ripgreprc in the repo takes effect on every machine after a
+# plain `git pull` -- nobody has to re-run bin/setup to pick up a flag change.
+mkdir -p "$HOME/.config/ripgrep"
+link_force "$LAPTONITED/symlinks/ripgrep/ripgreprc" "$HOME/.config/ripgrep/ripgreprc"
+
 mkdir -p "$HOME/.claude"
 mkdir -p "$LAPTONITED/symlinks/skills"
 link_force "$LAPTONITED/symlinks/skills"    "$HOME/.claude/skills"

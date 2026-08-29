@@ -1,0 +1,50 @@
+# ripgrep configuration file.
+#
+# ripgrep does NOT look for a config file on its own. There is no
+# "~/.ripgreprc is picked up automatically" behaviour. The only way ripgrep
+# finds this file is the RIPGREP_CONFIG_PATH environment variable, which
+# laptonite exports from zsh/zshrc. If that export is missing, or if you are
+# in a shell that never sourced ~/.zshrc, ripgrep silently ignores this file
+# and falls back to its stock behaviour. That silence is the usual reason
+# people think their ripgreprc "stopped working".
+#
+# FORMAT RULES (they are stricter than they look):
+#   * One argument per line. `--smart-case` on its own line is fine.
+#     `--smart-case --hidden` on one line is NOT -- ripgrep treats the whole
+#     line as a single argument and errors out.
+#   * For flags that take a value, put the value on the same line joined with
+#     `=`, e.g. `--max-columns=150`. Do not use a space.
+#   * Lines starting with `#` are comments. Blank lines are ignored.
+#   * There is no shell quoting here. A line is passed through verbatim, so
+#     quotes become part of the argument.
+#
+# Anything in this file behaves as if you typed it before your own arguments
+# on the command line, so a flag you pass explicitly still wins.
+
+# ---------------------------------------------------------------------------
+# --smart-case: make `rg fkill` also match FKILL, FKill and fKiLl.
+# ---------------------------------------------------------------------------
+#
+# Out of the box ripgrep is case SENSITIVE, so `rg fkill` walks straight past
+# a file containing FKILL. That is almost never what you want when you are
+# searching from memory.
+#
+# --smart-case switches on the pattern you typed:
+#
+#   * Pattern is all lowercase  -> search is case INSENSITIVE.
+#       rg fkill      matches  fkill, FKILL, FKill, fKiLl
+#
+#   * Pattern has any uppercase -> search is case SENSITIVE.
+#       rg FKill      matches  FKill  only
+#
+# So you get the forgiving behaviour by default, and you opt back into an
+# exact match simply by typing the capital letters you care about. There is
+# no extra flag to remember in either direction.
+#
+# Escape hatches, when the automatic choice is wrong:
+#   rg -s pattern    force case sensitive   (--case-sensitive)
+#   rg -i pattern    force case insensitive (--ignore-case)
+#
+# Both override this file, because command line arguments are applied after
+# the config file.
+--smart-case
