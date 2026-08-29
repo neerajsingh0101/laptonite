@@ -3,6 +3,10 @@
 Build your laptop in minutes. A script to setup a Mac laptop with sensible
 defaults for working on [Neeto](https://neeto.com) products.
 
+laptonite updates itself daily, so changes land on your laptop without you
+asking for them. [CHANGELOG.md](CHANGELOG.md) records what changed and whether
+you need to re-run `./bin/setup` to get it.
+
 # Video walkthrough
 
 https://neerajsingh0909.neetorecord.com/watch/619576cfd0fe3c86ba19
@@ -248,6 +252,24 @@ calrn, formrn
 ### rg command
 
 [ripgrep](https://github.com/burntsushi/ripgrep) recursively searches in directories.
+
+Stock ripgrep is case sensitive, so `rg fkill` walks straight past a file that
+contains `FKILL`. laptonite turns that off with the `--smart-case` flag, which
+picks the behaviour from the pattern you typed:
+
+- `rg fkill` — pattern is all lowercase, so the search is case **insensitive**.
+  It matches `fkill`, `FKILL`, `FKill` and `fKiLl`.
+- `rg FKill` — pattern has a capital in it, so the search is case **sensitive**.
+  It matches `FKill` only.
+
+You get the forgiving search by default, and you ask for an exact match just by
+typing the capitals. To force it either way for one search, use `rg -s pattern`
+(case sensitive) or `rg -i pattern` (case insensitive).
+
+The flag lives in `symlinks/ripgrep/ripgreprc`, which `bin/setup` links to
+`~/.config/ripgrep/ripgreprc`. ripgrep does not look for a config file on its
+own, so `zsh/zshrc` also exports `RIPGREP_CONFIG_PATH` pointing at that path.
+Both halves are required — the file alone does nothing.
 
 ### rga command
 
