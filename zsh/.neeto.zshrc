@@ -63,3 +63,15 @@ for repo in "${neeto_repos[@]}"; do
   alias "${repo}d"="cd ~/code/neetozone/neeto-${repo}-web"
   alias "${repo}rn"="cd ~/code/neetozone/neeto-${repo}-rn"
 done
+
+# neeto electron apps
+#
+# Only a handful of products ship a desktop app, and the list is not a subset
+# of neeto_repos above (neeto-seo-electron has no matching entry there), so
+# these get their own loop instead of another suffix in the loop above. The
+# source of truth for the list is the "electron_apps" key in
+# neeto-compliance/data/neeto_repos.json.
+neeto_electron_repos=(cal planner record seo)
+for repo in "${neeto_electron_repos[@]}"; do
+  alias "${repo}e"="cd ~/code/neetozone/neeto-${repo}-electron"
+done

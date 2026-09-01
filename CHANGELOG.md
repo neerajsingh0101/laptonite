@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-09-01
+
+### Shortcuts for the Electron desktop app repos
+
+**Automatic**
+
+`cale`, `plannere`, `recorde` and `seoe` now cd into `neeto-cal-electron`,
+`neeto-planner-electron`, `neeto-record-electron` and `neeto-seo-electron`.
+The generated aliases only covered `neeto-<name>-web` and `neeto-<name>-rn`,
+so the desktop app repos had no shortcut and had to be typed out in full.
+
+The `e` suffix sits alongside the existing `w`, `d` and `rn` ones. A pull plus
+a new shell is enough.
+
+PR [#20](https://github.com/neerajsingh0101/laptonite/pull/20)
+
 ## 2026-08-29
 
 ### `rg` is now case insensitive by default
