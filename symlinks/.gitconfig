@@ -121,7 +121,6 @@
   log = true
 
 [pull]
-  ff = only
   rebase = true
 
 [push]
