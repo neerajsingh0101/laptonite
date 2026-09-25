@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-09-25
+
+### Shortcuts for the Chrome extension repos
+
+**Automatic**
+
+`invisiblec` and `recordc` now cd into `neeto-invisible-chrome-extension` and
+`neeto-record-chrome-extension`. Like the desktop app repos before PR #20,
+the Chrome extension repos had no generated alias and had to be typed out in
+full.
+
+The `c` suffix sits alongside the existing `w`, `d`, `rn` and `e` ones. A pull
+plus a new shell is enough.
+
 ## 2026-09-01
 
 ### Shortcuts for the Electron desktop app repos

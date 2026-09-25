@@ -75,3 +75,14 @@ neeto_electron_repos=(cal planner record seo)
 for repo in "${neeto_electron_repos[@]}"; do
   alias "${repo}e"="cd ~/code/neetozone/neeto-${repo}-electron"
 done
+
+# neeto chrome extensions
+#
+# Same shape as the electron loop: only two products ship a chrome extension,
+# and neeto-invisible-chrome-extension has no entry in neeto_repos above. The
+# source of truth for the list is the "chrome_extensions" key in
+# neeto-compliance/data/neeto_repos.json.
+neeto_chrome_extension_repos=(invisible record)
+for repo in "${neeto_chrome_extension_repos[@]}"; do
+  alias "${repo}c"="cd ~/code/neetozone/neeto-${repo}-chrome-extension"
+done
