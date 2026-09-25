@@ -14,6 +14,8 @@ full.
 The `c` suffix sits alongside the existing `w`, `d`, `rn` and `e` ones. A pull
 plus a new shell is enough.
 
+PR [#21](https://github.com/neerajsingh0101/laptonite/pull/21)
+
 ## 2026-09-01
 
 ### Shortcuts for the Electron desktop app repos
