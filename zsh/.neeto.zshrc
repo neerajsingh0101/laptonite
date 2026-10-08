@@ -86,3 +86,15 @@ neeto_chrome_extension_repos=(invisible record)
 for repo in "${neeto_chrome_extension_repos[@]}"; do
   alias "${repo}c"="cd ~/code/neetozone/neeto-${repo}-chrome-extension"
 done
+
+# neeto api docs repos
+#
+# Same shape as the electron and chrome loops: the neeto-<product>-api repos
+# hold the Mintlify API docs for each product. Only some products have one, so
+# this is its own list rather than another suffix in the neeto_repos loop. The
+# source of truth is the set of neeto-*-api repos in the neetozone GitHub org;
+# neeto-compliance/data/neeto_repos.json has no dedicated key for them.
+neeto_api_repos=(auth cal chat ci crm desk form invoice kb playdash publish record sign)
+for repo in "${neeto_api_repos[@]}"; do
+  alias "${repo}a"="cd ~/code/neetozone/neeto-${repo}-api"
+done
