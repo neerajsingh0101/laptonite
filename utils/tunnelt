@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#
+# Run a tunnelto tunnel for a local port.
+#
+#   tunnelt 3001                 # tunnelto --port 3001
+#   tunnelt 3001 --host 0.0.0.0  # extra flags go to tunnelto
+
+set -euo pipefail
+
+usage() {
+  echo "Usage: $(basename "$0") <port> [extra tunnelto flags]" >&2
+  echo "Example: $(basename "$0") 3001" >&2
+}
+
+port="${1:-}"
+case "$port" in
+  -h|--help)
+    usage
+    exit 0
+    ;;
+  ""|*[!0-9]*)
+    usage
+    exit 1
+    ;;
+esac
+shift
+
+if ! command -v tunnelto >/dev/null 2>&1; then
+  echo "Error: tunnelto not found. Install it via: brew install agrinman/tap/tunnelto" >&2
+  exit 127
+fi
+
+exec tunnelto --port "$port" "$@"

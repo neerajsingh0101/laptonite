@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-13
+
+- `tunnelt 3001` is shorthand for `tunnelto --port 3001`.
+
 ## 2026-09-25
 
 ### Shortcuts for the Chrome extension repos
