@@ -4,6 +4,10 @@
 #
 #   tunnelt 3001                 # tunnelto --port 3001
 #   tunnelt 3001 --host 0.0.0.0  # extra flags go to tunnelto
+#
+# The name mirrors cloudflaret, which does the same job with a Cloudflare quick
+# tunnel. tunnelt exists because Cloudflare often blocks those trycloudflare.com
+# URLs, so AI agents cannot open them.
 
 set -euo pipefail
 
