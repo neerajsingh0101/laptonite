@@ -324,6 +324,20 @@ exits with cloudflared's status. If no URL shows up within 30 seconds,
 `cloudflaret` prints what it has so far and then streams cloudflared's output
 live, so a slow tunnel is never swallowed.
 
+### tunnelt
+
+`tunnelt` is shorthand for `tunnelto` that takes just the port.
+
+```
+tunnelt 3001   # tunnelto --port 3001
+```
+
+Extra flags are passed through to `tunnelto`.
+
+The name `tunnelt` mirrors `cloudflaret`, which does the same job with a
+Cloudflare quick tunnel. `tunnelt` exists because Cloudflare often blocks
+those `trycloudflare.com` URLs, so AI agents cannot open them.
+
 ### c1 and c1w
 
 Use `c1` if you are using Claude.

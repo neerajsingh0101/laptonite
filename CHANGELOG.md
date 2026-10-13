@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-13
+
+- `tunnelt 3001` is shorthand for `tunnelto --port 3001`.
+  The name mirrors `cloudflaret`, which does the same job with a Cloudflare
+  quick tunnel. `tunnelt` exists because Cloudflare often blocks those
+  `trycloudflare.com` URLs, so AI agents cannot open them.
+
 ## 2026-09-25
 
 ### Shortcuts for the Chrome extension repos
