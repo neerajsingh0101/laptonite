@@ -35,9 +35,14 @@ _laptonite_auto_update() {
         echo "[laptonite] A new version of the laptonite script is available."
         echo "[laptonite] Updating... hang tight."
         # --ff-only avoids surprise merge commits / a half-merged repo if the
-        # local history has diverged from origin/main.
-        git pull --ff-only --quiet origin main &&
-        # The pull's post-merge hook normally syncs shared Claude settings, but
+        # local history has diverged from origin/main. Merge the origin/main
+        # we just fetched instead of running `git pull`: symlinks/.gitconfig
+        # sets pull.rebase = true, which overrides --ff-only on a pull, and a
+        # rebase refuses to start while any file has uncommitted changes. A
+        # fast-forward merge only stops when an incoming change touches a file
+        # with local edits, and it leaves those edits in place either way.
+        git merge --ff-only --quiet origin/main &&
+        # The merge's post-merge hook normally syncs shared Claude settings, but
         # call the sync directly too so it does not depend on hook wiring at
         # all. It writes nothing when nothing changed. || true: a sync hiccup
         # must not mark the update failed and retrigger it every shell.
