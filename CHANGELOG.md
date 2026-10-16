@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-10-16
+
+### The daily auto-update works when you have local edits
+
+**Automatic**
+
+The daily auto-update used to fail with `cannot pull with rebase: You have
+unstaged changes` whenever any file in your laptonite folder had uncommitted
+changes, even a file the update did not touch. It then printed the same error
+in every new shell until those changes were committed or stashed.
+
+The cause was `pull.rebase = true` in `symlinks/.gitconfig`. That setting
+overrides the `--ff-only` flag the auto-update passed to `git pull`, and a
+rebase will not start while anything is uncommitted. The auto-update now
+fast-forwards to the `origin/main` it has just fetched with
+`git merge --ff-only`, which ignores `pull.rebase`.
+
+Your local edits are kept. If an incoming change touches a file you have
+edited, the update still stops, leaves your edit alone, and tries again in the
+next shell.
+
+If you are seeing the error right now, your copy cannot pull this fix on its
+own. Run `git stash`, `git pull` and `git stash pop` in your laptonite folder
+once. To avoid local edits in the first place, put personal aliases in the
+`.zshrc` of a `dotfiles` folder next to your laptonite folder. `zsh/zshrc`
+loads that file last.
+
+PR [#24](https://github.com/neerajsingh0101/laptonite/pull/24)
+
 ## 2026-10-13
 
 - `tunnelt 3001` is shorthand for `tunnelto --port 3001`.
