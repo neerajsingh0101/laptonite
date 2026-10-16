@@ -27,6 +27,8 @@ once. To avoid local edits in the first place, put personal aliases in the
 `.zshrc` of a `dotfiles` folder next to your laptonite folder. `zsh/zshrc`
 loads that file last.
 
+PR [#24](https://github.com/neerajsingh0101/laptonite/pull/24)
+
 ## 2026-10-13
 
 - `tunnelt 3001` is shorthand for `tunnelto --port 3001`.
