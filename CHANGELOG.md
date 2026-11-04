@@ -2,6 +2,18 @@
 
 ## 2026-11-04
 
+### Shortcuts for the widget repos
+
+**Automatic**
+
+`chatwid`, `engagewid`, `replaywid` and `basewid` now cd into
+`neeto-chat-widget`, `neeto-engage-widget`, `neeto-replay-widget` and
+`neeto-base-widget`. Before this, the widget repos had no generated alias and
+had to be typed out in full.
+
+The suffix is `wid` rather than `w` because `w` already points at the web
+repos (`chatw` is `neeto-chat-web`). A pull plus a new shell is enough.
+
 ### Every new Node gets the right `yarn`, and no Node or Ruby version is pinned
 
 **Automatic** for new Node installs. Node versions you already have need one

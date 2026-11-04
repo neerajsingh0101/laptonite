@@ -98,3 +98,15 @@ neeto_api_repos=(auth cal chat ci crm desk form invoice kb playdash publish reco
 for repo in "${neeto_api_repos[@]}"; do
   alias "${repo}a"="cd ~/code/neetozone/neeto-${repo}-api"
 done
+
+# neeto widget repos
+#
+# Same shape as the electron, chrome and api loops: only a few products ship an
+# embeddable widget, and neeto-base-widget has no entry in neeto_repos above.
+# The suffix is "wid" because "w" is already taken by the web repos. The
+# source of truth for the list is the "widgets" key in
+# neeto-compliance/data/neeto_repos.json.
+neeto_widget_repos=(base chat engage replay)
+for repo in "${neeto_widget_repos[@]}"; do
+  alias "${repo}wid"="cd ~/code/neetozone/neeto-${repo}-widget"
+done
