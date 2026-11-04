@@ -14,6 +14,8 @@ had to be typed out in full.
 The suffix is `wid` rather than `w` because `w` already points at the web
 repos (`chatw` is `neeto-chat-web`). A pull plus a new shell is enough.
 
+PR [#26](https://github.com/neerajsingh0101/laptonite/pull/26)
+
 ### Every new Node gets the right `yarn`, and no Node or Ruby version is pinned
 
 **Automatic** for new Node installs. Node versions you already have need one
