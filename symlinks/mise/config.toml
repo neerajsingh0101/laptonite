@@ -6,6 +6,23 @@ trusted_config_paths = [
 [settings.ruby]
 compile = false
 
+[settings.node]
+# Run `corepack enable` on every Node version mise installs. Corepack gives
+# that Node a `yarn` (and `pnpm`) command that runs whatever version the
+# repo's package.json asks for in "packageManager". So when a repo bumps
+# its Node version, the new Node already has the right yarn, with nothing
+# hardcoded here.
+corepack = true
+
+[env]
+# Corepack otherwise asks "download yarn? [Y/n]" the first time a repo needs
+# a yarn version. bin/setup hides yarn's output, so that prompt would hang
+# with nobody able to see it.
+COREPACK_ENABLE_DOWNLOAD_PROMPT = "0"
+
 [tools]
-node = "22.13.1"
-ruby = "4.0.5"
+# Defaults for when you are NOT inside a repo (and for laptonite's own
+# `npm install -g opencommit`). Inside a repo, its own mise.toml /
+# .node-version / .ruby-version always win, so nothing is pinned here.
+node = "lts"
+ruby = "latest"
