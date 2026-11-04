@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-11-04
+
+### Every new Node gets the right `yarn`, and no Node or Ruby version is pinned
+
+**Automatic** for new Node installs. Node versions you already have need one
+command, shown below.
+
+mise now runs `corepack enable` on every Node version it installs
+(`corepack = true` in `symlinks/mise/config.toml`). Corepack gives that Node a
+`yarn` (and `pnpm`) command that runs whatever version the repo's
+`package.json` asks for in `"packageManager"`. So when a repo bumps its Node
+version, the new Node already has the right yarn.
+
+`COREPACK_ENABLE_DOWNLOAD_PROMPT=0` is set too. Without it, Corepack asks
+`download yarn? [Y/n]` the first time a repo needs a yarn version, and since
+`bin/setup` hides yarn's output, that prompt hung with nobody able to see it.
+
+The global defaults changed from `node = "22.13.1"` and `ruby = "4.0.5"` to
+`node = "lts"` and `ruby = "latest"`. These only apply outside a repo. Inside
+a repo, its own `mise.toml`, `.node-version` or `.ruby-version` still wins.
+
+To enable Corepack in a Node version installed before this change:
+
+```
+mise exec node@22.13.1 -- corepack enable
+```
+
 ## 2026-10-16
 
 ### The daily auto-update works when you have local edits
