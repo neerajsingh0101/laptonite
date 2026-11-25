@@ -56,7 +56,7 @@ neeto_repos=(
   quiz site runner replay invoice
   planner course wireframe engage crm
   deploy ci git record tower
-  publish playdash code pay bugwatch sign wheel
+  publish playdash code pay bugwatch sign wheel assist
 )
 for repo in "${neeto_repos[@]}"; do
   alias "${repo}w"="cd ~/code/neetozone/neeto-${repo}-web"
