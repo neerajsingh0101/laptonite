@@ -12,6 +12,8 @@ gave `command not found` while `calw`, `deskw` and the others worked.
 
 A pull plus a new shell is enough.
 
+PR [#27](https://github.com/neerajsingh0101/laptonite/pull/27)
+
 ## 2026-11-04
 
 ### Shortcuts for the widget repos
