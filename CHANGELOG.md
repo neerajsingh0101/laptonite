@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-11-25
+
+### Shortcuts for the NeetoAssist repo
+
+**Automatic**
+
+`assistw` and `assistd` now cd into `neeto-assist-web`. Before this, `assist`
+was missing from the product list in `zsh/.neeto.zshrc`, so typing `assistw`
+gave `command not found` while `calw`, `deskw` and the others worked.
+
+A pull plus a new shell is enough.
+
 ## 2026-11-04
 
 ### Shortcuts for the widget repos
